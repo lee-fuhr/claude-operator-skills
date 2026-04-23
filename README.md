@@ -1,19 +1,22 @@
 # Claude Code operator skills
 
-Skills for people who use Claude Code seriously — not as a chat interface, but as a system.
+Skills for Claude Code power users.
 
 Three problems these solve:
 
-1. **You're burning money on work free models could do.** Groq, DeepSeek, Gemini, and Ollama exist. Use them. Claude should synthesize, not research.
+1. **You're paying Claude to do work free models could do.** Groq, DeepSeek, Gemini, and Ollama exist. Use them. Claude should synthesize — not research, extract, or critique.
 2. **You're in flow and there's a smart next move right here — you can feel it but can't quite see it.** This skill looks at what you just built, what it unlocked, and surfaces what compounds it.
-3. **Your AI-built product has quality problems it can't see.** Claude wrote the code. It can't objectively audit its own output across UX, security, performance, copy, or any of 13 other dimensions. You need expert lenses that don't know your intentions.
+3. **Your AI-built product has quality problems it can't see.** Claude wrote the code, copy, and architecture. It can't audit its own output across UX, security, performance, or any of 13 other dimensions. You need expert lenses that don't know your intentions.
+
+> [!TIP]
+> New here? Start with `/qq-externalize` — lowest setup friction, immediate ROI. You need one free model API key (Groq is free). Everything else is optional.
 
 ---
 
 ## Skills
 
-| Command | What it does | Key result |
-|---------|-------------|-----------|
+| Command | What it does | Result |
+|---------|-------------|--------|
 | `/qq-externalize` | Routes research, extraction, critique, and adversarial review to free models. Claude synthesizes only. | Free models handle 70%+ of non-synthesis work |
 | `/qq-smart-next-move` | When you're in flow and there's a sense of more here — surfaces the smart next move before momentum carries you somewhere obvious. | Compounds good sessions instead of wasting them |
 | `/qq-audit` | Master orchestrator for 255 expert-persona audit frameworks across 13 quality domains. Smart-routes to the right domains in the right order. | SUS 57.5 → 92.5 across 3 rounds on a production app |
@@ -22,13 +25,13 @@ Three problems these solve:
 
 ## Install
 
-The fastest path: paste this into Claude Code and ask it to install the skills —
+Easiest: tell Claude to do it.
 
 ```
 Install the skills from https://github.com/lee-fuhr/claude-operator-skills
 ```
 
-Claude will read this file and walk you through it. Or do it manually:
+Claude will read this file and walk you through the rest. Or manually:
 
 ```bash
 git clone https://github.com/lee-fuhr/claude-operator-skills.git
@@ -38,7 +41,7 @@ cp -r skills/qq-externalize skills/qq-smart-next-move skills/qq-audit-master ~/.
 cp commands/qq-externalize.md commands/qq-smart-next-move.md commands/qq-audit.md ~/.claude/commands/
 ```
 
-**For `/qq-audit`:** The 255 domain frameworks live in a companion repo. Install them too:
+**For `/qq-audit`:** The 255 domain frameworks live in [audit-framework](https://github.com/lee-fuhr/audit-framework). Install them too:
 
 ```bash
 git clone https://github.com/lee-fuhr/audit-framework.git
@@ -46,9 +49,10 @@ cp -r audit-framework/skills/qq-audit-* ~/.claude/skills/
 cp audit-framework/commands/qq-audit-*.md ~/.claude/commands/
 ```
 
-Restart Claude Code. All commands are now available.
+Restart Claude Code after copying.
 
-> Adapt paths if your skills directory is different (e.g. `~/.agents/skills/`).
+> [!NOTE]
+> If your skills directory is `~/.agents/skills/` rather than `~/.claude/skills/`, adapt the paths above.
 
 ---
 
@@ -71,9 +75,11 @@ export GROQ_API_KEY=gsk_...   # console.groq.com → API Keys
 
 ### DeepSeek
 
-**Cost:** ~$0.14/1M input tokens (effectively free)  
+**Cost:** ~$0.14/1M input tokens — effectively free  
 **Best for:** Structured JSON output, detailed multi-step analysis  
 **Model:** DeepSeek V3
+
+Chinese research lab, best-in-class structured output, costs almost nothing. It's a secret weapon.
 
 ```bash
 pip install openai   # DeepSeek uses the OpenAI-compatible API
@@ -82,9 +88,11 @@ export DEEPSEEK_API_KEY=sk-...   # platform.deepseek.com → API keys
 
 ### Gemini
 
-**Cost:** Free (via Google auth or free API tier)  
+**Cost:** Free via Google auth  
 **Best for:** Large context (1M tokens), second opinions, alternative framing  
 **Model:** Gemini 2.0 Flash
+
+The best free option when you need a different perspective or a massive context window.
 
 **Option A — API key:**
 ```bash
@@ -92,17 +100,16 @@ pip install google-generativeai
 export GEMINI_API_KEY=...   # aistudio.google.com → Get API key
 ```
 
-**Option B — CLI (no key needed, uses your Google account):**
+**Option B — CLI (no key needed):**
 ```bash
-npm install -g @google/gemini-cli
-gemini auth
+npm install -g @google/gemini-cli && gemini auth
 ```
 
 ### Ollama
 
-**Cost:** Free, runs on your hardware  
-**Best for:** Private data, simple transforms, anything you don't want leaving your machine  
-**Model:** Your choice — `llama3.2`, `mistral`, etc.
+**Cost:** Free — runs on your hardware  
+**Best for:** Private data, anything you don't want leaving your machine  
+**Model:** Your choice
 
 ```bash
 # Download at ollama.ai, then:
@@ -113,13 +120,9 @@ No API key. No rate limits. Nothing leaves your machine.
 
 ---
 
-After setup, update the Bash invocation patterns in Step 2 of `skills/qq-externalize/SKILL.md` to match your client setup. The routing logic is model-agnostic — swap any model in or out.
-
----
-
 ## qq-externalize
 
-**The problem:** You ask Claude to research a topic, summarize a document, critique a plan, or give a second opinion. Claude does it — and bills your subscription. Groq would have done it free.
+**The problem:** You ask Claude to research a topic, summarize a document, critique a plan, give a second opinion. Claude does it — and bills your subscription. Groq would have done it free.
 
 This skill audits the current task, routes everything externalizable to a free model, and flags anything Claude did that it shouldn't have. In adversarial mode, it runs your plan through Groq (first-principles critique) + Gemini (alternative framing), then has Claude synthesize only the criticisms that survive.
 
@@ -168,6 +171,9 @@ Claude work that should have been externalized: 0
 | Synthesis, multi-file code | Claude | Worth paying for |
 | Irreversible decisions | Claude Opus | Worth paying for |
 
+> [!NOTE]
+> The invocation patterns in Step 2 of the skill file use generic API calls. Adapt them to match whatever client libraries you've installed.
+
 ---
 
 ## qq-smart-next-move
@@ -191,21 +197,21 @@ This skill captures that. It looks at what just happened, what it unlocked, and 
 > - Data point: zero events in log after three sessions
 > - Risk: low — hook either fires or it doesn't
 >
-> **B. Write the morning digest integration** — Scorecard is invisible unless surfaced daily. High leverage: you see it every morning without thinking about it.
+> **B. Wire the scorecard into the morning digest** — Invisible unless surfaced daily. High leverage: you see it every morning without thinking about it.
 > - Data point: digest is checked daily; dashboard is only checked when something feels wrong
 > - Risk: schema change could break existing sections
 >
-> **Recommendation:** A + B together (15 min each), defer C to session wrap.
+> **Recommendation:** A + B together (15 min each).
 >
 > **The question I'd want answered first:** Is the guard actually blocking anything?
 
-### The five question categories
+### The five lenses
 
 1. **What did we just build?** — Specific deliverables, surprises, assumptions validated or broken
 2. **What did this unlock?** — What's trivially easy now that was hard before?
-3. **What's the risk we're not seeing?** — Maintenance burden, dependencies, debt we just created
+3. **What risk did we just create?** — Maintenance burden, dependencies, debt introduced
 4. **What compounds this?** — The move that makes what we just built more valuable, right now
-5. **Does this move the needle?** — Revenue proximity, client value, product vs. interesting
+5. **Does this move the needle?** — Revenue proximity, client value, building for the business vs. building because it's interesting
 
 ### Key principles
 
@@ -218,9 +224,9 @@ This skill captures that. It looks at what just happened, what it unlocked, and 
 
 ## qq-audit
 
-**The problem:** Claude wrote your code. It can't objectively audit its own output — it knows what the code is supposed to do, what the copy is trying to say, how the architecture was intended. You need 255 expert lenses that don't know your intentions, applied domain by domain.
+**The problem:** Claude wrote your code. It can't objectively audit its own output — it knows what the code is supposed to do, what the copy is trying to say, how the architecture was intended. You need expert lenses that don't know your intentions, applied domain by domain.
 
-This is the master command for [audit-framework](https://github.com/lee-fuhr/audit-framework): 255 expert-persona frameworks across 13 quality dimensions — UX, product, visual design, copy, frontend code, performance, security, testing, backend/API, SEO, DevOps, data quality, and compliance. It analyzes your project, picks the right domains in the right order, and runs each serially — fixing issues before moving on, so fixes compound.
+This is the master command for [audit-framework](https://github.com/lee-fuhr/audit-framework): 255 expert-persona frameworks across 13 quality dimensions. It analyzes your project, picks the right domains in the right order, and runs each serially — fixing issues before moving to the next domain, so fixes compound.
 
 ### Commands
 
@@ -255,7 +261,7 @@ This is the master command for [audit-framework](https://github.com/lee-fuhr/aud
 
 ### Convergence protocol
 
-Each domain runs up to 3 rounds. Round 1 finds ~60% of issues. Round 2 finds 25% more — fixes from round 1 expose new problems. Round 3 catches the last 10–15%. The skill moves on only when a domain hits 9.5/10 or exhausts 3 rounds.
+Each domain runs up to 3 rounds. Round 1 finds ~60% of issues. Round 2 finds 25% more — fixes from round 1 expose new problems. Round 3 catches the last 10–15%. Move on when a domain hits 9.5/10 or exhausts 3 rounds.
 
 ```
 UX: Round 1 = 7.2 → Round 2 = 8.8 → Round 3 = 9.6 ✓ — moving to Visual
@@ -276,7 +282,7 @@ Measured on a production Next.js dashboard (170+ components, UX domain):
 
 ### Domain sequencing
 
-Domains run in dependency order. No point auditing visual design when UX is broken — you'll redesign those screens anyway.
+No point auditing visual design when UX is broken — you'll redesign those screens anyway. Domains run in dependency order:
 
 ```
 Product → UX → Visual → Copy → Frontend → Backend → Performance
@@ -287,18 +293,21 @@ Product → UX → Visual → Copy → Frontend → Backend → Performance
 
 ## How these work together
 
-```
-/qq-externalize   →   build   →   /qq-audit   →   /qq-smart-next-move
-route cheaply          Claude        check               what next?
-before you start      handles        quality
-                      synthesis
-                      only
-```
+Each skill is useful alone. Together they cover the full arc of a working session:
 
-1. `/qq-externalize` before you start — route research, extraction, and critique to free models so Claude handles only synthesis and judgment
-2. Build — with Claude doing what it's worth paying for
-3. `/qq-audit` after a build — 255 expert lenses across the quality dimensions that matter for your project
-4. `/qq-smart-next-move` when momentum is high — surface the move that compounds what you just built
+**Before you build** — `/qq-externalize` routes research, extraction, and critique to free models so you're not burning Claude tokens on work Groq can do for free.
+
+**After you build** — `/qq-audit` runs the quality check Claude can't run on itself. 255 expert lenses across whatever dimensions matter for your project.
+
+**When momentum is high** — `/qq-smart-next-move` asks the question you don't stop to ask: what's the move that compounds what I just built?
+
+```
+/qq-externalize  →  build  →  /qq-audit  →  /qq-smart-next-move
+route cheaply       Claude      check           what next?
+                    handles     quality
+                    synthesis
+                    only
+```
 
 ---
 
