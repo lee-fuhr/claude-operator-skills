@@ -9,7 +9,7 @@ Three problems these solve:
 3. **Your AI-built product has quality problems it can't see.** Claude wrote the code, copy, and architecture. It can't audit its own output across UX, security, performance, or any of 13 other dimensions. You need expert lenses that don't know your intentions.
 
 > [!TIP]
-> New here? Start with `/qq-externalize` — lowest setup friction, immediate ROI. You need one free model API key (Groq is free). Everything else is optional.
+> New here? Start with `/qq-smart-next-move` — zero setup, just install and use. `/qq-externalize` has the most friction of the three since it requires at least one external model account.
 
 ---
 
