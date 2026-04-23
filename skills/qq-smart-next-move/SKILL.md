@@ -12,9 +12,11 @@ triggers:
 
 # Smart next move
 
-You just finished something **in this session**. Before jumping to the next task, stop and ask the questions that prevent building the wrong thing next.
+Things are clicking. You're in flow. There's a sense that you're not done — that there's a smart next move right here that you don't want to miss.
 
-This skill is scoped to the **current thread's work**. Options should be things Claude can do right now, in this session, continuing the momentum of what was just completed. This is NOT a cross-project strategic review or a prompt to step away — it's "what's the smartest next move in THIS conversation?"
+This skill captures that moment. It looks at what just happened, what it unlocked, and asks: **what's the thing that compounds this?** Not "which backlog item is highest priority" — that's a different question. This is "I'm cooking right now, what's the smart thing to do next?"
+
+This skill is scoped to the **current thread's work**. Options are things that can be done right now, continuing the momentum. Not a cross-project review, not an exit ramp — just the smartest move from exactly where you are.
 
 ---
 

@@ -37,9 +37,10 @@ Claude (Sonnet/Opus) costs real money. Groq, DeepSeek, Gemini, and Ollama are fr
 |------|-------------|---------|
 | Research, fact-finding, reading | 🔀 Groq (fast, 128K) | 🔀 DeepSeek |
 | Extraction, classification, structuring | 🔀 Groq | 🔀 DeepSeek (better JSON) |
+| Structured JSON, detailed analysis | 🔀 DeepSeek V3 | 🔀 Groq |
 | Summarization, condensing | 🔀 Groq | 🔀 Ollama (local) |
 | Critique, plan stress-test | 🔀 Groq + 🔀 Gemini | — |
-| Second opinion, alternative framing | 🔀 Gemini | 🔀 DeepSeek |
+| Second opinion, alternative framing | 🔀 DeepSeek or 🔀 Gemini | — |
 | Large-context analysis (>100K tokens) | 🔀 Gemini (1M ctx) | — |
 | Simple transformation, private data | 🔀 Ollama (local, free) | 🔀 Groq |
 | Code generation, file edits | Claude (session) | — |
