@@ -73,11 +73,24 @@ pip install groq
 export GROQ_API_KEY=gsk_...   # console.groq.com → API Keys
 ```
 
+### Cerebras
+
+**Cost:** Free — 1M tokens/day  
+**Best for:** Third adversarial voice, biggest free model available  
+**Model:** Qwen 3 235B
+
+Wafer-scale hardware, absurdly fast, and the largest model you can call for free. OpenAI-compatible API.
+
+```bash
+pip install openai
+export CEREBRAS_API_KEY=...   # cloud.cerebras.ai → API Keys
+```
+
 ### DeepSeek
 
 **Cost:** ~$0.14/1M input tokens — effectively free  
-**Best for:** Structured JSON output, detailed multi-step analysis  
-**Model:** DeepSeek V3
+**Best for:** Structured JSON output, detailed multi-step analysis, the fallback that never rate-limits  
+**Model:** DeepSeek V4 Flash
 
 Chinese research lab, best-in-class structured output, costs almost nothing. It's a secret weapon.
 
