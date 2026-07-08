@@ -1,0 +1,9 @@
+{
+  "campaign": "__CAMPAIGN__",
+  "phase": "__PHASE__",
+  "complete": false,
+  "started": 0,
+  "heartbeat": 0,
+  "deadline": 0,
+  "note": "worker relays across caps via fresh claude -p; stands down while interactive.pid is alive + heartbeat fresh. Set complete=true to self-exit; drop a STOP file to halt; deadline is an absolute epoch timestamp."
+}

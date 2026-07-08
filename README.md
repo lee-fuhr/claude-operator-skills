@@ -2,14 +2,15 @@
 
 Skills for Claude Code power users.
 
-Three problems these solve:
+Four problems these solve:
 
 1. **You're paying Claude to do work free models could do.** Groq, DeepSeek, Gemini, and Ollama exist. Use them. Claude should synthesize — not research, extract, or critique.
 2. **You're in flow and there's a smart next move right here — you can feel it but can't quite see it.** This skill looks at what you just built, what it unlocked, and surfaces what compounds it.
 3. **Your AI-built product has quality problems it can't see.** Claude wrote the code, copy, and architecture. It can't audit its own output across UX, security, performance, or any of 13 other dimensions. You need expert lenses that don't know your intentions.
+4. **Your best work happens overnight or on a schedule, but every session dies eventually.** A 5-hour cap, a closed laptop, a reboot — and a campaign that needed to keep running stops silently. You need a worker that survives all three, and (if you want it recurring) a schedule that fires itself every week without you re-invoking it.
 
 > [!TIP]
-> New here? Start with `/qq-smart-next-move` — zero setup, just install and use. `/qq-externalize` has the most friction of the three since it requires at least one external model account.
+> New here? Start with `/qq-smart-next-move` — zero setup, just install and use. `/qq-externalize` has the most friction of the three commands since it requires at least one external model account. `keepalive` and `weekend-burn` are a different shape (see below) — natural-language-triggered skills, not slash commands.
 
 ---
 
@@ -20,6 +21,13 @@ Three problems these solve:
 | `/qq-externalize` | Routes research, extraction, critique, and adversarial review to free models. Claude synthesizes only. | Free models handle 70%+ of non-synthesis work |
 | `/qq-smart-next-move` | When you're in flow and there's a sense of more here — surfaces the smart next move before momentum carries you somewhere obvious. | Compounds good sessions instead of wasting them |
 | `/qq-audit` | Master orchestrator for 255 expert-persona audit frameworks across 13 quality domains. Smart-routes to the right domains in the right order. | SUS 57.5 → 92.5 across 3 rounds on a production app |
+
+**Autonomous-run skills** — no slash command, invoked by describing what you want ("keep this alive overnight," "set up a weekend burn"):
+
+| Skill | What it does | Result |
+|-------|-------------|--------|
+| `keepalive` | Stands up a self-relaying worker: a stateless loop that launches a fresh `claude -p` every ~15 min instead of trying to resume a dead session. Survives 5h caps, session death, and reboots. | A campaign keeps running after you close the laptop |
+| `weekend-burn` | A thin layer on `keepalive` for a *recurring* cadence — fires automatically inside a repeating window (e.g. every weekend) and burns a weekly quota down with enough discipline to finish real things. | A schedule that installs once and runs itself every week |
 
 ---
 
@@ -37,9 +45,11 @@ Claude will read this file and walk you through the rest. Or manually:
 git clone https://github.com/lee-fuhr/claude-operator-skills.git
 cd claude-operator-skills
 
-cp -r skills/qq-externalize skills/qq-smart-next-move skills/qq-audit-master ~/.claude/skills/
+cp -r skills/qq-externalize skills/qq-smart-next-move skills/qq-audit-master skills/keepalive skills/weekend-burn ~/.claude/skills/
 cp commands/qq-externalize.md commands/qq-smart-next-move.md commands/qq-audit.md ~/.claude/commands/
 ```
+
+`keepalive` and `weekend-burn` have no matching `commands/*.md` — they're triggered by describing the task, not a slash command, so there's nothing to copy into `~/.claude/commands/` for those two.
 
 **For `/qq-audit`:** The 255 domain frameworks live in [audit-framework](https://github.com/lee-fuhr/audit-framework). Install them too:
 
@@ -304,9 +314,54 @@ Product → UX → Visual → Copy → Frontend → Backend → Performance
 
 ---
 
+## keepalive
+
+**The problem:** You start a long campaign — a big refactor, a punch-list, a build — and it needs more than one session's worth of work. Then a 5-hour cap hits, or you close the laptop, or the machine reboots. If the worker was set up to resume the same session id, it fails silently: `claude -p --resume <SID>` can't reattach to a live interactive session, so it exits clean and does nothing, every single fire, all night.
+
+This skill is the fix: a stateless relay. Instead of resuming anything, a fresh `claude -p` fires every ~15 minutes, reads a brain file plus an on-disk `queue.md`/`done.md`/`state.json`, does one bounded unit of work, verifies it, logs it, and exits. No session to lose means nothing to lose when a session dies.
+
+### What it sets up
+
+- A `resume.md` brain (the campaign's memory, since the worker itself is stateless)
+- `queue.md` + `done.md` — the durable, plain-markdown task list, readable from any session
+- `state.json` — deadline, complete flag, heartbeat
+- A gate order (STOP file → deadline → complete → liveness banner → interactive interlock → dual-account failover) so it never double-fires and never fights a session you're actively using
+- A one-paste LaunchAgent (macOS) install block — you run this yourself; an agent creating its own autonomous loop is blocked by the safety classifier, by design
+
+### Key principles
+
+- Fresh process per fire, never `--resume` — statelessness is the resilience
+- The tasklist lives on disk in plain markdown, not in any session's memory
+- A live interactive session always wins; the headless worker only picks up when you've actually stepped away
+- `--permission-mode auto`, never `--dangerously-skip-permissions` — safe work proceeds, dangerous/irreversible work stages for you instead of hanging
+
+---
+
+## weekend-burn
+
+**The problem:** A subscription-based Claude plan resets its quota weekly. Most of it goes unused because nobody's driving it on a Saturday. And even when something is standing up occasional overnight runs, each one is a one-off you have to remember to re-invoke — it doesn't come back next week on its own.
+
+This skill is a thin, opinionated layer on top of `keepalive`: a recurring calendar schedule (fires itself every week inside a window you choose, no re-invocation) plus a finish-discipline doctrine (one project worked to a real terminal state before the next starts, so a long unattended run produces finished things instead of a pile of half-touched ones).
+
+### What it adds on top of keepalive
+
+- A pure, stateless window function (`in_window(now)`) recomputed from the clock every fire — no hardcoded epoch to silently go stale
+- A governing doc every fire reads first: the prime directive, the intake standard (a fuzzy backlog item is never dropped — it's tagged `needs-definition` and its first job is to get clear), and an "active project" pointer so dozens of independent fires stay sequenced
+- A kill-switch where the word you write decides the failure mode: `PAUSE` auto-resumes after a TTL (self-heals), `STOP` holds until cleared (deliberate), anything else is flagged loudly rather than silently obeyed
+- One exception to "keep the orchestrator lean": a `needs-definition` item gets your single most capable model, once, for exactly one job — writing a definition of done clear enough that the lean orchestrator can execute the rest with no further judgment calls
+
+### Key principles
+
+- Sequence, not a cap — a productive burn finishes many things, just one at a time
+- "The code ran" is not done — done is the observable finish line, verified
+- A human-gated step doesn't block the run — stage it, mark it, move to the next project
+- Unused quota at reset is wasted, not saved
+
+---
+
 ## How these work together
 
-Each skill is useful alone. Together they cover the full arc of a working session:
+Each skill is useful alone. Together they cover the full arc of a working session — and what happens after you close the laptop:
 
 **Before you build** — `/qq-externalize` routes research, extraction, and critique to free models so you're not burning Claude tokens on work Groq can do for free.
 
@@ -314,10 +369,12 @@ Each skill is useful alone. Together they cover the full arc of a working sessio
 
 **When momentum is high** — `/qq-smart-next-move` asks the question you don't stop to ask: what's the move that compounds what I just built?
 
+**When you need to be away** — `keepalive` keeps a campaign alive across caps and reboots; `weekend-burn` puts that on a recurring schedule so it happens every week without you lifting a finger.
+
 ```
-/qq-externalize  →  build  →  /qq-audit  →  /qq-smart-next-move
-route cheaply       Claude      check           what next?
-                    handles     quality
+/qq-externalize  →  build  →  /qq-audit  →  /qq-smart-next-move  →  keepalive / weekend-burn
+route cheaply       Claude      check           what next?             survive caps, reboots,
+                    handles     quality                                 and the calendar
                     synthesis
                     only
 ```
