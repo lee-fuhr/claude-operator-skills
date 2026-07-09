@@ -6,9 +6,10 @@ version: 2.0.0
 
 # copy-sweep
 
-Someone asks: "has anyone built a Claude skill that goes through a whole build and strips out
-em dashes?" The honest answer is you don't need a cleanup pass at all — you need the write to
-fail before the tell ever hits disk. That's what this is.
+AI-tell punctuation and phrasing creep into drafts one write at a time. The usual fix is a
+cleanup pass after the fact — sweep the file, catch what you can, hope you got it all. That
+pass shouldn't need to exist: the write should fail before the tell ever hits disk. That's
+what this is.
 
 `copy-sweep` is a **hook**, not a slash command. You never invoke it. Once it's installed, every
 time Claude (or you, via Claude Code) writes or edits a matching file, the hook scans the new

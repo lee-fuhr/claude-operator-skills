@@ -356,9 +356,9 @@ Deterministic, not a phrase Claude has to guess at — run `/qq-weekend-burn`. C
 
 ## copy-sweep
 
-**The problem:** Someone asks "has anyone built a skill that sweeps a whole build and strips out
-em dashes?" and the real answer is you don't want a sweep — you want the em dash to never get
-written in the first place.
+**The problem:** AI-tell punctuation and phrasing creep into drafts one write at a time. The
+usual fix is a cleanup sweep after the fact — catch what you can, hope you got it all.
+copy-sweep skips the sweep: the write fails before the tell ever exists.
 
 `copy-sweep` is a `PreToolUse` hook. It has no command because you never invoke it — it fires on
 every `Write`/`Edit`/`MultiEdit` to a matching file, scans the new content before it's saved, and
