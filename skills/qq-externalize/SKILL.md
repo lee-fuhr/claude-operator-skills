@@ -29,7 +29,7 @@ You don't need all five. One free model (Groq) + Gemini covers the adversarial p
 
 Claude (Sonnet/Opus) costs real money AND subscription plans have usage caps that, when hit, silently force more expensive routing. Free models (Groq, Gemini Flash, Cerebras, Ollama) and cheap paid (DeepSeek V4 Flash) cover most actual work. Any time Claude does research, extraction, classification, summarization, critique, or adversarial review that a cheaper model could do, it's a triple loss: cost burn, quota burn, AND quality loss (no cross-model divergence).
 
-**Goal:** Maximum performance per dollar. Match each task to the cheapest model that produces the right quality. Claude synthesizes. Everything else externalizes.
+**Goal:** maximum performance per dollar, matching each task to the cheapest model that can produce the right quality, so Claude only synthesizes and everything else gets externalized.
 
 **Cost ladder (always start at the top, escalate only with justification):**
 

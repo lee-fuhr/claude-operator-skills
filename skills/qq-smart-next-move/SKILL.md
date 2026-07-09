@@ -12,7 +12,7 @@ triggers:
 
 # Smart next move
 
-Things are clicking. You're in flow. There's a sense that you're not done, that there's a smart next move right here that you don't want to miss.
+Things are clicking, you're in flow, and there's a sense that you're not done, that there's a smart next move right here you don't want to miss.
 
 This skill captures that moment. It looks at what just happened, what it unlocked, and asks: **what's the thing that compounds this?** Not "which backlog item is highest priority." That's a different question. This is "I'm cooking right now, what's the smart thing to do next?"
 

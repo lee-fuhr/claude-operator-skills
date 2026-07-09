@@ -108,8 +108,8 @@ very next call proceeded straight past the check because that PID was already de
 invocation isn't guaranteed to share a process). The correct move when scaffolding a campaign FROM a
 chat session (not a wrapper script): do not write a fake `interactive.pid`. Set `KA_INTERLOCK=0`
 explicitly in the conf with a comment explaining why, and load the plist only when actually stepping
-away from the chat, not while it's open. Your own load/unload action becomes the real interlock.
-Do not ship a false sense of protection.
+away from the chat, not while it's open. Your own load/unload action becomes the real interlock,
+so don't ship a false sense of protection.
 
 ### 4. Dual-account failover
 Primary token first, fall to a backup account on cap, so a 5h limit on one account doesn't stall the
