@@ -7,10 +7,12 @@ Four problems these solve:
 1. **You're paying Claude to do work free models could do.** Groq, DeepSeek, Gemini, and Ollama exist. Use them. Claude should synthesize — not research, extract, or critique.
 2. **You're in flow and there's a smart next move right here — you can feel it but can't quite see it.** This skill looks at what you just built, what it unlocked, and surfaces what compounds it.
 3. **Your AI-built product has quality problems it can't see.** Claude wrote the code, copy, and architecture. It can't audit its own output across UX, security, performance, or any of 13 other dimensions. You need expert lenses that don't know your intentions.
-4. **A weekly Claude subscription resets whether you used it or not, and nobody's driving it on a Saturday.** `/qq-weekend-burn` installs a recurring schedule that burns the quota down on real work every week, on its own, until you turn it off.
+4. **A weekly Claude subscription resets whether you used it or not, and nobody's driving it on a Saturday.** That’s quota gone for nothing, week after week, until something else takes the wheel.
 
-> [!TIP]
-> New here? Start with `/qq-smart-next-move` — zero setup, just install and use. `/qq-externalize` has the most friction of the four since it requires at least one external model account.
+Four skills below, one for each of these problems, and together they cover the whole arc: before you build, after you build, when momentum is high, and every week without you.
+
+> [!NOTE]
+> `/qq-weekend-burn` is the newest of the four. It used to run quietly under `keepalive`. Now it has its own command and its own section below.
 
 ---
 
@@ -22,6 +24,9 @@ Four problems these solve:
 | `/qq-smart-next-move` | When you're in flow and there's a sense of more here — surfaces the smart next move before momentum carries you somewhere obvious. | Compounds good sessions instead of wasting them |
 | `/qq-audit` | Master orchestrator for 255 expert-persona audit frameworks across 13 quality domains. Smart-routes to the right domains in the right order. | SUS 57.5 → 92.5 across 3 rounds on a production app |
 | `/qq-weekend-burn` | Stands up a recurring schedule that fires itself every week and burns your quota on real work, one finished thing at a time. | A weekly cadence that installs once and runs itself forever |
+
+> [!TIP]
+> New here? Start with `/qq-smart-next-move`. Zero setup, just install and use. `/qq-externalize` has the most friction of the four above since it requires at least one external model account.
 
 ---
 
