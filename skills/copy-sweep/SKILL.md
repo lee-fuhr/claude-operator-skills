@@ -1,6 +1,6 @@
 ---
 name: copy-sweep
-description: A PreToolUse hook that blocks AI-tell writing before it ever lands in a file: a budgeted em dash rule, straight quotes, Title Case headings, banned corporate-speak, throat-clearing openers, and summary-crutch headers, plus three optional model-graded checks. Fires automatically on every Write/Edit/MultiEdit to a matching file. Nothing to invoke, nothing to remember.
+description: A PreToolUse hook that blocks AI-tell writing before it ever lands in a file, with a budgeted em dash rule, straight quotes, Title Case headings, banned corporate-speak, throat-clearing openers, and summary-crutch headers, plus three optional model-graded checks. Fires automatically on every Write/Edit/MultiEdit to a matching file. Nothing to invoke, nothing to remember.
 version: 2.0.0
 ---
 

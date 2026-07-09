@@ -1,6 +1,6 @@
 ---
 name: qq-externalize
-description: Externalize-first audit: route research, extraction, critique, summarization, and adversarial review to free/cheap models. Three-tier adversarial stack (cheap/mid/top) with cross-model voices. Cost kill switch. Claude synthesizes only. Use when routing may have drifted or to set up a convergent adversarial pass.
+description: Externalize-first audit. Routes research, extraction, critique, summarization, and adversarial review to free/cheap models. Three-tier adversarial stack (cheap/mid/top) with cross-model voices. Cost kill switch. Claude synthesizes only. Use when routing may have drifted or to set up a convergent adversarial pass.
 ---
 
 # qq-externalize: externalize everything possible
