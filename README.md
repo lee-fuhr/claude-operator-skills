@@ -1,14 +1,15 @@
 # Claude Code operator skills
 
-Skills for Claude Code power users.
+Skills I built to run my own Claude Code setup, not a generic starter pack, so if a rule in here
+reads oddly specific, that's because a specific thing broke and this is how I fixed it.
 
 Five problems these solve:
 
-1. **You're paying Claude to do work free models could do.** Groq, DeepSeek, Gemini, and Ollama exist. Use them. Claude should synthesize, not research, extract, or critique.
+1. **You're paying premium-model prices for work a free model handles just as well.** Groq, DeepSeek, Gemini, and Ollama exist. Use them. Claude should synthesize, not research, extract, or critique.
 2. **You're in flow and there's a smart next move right here: you can feel it but can't quite see it.** This skill looks at what you just built, what it unlocked, and surfaces what compounds it.
 3. **Your AI-built product has quality problems it can't see.** Claude wrote the code, copy, and architecture. It can't audit its own output across UX, security, performance, or any of 13 other dimensions. You need expert lenses that don't know your intentions.
-4. **A weekly Claude subscription resets whether you used it or not, and nobody's driving it on a Saturday.** That’s quota gone for nothing, week after week, until something else takes the wheel.
-5. **Every draft has an em dash, a straight quote, or a Title Case heading in it, and you catch it after the fact, if you catch it at all.** `copy-sweep` blocks the write before the tell ever lands, instead of proofreading for it later.
+4. **A weekly Claude subscription resets whether you used it or not, and nobody's driving it on a Saturday.** That's quota gone for nothing, week after week, until something else takes the wheel.
+5. **Every draft has an em dash, a straight quote, or a Title Case heading in it, and you catch it after the fact, if you catch it at all.** `copy-sweep` blocks the write before the tell ever lands, instead of proofreading for it later (this README had 55 in the intro alone before I ran the tool on itself, which is how I know the problem is real).
 
 Five skills below, one for each of these problems, and together they cover the whole arc: before you build, after you build, when momentum is high, every week without you, and every line you write.
 
@@ -362,8 +363,11 @@ copy-sweep skips the sweep: the write fails before the tell ever exists.
 
 `copy-sweep` is a `PreToolUse` hook. It has no command because you never invoke it; it fires on
 every `Write`/`Edit`/`MultiEdit` to a matching file, scans the new content before it's saved, and
-blocks the write if it finds a violation. Claude gets a line-numbered list of exactly what's
-wrong and fixes it inline, same turn, before the bad version ever exists on disk.
+blocks the write if it finds a violation, and Claude gets a line-numbered list of exactly what's
+wrong and fixes it inline, same turn, before the bad version ever exists on disk. Which is a good
+moment to admit that I built this, then ran it on the repo you're reading, and found 272 em
+dashes I'd apparently written myself without noticing across every file in here, so any rule in
+this doc that sounds strict is strict because I've already been on the wrong end of it.
 
 ### What it catches
 

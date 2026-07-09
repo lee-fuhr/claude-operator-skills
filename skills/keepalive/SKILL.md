@@ -7,8 +7,8 @@ description: The single source of truth for standing up a self-relaying overnigh
 
 This skill is the ONE place the kept-alive mechanism lives. Before consolidating it here, several
 different autonomous-run skills each re-described the same fresh-`claude -p` loop, the same gates,
-the same plist install, the same dual-account failover, the same tasklist files. They drifted
-out of sync with each other. Consolidate per skill: any bounded-vs-max-effort sibling skill supplies
+the same plist install, the same dual-account failover, the same tasklist files, and they drifted
+out of sync with each other along the way. Consolidate per skill: any bounded-vs-max-effort sibling skill supplies
 only its POSTURE (the brain's personality) and references THIS skill for the mechanism. Fix a
 mechanism bug here, once, and every sibling inherits it.
 
@@ -17,7 +17,7 @@ mechanism bug here, once, and every sibling inherits it.
 **The mechanism is code, not a pattern to copy: one canonical `engine.sh`, kept in a stable location
 (e.g. `~/.claude/kept-alive/engine.sh`).** Standing up a campaign = write a small `<campaign>.conf`
 in the lane + a 4-line shim the plist calls (`exec /bin/bash /path/to/engine.sh /lane/<campaign>.conf`).
-NEVER copy-paste a keepalive script again. The copy-drift disease is what this kills. Several
+NEVER copy-paste a keepalive script again, since copy-drift is exactly what this kills. Several
 independent lanes needing the *same* binary-path fix or hand-wired quota gate, one at a time, is the
 signal that a shared engine was overdue; with the engine, one fix lands everywhere at once.
 
