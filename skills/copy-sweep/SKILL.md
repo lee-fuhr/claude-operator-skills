@@ -1,20 +1,20 @@
 ---
 name: copy-sweep
-description: A PreToolUse hook that blocks em dashes, straight quotes, and Title Case headings before they ever land in a file. Fires automatically on every Write/Edit/MultiEdit to a matching file — nothing to invoke, nothing to remember. Catches the "AI-tell" punctuation pattern at the source instead of proofreading for it after the fact.
-version: 1.0.0
+description: A PreToolUse hook that blocks AI-tell writing before it ever lands in a file — a budgeted em dash rule, straight quotes, Title Case headings, banned corporate-speak, throat-clearing openers, and summary-crutch headers, plus three optional model-graded checks. Fires automatically on every Write/Edit/MultiEdit to a matching file — nothing to invoke, nothing to remember.
+version: 2.0.0
 ---
 
 # copy-sweep
 
 Someone asks: "has anyone built a Claude skill that goes through a whole build and strips out
 em dashes?" The honest answer is you don't need a cleanup pass at all — you need the write to
-fail before the em dash ever hits disk. That's what this is.
+fail before the tell ever hits disk. That's what this is.
 
 `copy-sweep` is a **hook**, not a slash command. You never invoke it. Once it's installed, every
 time Claude (or you, via Claude Code) writes or edits a matching file, the hook scans the new
-content first. If it finds an em dash, a straight quote, or a Title Case heading, the write is
-blocked and Claude gets a line-numbered list of exactly what to fix — so it fixes it inline, in
-the same turn, before the bad version ever exists.
+content first. If it finds a violation, the write is blocked and Claude gets a line-numbered list
+of exactly what to fix — so it fixes it inline, in the same turn, before the bad version ever
+exists.
 
 No proofreading step. No "sweep the repo for em dashes" cleanup task. The thing that would have
 needed cleaning never gets written.
@@ -23,14 +23,33 @@ needed cleaning never gets written.
 
 ## What it catches
 
-| Check | Default | Catches |
-|-------|---------|---------|
-| `em_dash` | on | `—` anywhere in prose (fenced code blocks are exempt) |
-| `straight_quote` | on | `"` where a curly quote `“ ”` should be |
-| `title_case` | on | Headings like `## The Big New Feature Launch` instead of `## The big new feature launch` |
-| `we_pronoun` | **off** | A bare `We` in solo-voice copy — turn on if you write alone and want `I` enforced |
+**Deterministic — on by default, zero model calls, sub-millisecond:**
 
-Each is independent. Turn any of them off (or on) with one env var — see Configure, below.
+| Check | Catches |
+|-------|---------|
+| `em_dash` | A *budget*, not a ban: 0 allowed under `COPY_SWEEP_LONGFORM_WORDS` (default 400), 1 allowed above it. The one you keep in a long piece still has to earn its place — see below. |
+| `straight_quote` | `"` where a curly quote `“ ”` should be |
+| `title_case` | Headings like `## The Big New Feature Launch` instead of `## The big new feature launch` |
+| `banned_phrase` | Corporate-speak/buzzwords — `leverage`, `synergy`, `touch base`, `circle back`, `cutting-edge`, `best-in-class`, `excited to announce`, and more (full list + how to override it below) |
+| `throat_clearing` | Openers like "As you know," "We're excited to announce" |
+| `summary_crutch` | Headers like "Bottom line:", "Key takeaways:" |
+| `we_pronoun` | **Off by default.** A bare `We` in solo-voice copy — turn on if you write alone and want `I` enforced |
+
+**Semantic — off by default, needs a model call:** `vague_pronoun`, `rule_of_three`,
+`pontificating`. These catch patterns a regex genuinely cannot — read the [Semantic
+checks](#semantic-checks--off-by-default-read-this-first) section below before turning any of
+them on, it explains the real tradeoff (nondeterminism, latency, small API cost).
+
+Each check is independent. Turn any of them on or off with one env var — see Configure, below.
+
+### The em-dash budget
+
+Zero em dashes in short-form copy (a Slack message, a DM, a short email — anything under
+`COPY_SWEEP_LONGFORM_WORDS`, default 400 words). One allowed in a long-form piece (an article,
+a long post). That one dash isn't pre-approved just because it's within budget — the hook can
+count occurrences, it can't judge whether a specific em dash is actually earning its place versus
+being a lazy default. That judgment call is still yours. A second em dash in the same piece is
+over budget regardless, and gets flagged like anything else.
 
 ## Install
 
@@ -93,9 +112,11 @@ directly in the `settings.json` hook `command` string (`"command": "COPY_SWEEP_C
 | `COPY_SWEEP_EXTENSIONS` | `.md,.txt` | Comma-separated file extensions to scan |
 | `COPY_SWEEP_INCLUDE` | unset (scan everywhere) | Comma-separated path fragments — if set, only files whose path contains one of these are scanned. Use this to scope the hook to `drafts/,content/,copy/` instead of every `.md` file in the repo |
 | `COPY_SWEEP_EXCLUDE` | `node_modules/, .git/, .claude/, .agents/, CHANGELOG.md, README.md, LICENSE` | Comma-separated path fragments to always skip |
-| `COPY_SWEEP_CHECKS` | `em_dash,straight_quote,title_case` | Comma-separated list of checks to run. Add `we_pronoun` if you want it |
+| `COPY_SWEEP_CHECKS` | `em_dash,straight_quote,title_case,banned_phrase,throat_clearing,summary_crutch` | Comma-separated list of checks to run — that's the deterministic default set. Add `we_pronoun`, or any of the three semantic checks, to turn them on |
+| `COPY_SWEEP_LONGFORM_WORDS` | `400` | Word-count threshold feeding the em-dash budget |
+| `COPY_SWEEP_BANNED_PHRASES` | see `DEFAULT_BANNED_PHRASES` in the script | Comma-separated list that REPLACES the default banned-phrase list entirely — every house style has a different allergy list |
 
-**Two common setups:**
+**Common setups:**
 
 Scope it to a `drafts/` folder only, leave everything else alone:
 ```json
@@ -104,8 +125,49 @@ Scope it to a `drafts/` folder only, leave everything else alone:
 
 Solo-voice writer who wants `I` enforced too:
 ```json
-"command": "COPY_SWEEP_CHECKS=em_dash,straight_quote,title_case,we_pronoun python3 ~/.claude/hooks/copy_sweep.py"
+"command": "COPY_SWEEP_CHECKS=em_dash,straight_quote,title_case,banned_phrase,throat_clearing,summary_crutch,we_pronoun python3 ~/.claude/hooks/copy_sweep.py"
 ```
+
+Your own banned-phrase list instead of the default:
+```json
+"command": "COPY_SWEEP_BANNED_PHRASES='revolutionize,paradigm shift,at the end of the day' python3 ~/.claude/hooks/copy_sweep.py"
+```
+
+## Semantic checks — off by default, read this first
+
+`vague_pronoun`, `rule_of_three`, and `pontificating` catch real AI tells that a fixed pattern
+genuinely cannot:
+
+- **`vague_pronoun`** — "this" or "that" standing in for a specific noun the reader has to
+  reconstruct, with no clear antecedent nearby.
+- **`rule_of_three`** — a list of exactly three items sharing identical grammatical shape
+  (noun-noun-noun, verb-verb-verb) with no variation.
+- **`pontificating`** — a long preamble or throat-clearing before the actual point, instead of
+  getting to the substance directly.
+
+They're off by default because turning them on is a real tradeoff, not just "more rules":
+
+- **Nondeterministic.** A regex either matches or it doesn't. These need a model to make a
+  judgment call, and judgment calls vary — the same text can get a different verdict on a
+  different run.
+- **Slower.** Every gated write places a real network call instead of a sub-millisecond scan.
+  On a flaky connection this can visibly stall the tool call.
+- **Not free.** A small API cost per call. Groq's free tier covers most use; DeepSeek Flash is
+  the fallback at roughly $0.14 per million tokens either way. Cheap, but not zero like the
+  regex checks above.
+
+They're **fail-open** by design: any model error, timeout, or unparseable response means the
+check silently produces nothing rather than blocking your write over a flaky API. Worst case,
+they just don't catch anything that round — they never turn a working session into a stuck one.
+
+**To turn them on**, list them explicitly in `COPY_SWEEP_CHECKS`:
+```json
+"command": "COPY_SWEEP_CHECKS=em_dash,straight_quote,title_case,banned_phrase,throat_clearing,summary_crutch,vague_pronoun,rule_of_three,pontificating python3 ~/.claude/hooks/copy_sweep.py"
+```
+
+Needs `GROQ_API_KEY` and/or `DEEPSEEK_API_KEY` in the environment (see the main README's [Model
+setup](../../README.md#model-setup) section) and the `requests` package (`pip install requests`).
+No key set means these checks silently no-op, same as a model error.
 
 ## Why a hook and not a skill
 
@@ -118,7 +180,10 @@ never has to exist.
 ## Key principles
 
 - **Prevent, don't proofread.** Block the bad write before it happens, not after.
-- **Small, specific, and cheap.** No model call — it's a regex scan, sub-second, free.
+- **Deterministic by default, model-graded is opt-in.** The default checks are regex — free,
+  instant, always-consistent. Semantic judgment is a real tradeoff (see above), never silently on.
+- **Budgets, not blanket bans, where a blanket ban is wrong.** A single well-placed em dash in a
+  long piece isn't the tell; careless or repeated use is. The check reflects that.
 - **On by default, off by one flag.** `SKIP_COPY_SWEEP=1` for the rare intentional exception; no
   config file to maintain for the common case.
 - **Scoped to prose, not code.** Fenced code blocks are always exempt from every check.

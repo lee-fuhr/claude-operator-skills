@@ -362,18 +362,27 @@ written in the first place.
 
 `copy-sweep` is a `PreToolUse` hook. It has no command because you never invoke it — it fires on
 every `Write`/`Edit`/`MultiEdit` to a matching file, scans the new content before it's saved, and
-blocks the write if it finds an em dash, a straight quote, or a Title Case heading. Claude gets a
-line-numbered list of exactly what's wrong and fixes it inline, same turn, before the bad version
-ever exists on disk.
+blocks the write if it finds a violation. Claude gets a line-numbered list of exactly what's
+wrong and fixes it inline, same turn, before the bad version ever exists on disk.
 
 ### What it catches
 
-| Check | Default | Catches |
-|-------|---------|---------|
-| `em_dash` | on | `—` in prose (fenced code blocks are exempt) |
-| `straight_quote` | on | `"` where a curly quote `“ ”` belongs |
-| `title_case` | on | `## The Big New Feature Launch` instead of `## The big new feature launch` |
-| `we_pronoun` | off | A bare `We` in solo-voice copy — opt in if you write alone |
+Deterministic, on by default, zero model calls:
+
+| Check | Catches |
+|-------|---------|
+| `em_dash` | A budget, not a ban — 0 allowed under 400 words, 1 allowed above it, and that one still has to earn its place |
+| `straight_quote` | `"` where a curly quote `“ ”` belongs |
+| `title_case` | `## The Big New Feature Launch` instead of `## The big new feature launch` |
+| `banned_phrase` | Corporate-speak — leverage, synergy, touch base, cutting-edge, excited to announce, and more |
+| `throat_clearing` | "As you know," "We're excited to announce" |
+| `summary_crutch` | "Bottom line:", "Key takeaways:" |
+| `we_pronoun` | Off by default — a bare `We` in solo-voice copy, opt in if you write alone |
+
+Semantic, off by default, needs a model call: `vague_pronoun`, `rule_of_three`, `pontificating`.
+These catch patterns a regex genuinely can't — full explanation of the tradeoff (nondeterminism,
+latency, small API cost, fail-open by design) is in [the skill's own
+doc](skills/copy-sweep/SKILL.md#semantic-checks--off-by-default-read-this-first).
 
 ### Install
 
