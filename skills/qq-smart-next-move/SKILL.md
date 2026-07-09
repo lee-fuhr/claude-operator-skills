@@ -12,11 +12,11 @@ triggers:
 
 # Smart next move
 
-Things are clicking. You're in flow. There's a sense that you're not done — that there's a smart next move right here that you don't want to miss.
+Things are clicking. You're in flow. There's a sense that you're not done, that there's a smart next move right here that you don't want to miss.
 
-This skill captures that moment. It looks at what just happened, what it unlocked, and asks: **what's the thing that compounds this?** Not "which backlog item is highest priority" — that's a different question. This is "I'm cooking right now, what's the smart thing to do next?"
+This skill captures that moment. It looks at what just happened, what it unlocked, and asks: **what's the thing that compounds this?** Not "which backlog item is highest priority." That's a different question. This is "I'm cooking right now, what's the smart thing to do next?"
 
-This skill is scoped to the **current thread's work**. Options are things that can be done right now, continuing the momentum. Not a cross-project review, not an exit ramp — just the smartest move from exactly where you are.
+This skill is scoped to the **current thread's work**. Options are things that can be done right now, continuing the momentum. Not a cross-project review, not an exit ramp: just the smartest move from exactly where you are.
 
 ---
 
@@ -37,33 +37,33 @@ Pull this from conversation context, recent session history, project state, and 
 
 These aren't generic "what should we do next" questions. They're assumption-interrogating, data-grounded questions specific to what just happened.
 
-**Framework — 5 categories of smart questions:**
+**Framework (5 categories of smart questions):**
 
-**1. Validation questions** — Is the thing we built actually working?
+**1. Validation questions:** Is the thing we built actually working?
 - "We built X, but do we have evidence it's actually being used/useful?"
 - "What would tell us this was a mistake?"
 - "If we deleted this tomorrow, what would break? What wouldn't?"
 - "Are we measuring the right thing, or are we measuring what's easy?"
 
-**2. Leverage questions** — What does this unlock that wasn't possible before?
+**2. Leverage questions:** What does this unlock that wasn't possible before?
 - "Now that X exists, what becomes trivially easy that was hard before?"
 - "What other problems does this solve as a side effect?"
 - "Who else could use this? What would they need changed?"
-- "What's the 80/20 extension — smallest addition, biggest new capability?"
+- "What's the 80/20 extension: smallest addition, biggest new capability?"
 
-**3. Risk questions** — What could go wrong that we're not thinking about?
+**3. Risk questions:** What could go wrong that we're not thinking about?
 - "What's the maintenance burden we just created?"
 - "If the user has a bad week, does this thing break or keep running?"
 - "What dependency did we just introduce that could fail?"
 - "Is this creating technical debt we'll regret in 3 months?"
 
-**4. Opportunity cost questions** — Is there something higher-value we could do next in this session?
+**4. Opportunity cost questions:** Is there something higher-value we could do next in this session?
 - "Given what we just finished, what's the natural next step vs. the highest-value next step?"
 - "Are we continuing this because it's important or because we have momentum?"
 - "Is there a follow-on task from what we just built that's time-sensitive?"
 - "What would make the work we just did MORE valuable if we did it right now?"
 
-**5. Strategic alignment questions** — Does this move the needle on what matters?
+**5. Strategic alignment questions:** Does this move the needle on what matters?
 - "How does this connect to revenue / client acquisition / the pipeline?"
 - "Would a prospect care about this? Would a client?"
 - "Are we building for the business or building because it's interesting?"
@@ -71,23 +71,23 @@ These aren't generic "what should we do next" questions. They're assumption-inte
 
 ### Step 3: Present options as combinations
 
-The user doesn't pick A or B — they pick "A for sure, but maybe also B." Present options as combinable, not mutually exclusive.
+The user doesn't pick A or B; they pick "A for sure, but maybe also B." Present options as combinable, not mutually exclusive.
 
-**Scope:** Options must be things that can be done in this session, continuing from what was just completed. Don't suggest "go look at a completely different project" — that's not a next move, that's an exit.
+**Scope:** Options must be things that can be done in this session, continuing from what was just completed. Don't suggest "go look at a completely different project." That's not a next move, that's an exit.
 
 **Format:**
 
 > **Based on what we just built and the data we have, here are the moves I see:**
 >
-> **A. [Option]** — [1-2 sentences on what it is and why it matters]
+> **A. [Option]:** [1-2 sentences on what it is and why it matters]
 > - Data point supporting this: [specific evidence]
 > - Risk: [what could go wrong]
 >
-> **B. [Option]** — [1-2 sentences]
+> **B. [Option]:** [1-2 sentences]
 > - Data point: [evidence]
 > - Risk: [risk]
 >
-> **C. [Option]** — [1-2 sentences]
+> **C. [Option]:** [1-2 sentences]
 > - Data point: [evidence]
 > - Risk: [risk]
 >
@@ -105,7 +105,7 @@ Use AskUserQuestion (multiple choice) for any genuine gaps in your analysis. Don
 
 - **Not a task list.** Your task manager has the task list. This is strategic questioning.
 - **Not "what's in the backlog."** The backlog is full of things that seemed important when they were written. This asks what's important NOW.
-- **Not planning.** This is pre-planning — the questions that determine whether the plan is worth writing.
+- **Not planning.** This is pre-planning, asking the questions that determine whether the plan is worth writing.
 - **Not a cross-project review.** Stay scoped to what this session has been working on.
 - **Not an exit ramp.** "Call it a day" or "do nothing" are never options. This skill is for when you want to KEEP GOING and need the smartest direction.
 
@@ -127,4 +127,4 @@ Use AskUserQuestion (multiple choice) for any genuine gaps in your analysis. Don
 - **Challenge momentum.** "We should keep going" is often inertia, not strategy.
 - **Revenue proximity matters.** All else equal, the thing closer to money wins.
 - **Resilience filter.** If the user can't maintain it during a bad week, it shouldn't be the next priority.
-- **Combine, don't choose.** Present options as combinable — the instinct to combine is usually right.
+- **Combine, don't choose.** The instinct to combine is usually right, so present options as combinable.

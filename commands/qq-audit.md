@@ -7,4 +7,4 @@ If args name specific domains: run those domains in recommended order.
 If args name a preset (quick, pre-launch, post-build, deep, code, user-facing, marketing): run that combo.
 If args are a question about what's available: show all 13 domains with framework counts.
 
-Interpret args loosely — fuzzy match domain names and presets, don't require exact phrasing.
+Interpret args loosely: fuzzy match domain names and presets, don't require exact phrasing.

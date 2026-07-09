@@ -35,17 +35,17 @@ Triggers: `/qq-audit`, "audit this", "what should I audit", "full audit", etc.
    - E-commerce → UX, Product, Visual, Performance, SEO, Security, Compliance
    - AI/chatbot → UX, Copy (#16 conversational UI), Product, Frontend
 
-2. **Check what's already been audited** — look for `data/audit-*` reports in the project. Don't re-run domains that were audited recently unless explicitly asked.
+2. **Check what's already been audited**: look for `data/audit-*` reports in the project. Don't re-run domains that were audited recently unless explicitly asked.
 
 3. **Present the recommendation:**
 
    > "Based on [project type], I'd recommend these audits in this order:
    >
-   > 1. **Product** (20 frameworks) — verify the product is right before polishing
-   > 2. **UX** (20 frameworks) — then make sure humans can use it
-   > 3. **Visual** (22 frameworks) — then make it look professional
-   > 4. **Copy** (22 frameworks) — then audit the writing
-   > 5. **Frontend** (22 frameworks) — then verify code quality
+   > 1. **Product** (20 frameworks): verify the product is right before polishing
+   > 2. **UX** (20 frameworks): then make sure humans can use it
+   > 3. **Visual** (22 frameworks): then make it look professional
+   > 4. **Copy** (22 frameworks): then audit the writing
+   > 5. **Frontend** (22 frameworks): then verify code quality
    >
    > Skip: Backend, DevOps, Compliance (not applicable here)
    >
@@ -65,7 +65,7 @@ Triggers: `/qq-audit pre-launch`, `/qq-audit quick`, etc.
 
 | Profile | Domains | When to use |
 |---------|---------|-------------|
-| **quick** | UX, Visual, Copy | Fast quality check — appearance and usability |
+| **quick** | UX, Visual, Copy | Fast quality check for appearance and usability |
 | **pre-launch** | Product, UX, Visual, Copy, Frontend, Performance, Security, SEO | Before going live |
 | **post-build** | UX, Visual, Copy, Frontend | After completing a feature build |
 | **deep** | All 13 domains | Comprehensive quality audit |
@@ -104,13 +104,13 @@ Show the domain inventory table below.
 
 ## Build lifecycle sequencing
 
-Domains are sequenced by the agency build lifecycle. Each phase depends on the previous being stable — auditing visual design when UX is broken wastes time because you'll redesign screens after UX fixes.
+Domains are sequenced by the agency build lifecycle. Each phase depends on the previous being stable: auditing visual design when UX is broken wastes time, since you'll redesign screens after UX fixes.
 
 | Phase | Domain | Input | Why this order |
 |-------|--------|-------|---------------|
 | **Strategy** | Product | Screenshots | Is this even the right thing? Fix before building more. |
 | **UX** | UX | Code + screenshots | Can humans use it? Fix before making it pretty. |
-| **Design** | Visual | Screenshots (+ CSS) | Does it look professional? Fix before copy audit — copy lives in visual context. |
+| **Design** | Visual | Screenshots (+ CSS) | Does it look professional? Fix before copy audit, since copy lives in visual context. |
 | **Content** | Copy | Code + screenshots | Are the words right? Fix after visual context is settled. |
 | **Build** | Frontend | Code only | Is the client code well-built? |
 | **Build** | Backend | Code only | Is the server code solid? |
@@ -127,13 +127,13 @@ Domains are sequenced by the agency build lifecycle. Each phase depends on the p
 **Input types:**
 - **Code only:** Read source files. Used for engineering-quality domains.
 - **Screenshots:** Use agent-browser to capture rendered output. Used for visual/product domains.
-- **Code + screenshots/browser:** Both. Most thorough — code reveals WHY, screenshots reveal WHAT the user actually sees.
+- **Code + screenshots/browser:** Both. Most thorough: code reveals WHY; screenshots reveal WHAT the user actually sees.
 
 ---
 
 ## Convergence protocol
 
-**Each domain runs a convergence loop — not a single pass.**
+**Each domain runs a convergence loop, not a single pass.**
 
 ```
 Round 1: Run all frameworks → Score → Fix criticals
@@ -145,12 +145,12 @@ Round 3: Re-run all frameworks → Final score
 
 **Convergence rules:**
 - **Move on when:** Domain score reaches target, OR round 3 is complete (whichever comes first)
-- **Max 3 rounds per domain** to prevent infinite loops — if round 3 doesn't hit target, remaining issues are likely product decisions, not audit findings
+- **Max 3 rounds per domain** to prevent infinite loops. If round 3 doesn't hit target, remaining issues are likely product decisions, not audit findings
 - **Between rounds:** Fix all critical findings (score < 7) before re-running. Don't accumulate debt.
 - **Dedup across rounds:** Each round receives the previous round's findings to avoid re-reporting fixed issues.
-- **Report the trajectory:** "UX: Round 1 = 7.2, Round 2 = 8.8, Round 3 = 9.6 ✓ — moving to Visual"
+- **Report the trajectory:** "UX: Round 1 = 7.2, Round 2 = 8.8, Round 3 = 9.6 ✓, moving to Visual"
 
-**Why convergence matters:** A single pass finds ~60% of issues. Round 2 finds 25% more (because fixes from round 1 expose new issues or fix old ones). Round 3 catches the last 10–15%. Diminishing returns after round 3 — remaining gaps are architectural.
+**Why convergence matters:** A single pass finds ~60% of issues. Round 2 finds 25% more (because fixes from round 1 expose new issues or fix old ones). Round 3 catches the last 10–15%. Diminishing returns after round 3; remaining gaps are architectural.
 
 **Between domains:** After a domain converges, brief the user: "UX converged at 9.6 after 2 rounds (35 fixes). Ready for Visual?" Always pause for direction before starting the next domain.
 
@@ -160,10 +160,10 @@ Round 3: Re-run all frameworks → Final score
 
 For each selected domain (in order):
 
-1. **Invoke the domain's slash command** — e.g., run `/qq-audit-ux` with any scope constraints
-2. **The domain orchestrator handles everything** — smart interview, serial framework execution, fixes, report
-3. **Collect the domain's output** — overall assessment, critical findings, score trajectory
-4. **Brief the user on results** — "UX scored 82. 3 critical findings fixed, 5 remaining. Moving to Visual."
+1. **Invoke the domain's slash command**: e.g., run `/qq-audit-ux` with any scope constraints
+2. **The domain orchestrator handles everything**: smart interview, serial framework execution, fixes, report
+3. **Collect the domain's output**: overall assessment, critical findings, score trajectory
+4. **Brief the user on results**: "UX scored 82. 3 critical findings fixed, 5 remaining. Moving to Visual."
 5. **Proceed to next domain**
 
 Between domains, ask: "Ready for [next domain]? Or adjust the plan?"
@@ -172,7 +172,7 @@ Between domains, ask: "Ready for [next domain]? Or adjust the plan?"
 
 ## Smart interview (master level)
 
-Before selecting domains, gather context — but pre-fill everything possible from the conversation. Only ask about genuine gaps:
+Before selecting domains, gather context, but pre-fill everything possible from the conversation. Only ask about genuine gaps:
 
 1. What kind of project is this? (infer from files/conversation)
 2. What stage is it at? (prototype, feature-complete, pre-launch, live)
@@ -184,7 +184,7 @@ Before selecting domains, gather context — but pre-fill everything possible fr
 
 ## Optional: project tracking doc
 
-If your workflow uses a project tracking system (Notion, Linear, etc.), create an audit progress doc at the start of each run. Update it after every framework completes — not just per domain.
+If your workflow uses a project tracking system (Notion, Linear, etc.), create an audit progress doc at the start of each run. Update it after every framework completes, not just per domain.
 
 **Useful to track per domain:**
 - Score trajectory (Round 1 → Round 2 → Round 3)
@@ -201,15 +201,15 @@ Fixed: moved Delete to overflow menu, Save now full-width.
 → 3 fixes applied, 0 remaining
 ```
 
-Lead with the finding that would make you say "oh shit" — not a report summary.
+Lead with the finding that would make you say "oh shit," not a report summary.
 
 ---
 
 ## Key principles
 
-- **Product before polish** — don't optimize the wrong thing. Validate product decisions first.
-- **User-facing before engineering** — fix what users see before fixing what only engineers see.
-- **Fix between domains** — each domain's critical issues get fixed before the next domain starts.
-- **No redundant work** — if UX #13 (WCAG) already ran, skip accessibility checks in other domains.
-- **Cumulative context** — each domain receives findings from previous domains to avoid re-reporting.
-- **Stay in control** — always present the plan, always pause between domains, always let the user adjust.
+- **Product before polish**: don't optimize the wrong thing. Validate product decisions first.
+- **User-facing before engineering**: fix what users see before fixing what only engineers see.
+- **Fix between domains**: each domain's critical issues get fixed before the next domain starts.
+- **No redundant work**: if UX #13 (WCAG) already ran, skip accessibility checks in other domains.
+- **Cumulative context**: each domain receives findings from previous domains to avoid re-reporting.
+- **Stay in control**: always present the plan, always pause between domains, always let the user adjust.
