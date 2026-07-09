@@ -2,17 +2,18 @@
 
 Skills for Claude Code power users.
 
-Four problems these solve:
+Five problems these solve:
 
 1. **You're paying Claude to do work free models could do.** Groq, DeepSeek, Gemini, and Ollama exist. Use them. Claude should synthesize — not research, extract, or critique.
 2. **You're in flow and there's a smart next move right here — you can feel it but can't quite see it.** This skill looks at what you just built, what it unlocked, and surfaces what compounds it.
 3. **Your AI-built product has quality problems it can't see.** Claude wrote the code, copy, and architecture. It can't audit its own output across UX, security, performance, or any of 13 other dimensions. You need expert lenses that don't know your intentions.
 4. **A weekly Claude subscription resets whether you used it or not, and nobody's driving it on a Saturday.** That’s quota gone for nothing, week after week, until something else takes the wheel.
+5. **Every draft has an em dash, a straight quote, or a Title Case heading in it, and you catch it after the fact, if you catch it at all.** `copy-sweep` blocks the write before the tell ever lands, instead of proofreading for it later.
 
-Four skills below, one for each of these problems, and together they cover the whole arc: before you build, after you build, when momentum is high, and every week without you.
+Five skills below, one for each of these problems, and together they cover the whole arc: before you build, after you build, when momentum is high, every week without you, and every line you write.
 
 > [!NOTE]
-> `/qq-weekend-burn` is the newest of the four. It used to run quietly under `keepalive`. Now it has its own command and its own section below.
+> `copy-sweep` is the newest of the five, and the only one that's a hook instead of a command — install steps differ slightly, see its section below.
 
 ---
 
@@ -24,6 +25,7 @@ Four skills below, one for each of these problems, and together they cover the w
 | `/qq-smart-next-move` | When you're in flow and there's a sense of more here — surfaces the smart next move before momentum carries you somewhere obvious. | Compounds good sessions instead of wasting them |
 | `/qq-audit` | Master orchestrator for 255 expert-persona audit frameworks across 13 quality domains. Smart-routes to the right domains in the right order. | SUS 57.5 → 92.5 across 3 rounds on a production app |
 | `/qq-weekend-burn` | Stands up a recurring schedule that fires itself every week and burns your quota on real work, one finished thing at a time. | A weekly cadence that installs once and runs itself forever |
+| `copy-sweep` (hook, not a command) | Blocks em dashes, straight quotes, and Title Case headings before they land in a file. Fires automatically on every Write/Edit. | AI-tell punctuation caught at write time, not cleaned up after |
 
 > [!TIP]
 > New here? Start with `/qq-smart-next-move`. Zero setup, just install and use. `/qq-externalize` has the most friction of the four above since it requires at least one external model account.
@@ -49,6 +51,10 @@ cp commands/qq-externalize.md commands/qq-smart-next-move.md commands/qq-audit.m
 ```
 
 `keepalive` has no `commands/*.md` of its own and you never invoke it directly — it's the mechanism `/qq-weekend-burn` runs on under the hood, so it just needs to be present in `~/.claude/skills/` alongside the rest.
+
+**`copy-sweep` is a hook, not a skill** — it doesn't go in `~/.claude/skills/` at all, and there's
+no command to copy. See its own section below for the two-step install (copy the script, add one
+block to `settings.json`).
 
 **For `/qq-audit`:** The 255 domain frameworks live in [audit-framework](https://github.com/lee-fuhr/audit-framework). Install them too:
 
@@ -348,11 +354,64 @@ Deterministic, not a phrase Claude has to guess at — run `/qq-weekend-burn`. C
 
 ---
 
+## copy-sweep
+
+**The problem:** Someone asks "has anyone built a skill that sweeps a whole build and strips out
+em dashes?" and the real answer is you don't want a sweep — you want the em dash to never get
+written in the first place.
+
+`copy-sweep` is a `PreToolUse` hook. It has no command because you never invoke it — it fires on
+every `Write`/`Edit`/`MultiEdit` to a matching file, scans the new content before it's saved, and
+blocks the write if it finds an em dash, a straight quote, or a Title Case heading. Claude gets a
+line-numbered list of exactly what's wrong and fixes it inline, same turn, before the bad version
+ever exists on disk.
+
+### What it catches
+
+| Check | Default | Catches |
+|-------|---------|---------|
+| `em_dash` | on | `—` in prose (fenced code blocks are exempt) |
+| `straight_quote` | on | `"` where a curly quote `“ ”` belongs |
+| `title_case` | on | `## The Big New Feature Launch` instead of `## The big new feature launch` |
+| `we_pronoun` | off | A bare `We` in solo-voice copy — opt in if you write alone |
+
+### Install
+
+```bash
+mkdir -p ~/.claude/hooks
+cp skills/copy-sweep/hooks/copy_sweep.py ~/.claude/hooks/copy_sweep.py
+chmod +x ~/.claude/hooks/copy_sweep.py
+```
+
+Then add this to `~/.claude/settings.json` (or `.claude/settings.json` for one repo only):
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "python3 ~/.claude/hooks/copy_sweep.py" }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Restart Claude Code. Full config reference (scoping to a `drafts/` folder, turning `we_pronoun`
+on, the one-off bypass flag) is in `skills/copy-sweep/SKILL.md`.
+
+---
+
 ## How these work together
 
 Each skill is useful alone. Together they cover the full arc of a working session — and what happens after you close the laptop:
 
 **Before you build** — `/qq-externalize` routes research, extraction, and critique to free models so you're not burning Claude tokens on work Groq can do for free.
+
+**While you build** — `copy-sweep` blocks AI-tell punctuation the instant it would be written, so there's no cleanup pass later.
 
 **After you build** — `/qq-audit` runs the quality check Claude can't run on itself. 255 expert lenses across whatever dimensions matter for your project.
 
@@ -361,11 +420,9 @@ Each skill is useful alone. Together they cover the full arc of a working sessio
 **Every week, without you** — `/qq-weekend-burn` puts real work on a recurring schedule that survives caps, closed laptops, and reboots, so the quota gets spent whether or not you're at the keyboard.
 
 ```
-/qq-externalize  →  build  →  /qq-audit  →  /qq-smart-next-move  →  /qq-weekend-burn
-route cheaply       Claude      check           what next?             recurring, unattended,
-                    handles     quality                                 every week
-                    synthesis
-                    only
+/qq-externalize  →  build (copy-sweep guards every write)  →  /qq-audit  →  /qq-smart-next-move  →  /qq-weekend-burn
+route cheaply        Claude handles synthesis only              check         what next?              recurring, unattended,
+                                                                  quality                                every week
 ```
 
 ---
