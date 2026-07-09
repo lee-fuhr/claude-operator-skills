@@ -386,6 +386,18 @@ doc](skills/copy-sweep/SKILL.md#semantic-checks--off-by-default-read-this-first)
 
 ### Install
 
+**Easiest — just tell Claude:**
+
+> Install copy-sweep from https://github.com/lee-fuhr/claude-operator-skills and walk me through my config options.
+
+Claude does the file copy and the `settings.json` edit itself, then asks a handful of plain
+questions instead of handing you env var names to memorize — scope it to one folder or the
+whole repo, catch stray "We"s or not, turn on the deeper AI-graded checks or skip them, what
+counts as "long" for you. Full walkthrough script for Claude to follow is in [the skill's own
+doc](skills/copy-sweep/SKILL.md#install-just-tell-claude).
+
+**Manual, if you'd rather do it yourself:**
+
 ```bash
 mkdir -p ~/.claude/hooks
 cp skills/copy-sweep/hooks/copy_sweep.py ~/.claude/hooks/copy_sweep.py

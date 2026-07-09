@@ -52,7 +52,45 @@ count occurrences, it can't judge whether a specific em dash is actually earning
 being a lazy default. That judgment call is still yours. A second em dash in the same piece is
 over budget regardless, and gets flagged like anything else.
 
-## Install
+## Install: just tell Claude
+
+Paste this to Claude Code, no dev experience required:
+
+> Install copy-sweep from https://github.com/lee-fuhr/claude-operator-skills and walk me through my config options.
+
+**If you are the Claude reading this because a user asked you to install copy-sweep, follow this
+script instead of dumping the manual steps on them:**
+
+1. Clone the repo (or fetch just this file plus `hooks/copy_sweep.py` if you can't clone) and
+   copy `skills/copy-sweep/hooks/copy_sweep.py` to `~/.claude/hooks/copy_sweep.py`, `chmod +x` it.
+2. Read `~/.claude/settings.json` if it exists. If it already has a `PreToolUse` hook for
+   `Write|Edit|MultiEdit`, add `copy_sweep.py` as another entry in that same `hooks` array —
+   don't clobber whatever's already there. If the file doesn't exist, create it with the block
+   from the manual steps below.
+3. Ask the user these questions, in plain language, one at a time or as a short batch — not as
+   env var names:
+   - "Want this watching every markdown file, or just a specific folder like `drafts/`?" → sets
+     `COPY_SWEEP_INCLUDE` if they name a folder, leave unset otherwise.
+   - "Do you write solo and want me to also flag any stray 'We' that should be 'I'?" → adds
+     `we_pronoun` to `COPY_SWEEP_CHECKS` if yes.
+   - "Want the deeper checks too — vague pronouns, three-item-list rhythm, rambling openers
+     before the point? These call an external AI model each time so they're a bit slower and
+     need a free Groq API key (or DeepSeek) — want those on, or stick with the instant checks?"
+     → if yes, add `vague_pronoun,rule_of_three,pontificating` to `COPY_SWEEP_CHECKS`, and check
+     whether `GROQ_API_KEY` or `DEEPSEEK_API_KEY` is already set; if neither is, tell them plainly
+     these three checks will just silently do nothing until a key is added (fail-open, not broken).
+   - "Roughly how many words counts as 'long' for you before an em dash is allowed?" → sets
+     `COPY_SWEEP_LONGFORM_WORDS` if they want something other than the 400-word default.
+   - "Any words or phrases specific to your own writing you want banned, beyond the default
+     corporate-speak list (leverage, synergy, touch base, and friends)?" → sets
+     `COPY_SWEEP_BANNED_PHRASES` (this REPLACES the default list, so combine their additions with
+     the defaults above if they want both).
+4. Write the final `command` string with the resolved env vars baked in, save `settings.json`.
+5. Run the [Try it](#try-it) check yourself to confirm it's wired up, then tell the user in one
+   or two plain sentences what you set up — no JSON, no env var names in the summary.
+6. Tell them to restart Claude Code (or start a new session) for the hook to take effect.
+
+**Prefer to do it yourself?** The manual steps and every config flag are below.
 
 ```bash
 git clone https://github.com/lee-fuhr/claude-operator-skills.git
