@@ -383,7 +383,8 @@ Deterministic, on by default, zero model calls:
 | `summary_crutch` | “Bottom line:”, “Key takeaways:” |
 | `we_pronoun` | Off by default: a bare `We` in solo-voice copy, opt in if you write alone |
 
-Semantic, off by default, needs a model call: `vague_pronoun`, `rule_of_three`, `pontificating`.
+Semantic, off by default, needs a model call: `vague_pronoun`, `rule_of_three`, `pontificating`,
+`staccato_cadence`.
 These catch patterns a regex genuinely can't; full explanation of the tradeoff (nondeterminism,
 latency, small API cost, fail-open by design) is in [the skill's own
 doc](skills/copy-sweep/SKILL.md#semantic-checks-off-by-default-read-this-first).

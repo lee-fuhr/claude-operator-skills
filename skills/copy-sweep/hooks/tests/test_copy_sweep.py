@@ -149,6 +149,20 @@ class TestSemanticChecksOffByDefault:
         assert called["n"] == 1
         assert any(v["rule"] == "vague_pronoun" for v in violations)
 
+    def test_staccato_cadence_in_semantic_schema(self, monkeypatch):
+        m = _load()
+        captured = {}
+
+        def fake_groq(prompt):
+            captured["prompt"] = prompt
+            return '{"vague_pronoun": {"flag": false, "evidence": ""}, "rule_of_three": {"flag": false, "evidence": ""}, "pontificating": {"flag": false, "evidence": ""}, "staccato_cadence": {"flag": true, "evidence": "Short. Punchy."}}'
+
+        monkeypatch.setattr(m, "_call_groq", fake_groq)
+        checks = m.DEFAULT_CHECKS + ("staccato_cadence",)
+        violations = m.scan_text("Things are clicking. Short. Punchy.", checks)
+        assert "staccato_cadence" in captured["prompt"]
+        assert any(v["rule"] == "staccato_cadence" for v in violations)
+
     def test_fail_open_with_no_api_keys(self, monkeypatch):
         m = _load()
         monkeypatch.delenv("GROQ_API_KEY", raising=False)

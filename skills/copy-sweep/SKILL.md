@@ -1,7 +1,7 @@
 ---
 name: copy-sweep
-description: A PreToolUse hook that blocks AI-tell writing before it ever lands in a file, with a budgeted em dash rule, straight quotes, Title Case headings, banned corporate-speak, throat-clearing openers, and summary-crutch headers, plus three optional model-graded checks. Fires automatically on every Write/Edit/MultiEdit to a matching file. Nothing to invoke, nothing to remember.
-version: 2.0.0
+description: A PreToolUse hook that blocks AI-tell writing before it ever lands in a file, with a budgeted em dash rule, straight quotes, Title Case headings, banned corporate-speak, throat-clearing openers, and summary-crutch headers, plus four optional model-graded checks. Fires automatically on every Write/Edit/MultiEdit to a matching file. Nothing to invoke, nothing to remember.
+version: 2.1.0
 ---
 
 # copy-sweep
@@ -74,11 +74,13 @@ script instead of dumping the manual steps on them:**
    - "Do you write solo and want me to also flag any stray 'We' that should be 'I'?" → adds
      `we_pronoun` to `COPY_SWEEP_CHECKS` if yes.
    - "Want the deeper checks too: vague pronouns, three-item-list rhythm, rambling openers
-     before the point? These call an external AI model each time so they're a bit slower and
-     need a free Groq API key (or DeepSeek). Want those on, or stick with the instant checks?"
-     → if yes, add `vague_pronoun,rule_of_three,pontificating` to `COPY_SWEEP_CHECKS`, and check
-     whether `GROQ_API_KEY` or `DEEPSEEK_API_KEY` is already set; if neither is, tell them plainly
-     these three checks will just silently do nothing until a key is added (fail-open, not broken).
+     before the point, short-choppy-sentence rhythm? These call an external AI model each time
+     so they're a bit slower and need a free Groq API key (or DeepSeek). Want those on, or
+     stick with the instant checks?"
+     → if yes, add `vague_pronoun,rule_of_three,pontificating,staccato_cadence` to
+     `COPY_SWEEP_CHECKS`, and check whether `GROQ_API_KEY` or `DEEPSEEK_API_KEY` is already set;
+     if neither is, tell them plainly these checks will just silently do nothing until a key is
+     added (fail-open, not broken).
    - "Roughly how many words counts as 'long' for you before an em dash is allowed?" → sets
      `COPY_SWEEP_LONGFORM_WORDS` if they want something other than the 400-word default.
    - "Any words or phrases specific to your own writing you want banned, beyond the default
@@ -151,7 +153,7 @@ directly in the `settings.json` hook `command` string (`"command": "COPY_SWEEP_C
 | `COPY_SWEEP_EXTENSIONS` | `.md,.txt` | Comma-separated file extensions to scan |
 | `COPY_SWEEP_INCLUDE` | unset (scan everywhere) | Comma-separated path fragments. If set, only files whose path contains one of these are scanned. Use this to scope the hook to `drafts/,content/,copy/` instead of every `.md` file in the repo |
 | `COPY_SWEEP_EXCLUDE` | `node_modules/, .git/, .claude/, .agents/, CHANGELOG.md, README.md, LICENSE` | Comma-separated path fragments to always skip |
-| `COPY_SWEEP_CHECKS` | `em_dash,straight_quote,title_case,banned_phrase,throat_clearing,summary_crutch` | Comma-separated list of checks to run: that's the deterministic default set. Add `we_pronoun`, or any of the three semantic checks, to turn them on |
+| `COPY_SWEEP_CHECKS` | `em_dash,straight_quote,title_case,banned_phrase,throat_clearing,summary_crutch` | Comma-separated list of checks to run: that's the deterministic default set. Add `we_pronoun`, or any of the four semantic checks, to turn them on |
 | `COPY_SWEEP_LONGFORM_WORDS` | `400` | Word-count threshold feeding the em-dash budget |
 | `COPY_SWEEP_BANNED_PHRASES` | see `DEFAULT_BANNED_PHRASES` in the script | Comma-separated list that REPLACES the default banned-phrase list entirely; every house style has a different allergy list |
 
@@ -174,8 +176,8 @@ Your own banned-phrase list instead of the default:
 
 ## Semantic checks: off by default, read this first
 
-`vague_pronoun`, `rule_of_three`, and `pontificating` catch real AI tells that a fixed pattern
-genuinely cannot:
+`vague_pronoun`, `rule_of_three`, `pontificating`, and `staccato_cadence` catch real AI tells
+that a fixed pattern genuinely cannot:
 
 - **`vague_pronoun`**: "this" or "that" standing in for a specific noun the reader has to
   reconstruct, with no clear antecedent nearby.
@@ -183,6 +185,10 @@ genuinely cannot:
   (noun-noun-noun, verb-verb-verb) with no variation.
 - **`pontificating`**: a long preamble or throat-clearing before the actual point, instead of
   getting to the substance directly.
+- **`staccato_cadence`**: a run of short, choppy declarative sentences back to back (a sentence,
+  then another short sentence, a fragment, a punchline) instead of longer sentences connected by
+  commas or parentheticals. The "LinkedIn beat poetry" pattern, distinct from genuinely concise
+  writing, which uses fewer words, not choppier sentences.
 
 They're off by default because turning them on is a real tradeoff, not just "more rules":
 
@@ -201,7 +207,7 @@ they just don't catch anything that round; they never turn a working session int
 
 **To turn them on**, list them explicitly in `COPY_SWEEP_CHECKS`:
 ```json
-"command": "COPY_SWEEP_CHECKS=em_dash,straight_quote,title_case,banned_phrase,throat_clearing,summary_crutch,vague_pronoun,rule_of_three,pontificating python3 ~/.claude/hooks/copy_sweep.py"
+"command": "COPY_SWEEP_CHECKS=em_dash,straight_quote,title_case,banned_phrase,throat_clearing,summary_crutch,vague_pronoun,rule_of_three,pontificating,staccato_cadence python3 ~/.claude/hooks/copy_sweep.py"
 ```
 
 Needs `GROQ_API_KEY` and/or `DEEPSEEK_API_KEY` in the environment (see the main README's [Model

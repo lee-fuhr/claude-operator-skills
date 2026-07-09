@@ -110,7 +110,7 @@ DEFAULT_CHECKS = (
     "banned_phrase", "throat_clearing", "summary_crutch",
 )
 
-SEMANTIC_CHECKS = ("vague_pronoun", "rule_of_three", "pontificating")
+SEMANTIC_CHECKS = ("vague_pronoun", "rule_of_three", "pontificating", "staccato_cadence")
 
 DEFAULT_LONGFORM_WORDS = 400
 
@@ -135,15 +135,16 @@ SUMMARY_CRUTCH = re.compile(
     re.M | re.I,
 )
 
-SEMANTIC_PROMPT = """Classify the TEXT below for three writing patterns. Respond with ONLY compact JSON, no prose, no markdown fences.
+SEMANTIC_PROMPT = """Classify the TEXT below for four writing patterns. Respond with ONLY compact JSON, no prose, no markdown fences.
 
 vague_pronoun: true if "this" or "that" stands in for a specific noun the reader has to reconstruct, with no clear antecedent nearby.
 rule_of_three: true if there's a list of exactly three items sharing identical grammatical shape (noun-noun-noun or verb-verb-verb) with no variation.
 pontificating: true if there's a long preamble or throat-clearing before the actual point, instead of getting to the substance directly.
+staccato_cadence: true if the text runs a string of short, choppy declarative sentences back to back (a sentence, then another short sentence, a fragment, a punchline) instead of longer sentences connected by commas or parentheticals. This is the "LinkedIn beat poetry" AI pattern: short sentence. Then another. Fragment. It is distinct from genuinely concise writing, which uses fewer words, not shorter, choppier sentences.
 
 For each true value, include a short "evidence" quote copied verbatim from TEXT.
 
-Respond as: {{"vague_pronoun": {{"flag": bool, "evidence": ""}}, "rule_of_three": {{"flag": bool, "evidence": ""}}, "pontificating": {{"flag": bool, "evidence": ""}}}}
+Respond as: {{"vague_pronoun": {{"flag": bool, "evidence": ""}}, "rule_of_three": {{"flag": bool, "evidence": ""}}, "pontificating": {{"flag": bool, "evidence": ""}}, "staccato_cadence": {{"flag": bool, "evidence": ""}}}}
 
 TEXT:
 {text}
@@ -153,6 +154,7 @@ SEMANTIC_FIXES = {
     "vague_pronoun": 'Replace "this"/"that" with the specific noun it refers to',
     "rule_of_three": "Break the matched three-item rhythm — vary length or structure",
     "pontificating": "Cut the preamble; open with the actual point",
+    "staccato_cadence": "Combine the short sentences into fewer, longer ones connected by commas or parentheticals — flowing, not choppy",
 }
 
 
