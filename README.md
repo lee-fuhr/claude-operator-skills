@@ -153,7 +153,7 @@ No API key. No rate limits. Nothing leaves your machine.
 
 ## qq-externalize
 
-**The problem:** You ask Claude to research a topic, summarize a document, critique a plan, give a second opinion. Claude does it, and bills your subscription. Groq would have done it free.
+**The problem:** Free models are genuinely good enough now for research, extraction, and critique, that's not really in dispute anymore. What's still happening is Claude does that work anyway, out of habit, and every one of those calls bills your subscription for something a free model would've handled the same way for nothing.
 
 This skill audits the current task, routes everything externalizable to a free model, and flags anything Claude did that it shouldn't have. In adversarial mode, it runs your plan through Groq (first-principles critique) + Gemini (alternative framing), then has Claude synthesize only the criticisms that survive.
 
@@ -209,7 +209,7 @@ Claude work that should have been externalized: 0
 
 ## qq-smart-next-move
 
-**The feeling:** Things are clicking. You're in flow. There's a sense that you're not done: there's a smart next move right here you don't want to miss.
+**The feeling:** Things are clicking, you're in flow, and there's a sense that you're not actually done, there's a smart next move sitting right here and you don't want to lose the thread finding it.
 
 This skill captures that. It looks at what just happened, what it unlocked, and asks: what's the thing that compounds this? Not “which of my backlog items is highest priority”: that's a different question. This is “I'm cooking right now, what's the smart thing to do next?”
 
@@ -255,7 +255,7 @@ This skill captures that. It looks at what just happened, what it unlocked, and 
 
 ## qq-audit
 
-**The problem:** Claude wrote your code. It can't objectively audit its own output: it knows what the code is supposed to do, what the copy is trying to say, how the architecture was intended. You need expert lenses that don't know your intentions, applied domain by domain.
+**The problem:** Claude wrote your code, your copy, and your architecture, which is exactly why it can't audit any of it fairly, it already believes its own intentions were the right call. You need lenses that don't know what you meant to build, only what actually got built, applied domain by domain.
 
 This is the master command for [audit-framework](https://github.com/lee-fuhr/audit-framework): 255 expert-persona frameworks across 13 quality dimensions. It analyzes your project, picks the right domains in the right order, and runs each serially, fixing issues before moving to the next domain so fixes compound.
 
@@ -324,7 +324,7 @@ Product → UX → Visual → Copy → Frontend → Backend → Performance
 
 ## qq-weekend-burn
 
-**The value:** A Claude subscription resets its quota every week whether you used it or not. Driving a long autonomous session yourself, every single Saturday, forever, isn't something you actually do by hand. This turns “burn the quota on real work” from a thing you meant to get around to into a standing decision you make exactly once.
+**The value:** A Claude subscription resets its quota every week whether you used it or not, that part everyone already knows. What doesn't happen on its own is someone actually sitting down and driving a long autonomous session by hand, every single Saturday, forever. `qq-weekend-burn` turns “put the unused quota to work” from a thing you keep meaning to get around to into a standing decision you make exactly once.
 
 **The benefit:** Install it and walk away. It fires itself inside a recurring window you choose (Friday evening through Sunday night, say), works one real capability at a time to an actual finished state, and stands down the moment you're back at the keyboard. You come back Monday to shipped things, not a pile of half-touched projects and a wasted week of quota.
 
@@ -359,9 +359,10 @@ Deterministic, not a phrase Claude has to guess at: run `/qq-weekend-burn`. Clau
 
 ## copy-sweep
 
-**The problem:** AI-tell punctuation and phrasing creep into drafts one write at a time. The
-usual fix is a cleanup sweep after the fact: catch what you can, hope you got it all.
-copy-sweep skips the sweep: the write fails before the tell ever exists.
+**The problem:** Nobody sits down meaning to write an em dash or a straight quote into a draft, it
+just creeps in, one write at a time, until the tells are everywhere and you've stopped noticing
+them. The usual fix is a cleanup pass after the fact: catch what you can, hope you got it all.
+copy-sweep skips the pass entirely: the write fails before the tell ever exists.
 
 `copy-sweep` is a `PreToolUse` hook. It has no command because you never invoke it; it fires on
 every `Write`/`Edit`/`MultiEdit` to a matching file, scans the new content before it's saved, and
