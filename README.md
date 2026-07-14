@@ -10,7 +10,7 @@ Six problems these solve:
 3. **Your AI-built product has quality problems it can't see.** Claude wrote the code, copy, and architecture. It can't audit its own output across UX, security, performance, or any of 13 other dimensions. You need expert lenses that don't know your intentions.
 4. **A weekly Claude subscription resets whether you used it or not, and nobody's driving it on a Saturday.** That's quota gone for nothing, week after week, until something else takes the wheel.
 5. **Every draft has an em dash, a straight quote, or a Title Case heading in it, and you catch it after the fact, if you catch it at all.** `copy-sweep` blocks the write before the tell ever lands, instead of proofreading for it later (this README had 55 in the intro alone before I ran the tool on itself, which is how I know the problem is real).
-6. **You're running two Claude sessions that need to talk to each other, and coordinating them means pasting a prompt from one terminal into the next by hand, all night.** `qq-mailbox` gives them a shared inbox instead: append-only, no locks needed, nothing to clobber.
+6. **Two-tier orchestration is accepted practice now, an expensive model directing cheaper ones, but nothing lets two truly separate sessions actually talk to each other.** Subagents reload their whole context on every call; `qq-mailbox` gives an overseer and a builder session a shared inbox instead, each keeping its own full context the entire time.
 
 Six skills below, one for each of these problems: five cover a single session end to end, before you build through every week without you, and the sixth is for the moment there's more than one session running at once.
 
@@ -435,7 +435,7 @@ on, the one-off bypass flag) is in `skills/copy-sweep/SKILL.md`.
 
 ## qq-mailbox
 
-**The problem:** Two Claude sessions need to hand work back and forth, an overseer that architects and a build session that implements, say, and there's no channel between them that survives either one restarting. The usual fix is pasting a prompt from one terminal into the other by hand, every handoff, all night.
+**The problem:** Running an expensive model as the orchestrator over cheaper builder models is accepted practice at this point, nobody needs convincing that the two-tier setup is right. What's still unsolved is how. Subagents look like the obvious way to build it, until you notice they reload their whole context on every single call, burning tokens and losing the thread each time. The real fix is two genuinely separate sessions, an overseer and a builder, each holding its own full context the whole way through. But then you hit the actual wall: nothing lets two independent Claude Code sessions talk to each other. The usual workaround is pasting a prompt from one terminal into the other by hand, every handoff, all night.
 
 This is a coordination primitive, not a command: two named roles, each appending only to the file where it's the sender, so there's nothing to collide on and nothing to lock. `check()` needs a lane directory and a role name; it finds its own unread messages, groups them by kind, and tells you what actually needs a reply.
 
