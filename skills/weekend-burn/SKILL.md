@@ -1,6 +1,6 @@
 ---
 name: weekend-burn
-description: The SCHEDULED / RECURRING sibling of the on-demand AFK family (keepalive = the resilience mechanism; go-ham = on-demand unbounded max-effort; qq-go-afk-smart = on-demand bounded delegate-and-verify; go-lean = token-source posture). Weekend burn is a standing, every-weekend cadence (not a one-off campaign) that fires automatically inside a recurring window (e.g. Friday evening through Sunday night) and burns the full weekly Claude subscription quota before it resets, finishing ONE real capability completely before starting the next so a productive weekend ships many finished things and never a pile of half-done ones. Builds on the `keepalive` skill for the actual resilience mechanism (fresh `claude -p`, gates, dual-account failover) and adds the recurring-schedule + self-healing kill-switch layer on top. Invoke when you say "weekend burn", "set up a weekend burn", "burn the quota", "run every weekend", "standing weekly cadence", "recurring autonomous campaign", "use the whole week's quota", or want a repeating (not one-off) autonomous run that finishes real, categorical capabilities on a schedule instead of running once and stopping.
+description: Puts your unused weekly Claude quota to work automatically. Weekend burn is a standing, every-weekend cadence (not a one-off campaign) that fires itself inside a recurring window (e.g. Friday evening through Sunday night) and burns the full weekly Claude subscription quota before it resets, finishing ONE real capability completely before starting the next so a productive weekend ships many finished things and never a pile of half-done ones. Builds on the `keepalive` skill for the actual resilience mechanism (fresh `claude -p`, gates, dual-account failover) and adds the recurring-schedule + self-healing kill-switch layer on top. Invoke when you say "weekend burn", "set up a weekend burn", "burn the quota", "run every weekend", "standing weekly cadence", "recurring autonomous campaign", "use the whole week's quota", or want a repeating (not one-off) autonomous run that finishes real, categorical capabilities on a schedule instead of running once and stopping.
 ---
 
 # Weekend burn: the recurring, quota-burning cadence
@@ -11,17 +11,14 @@ This skill does not reinvent the resilience mechanism. It is a thin, opinionated
 
 ---
 
-## Where this sits in the family
+## What weekend-burn adds on top of keepalive
 
-| Skill | Shape | Decides | Use when |
-|---|---|---|---|
-| **keepalive** | mechanism | how a loop survives caps, session death, reboots | any campaign below needs the actual resilience engine |
-| **go-ham** | on-demand, one-off | pace = unbounded max-effort | a single big ambitious build, run once, "blow me away" |
-| **qq-go-afk-smart** | on-demand, one-off | pace = bounded, one task/cycle | a single finite punch-list, run once, calm and cheap |
-| **go-lean** | posture, either pace | token source = external stack over Claude | the Claude cap is the binding constraint on any run above |
-| **weekend-burn (this skill)** | **standing, recurring** | **when the whole thing fires, and what "done" means across a long unattended run** | **you want a schedule installed once that then runs itself every week, spending the full weekly quota, until you turn it off** |
+| Skill | Shape | Decides |
+|---|---|---|
+| **keepalive** | mechanism | how a loop survives caps, session death, reboots |
+| **weekend-burn (this skill)** | **standing, recurring** | **when the whole thing fires, and what “done” means across a long unattended run** |
 
-**The distinction that matters:** go-ham, qq-go-afk-smart, and go-lean are all invoked *on a task*: you hand over a campaign, a posture gets applied, it runs once (however long "once" takes) and finishes. Weekend burn is invoked *once, to install a schedule*; after that, it fires itself every week on calendar time, with no re-invocation, until you tear it down. It composes with the pace/posture skills (a weekend burn can run its cycles in a HAM-like fan-out or a SMART-like bounded style, and can wear LEAN's externalize-first posture); what it adds on top is the *when* and the *finish discipline*.
+**The distinction that matters:** most autonomous-run setups are invoked *on a task*: you hand over a campaign, it runs once (however long “once” takes) and finishes. Weekend burn is invoked *once, to install a schedule*; after that, it fires itself every week on calendar time, with no re-invocation, until you tear it down. What it adds on top of keepalive's resilience mechanism is the *when* and the *finish discipline*.
 
 ---
 

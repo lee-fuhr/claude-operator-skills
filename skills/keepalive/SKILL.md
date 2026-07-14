@@ -1,18 +1,13 @@
 ---
 name: keepalive
-description: The single source of truth for standing up a self-relaying overnight worker, a kept-alive `claude -p` loop that survives 5h caps, session death, and reboots and grinds a campaign autonomously while you're away from the keyboard. Stand one up in ~60 seconds for ANY campaign that needs to outlive a single session. This skill OWNS the mechanism (fresh `claude -p`, NEVER `--resume`; the keepalive.sh gates + pgrep-banner liveness + interactive interlock + dual-account failover + `--permission-mode auto`; the user-run one-paste plist install; and THE TASKLIST.MD STANDARD, every campaign scaffolds queue.md + done.md in its lane). Bounded and max-effort AFK-style skills should supply only the POSTURE of the brain and call this skill for the mechanism. Invoke when you say "keepalive", "keep it alive", "stand up a worker", "self-relaying worker", "overnight worker", "make it survive caps", or any autonomous-run skill needs the resilience backbone.
+description: Stands up a self-relaying overnight worker in about 60 seconds, a `claude -p` loop that survives 5-hour caps, session death, and reboots so a long campaign keeps running while you're away from the keyboard. Owns the resilience mechanism (fresh `claude -p`, never `--resume`; gates + liveness checks + dual-account failover + `--permission-mode auto`; a one-paste plist install; and a standard queue.md/done.md tasklist scaffolded per campaign) so any campaign that needs to outlive a single session can build on this instead of reinventing it. Invoke when you say "keepalive", "keep it alive", "stand up a worker", "self-relaying worker", "overnight worker", "make it survive caps", or any autonomous-run skill needs the resilience backbone.
 ---
 
-# keepalive: the self-relaying overnight worker (single source of truth)
+# keepalive: the self-relaying overnight worker
 
-This skill is the ONE place the kept-alive mechanism lives. Before consolidating it here, several
-different autonomous-run skills each re-described the same fresh-`claude -p` loop, the same gates,
-the same plist install, the same dual-account failover, the same tasklist files, and they drifted
-out of sync with each other along the way. Consolidate per skill: any bounded-vs-max-effort sibling skill supplies
-only its POSTURE (the brain's personality) and references THIS skill for the mechanism. Fix a
-mechanism bug here, once, and every sibling inherits it.
+Most autonomous-run setups eventually re-invent the same thing: a loop that survives session caps, the same plist install, the same failover logic, each one built slightly differently and drifting out of sync over time. This skill is that one mechanism, built once, so anything that needs a long unattended run can build on it instead of reinventing it.
 
-## 🏛 THE ENGINE: one implementation, campaigns are conf files
+## The engine: one implementation, campaigns are conf files
 
 **The mechanism is code, not a pattern to copy: one canonical `engine.sh`, kept in a stable location
 (e.g. `~/.claude/kept-alive/engine.sh`).** Standing up a campaign = write a small `<campaign>.conf`

@@ -45,7 +45,7 @@ These aren't generic "what should we do next" questions. They're assumption-inte
 - "If we deleted this tomorrow, what would break? What wouldn't?"
 - "Are we measuring the right thing, or are we measuring what's easy?"
 
-**2. Leverage questions:** What does this unlock that wasn't possible before?
+**2. Unlock questions:** What does this unlock that wasn't possible before?
 - "Now that X exists, what becomes trivially easy that was hard before?"
 - "What other problems does this solve as a side effect?"
 - "Who else could use this? What would they need changed?"

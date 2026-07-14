@@ -1,6 +1,6 @@
 ---
 name: qq-audit-master
-description: Meta-orchestrator that selects and sequences the right combination of audit domains based on project context, conversation state, and user intent. Routes to 13 domain-specific audit skills containing 255 expert-persona frameworks.
+description: Picks the right combination of audit domains for your project and runs them in the right order, so you get outside eyes on UX, security, performance, and 10 more angles Claude can't judge fairly on its own. Routes to 13 domain-specific audit skills containing 255 expert lenses.
 version: 2.0.0
 triggers:
   - "full audit"
@@ -11,9 +11,9 @@ triggers:
   - "comprehensive audit"
 ---
 
-# Master audit orchestrator
+# Master audit router
 
-Routes to 13 domain-specific audit skills (255 total expert-persona frameworks) based on what the project needs. Knows which domains matter for which kinds of work and sequences them intelligently.
+Routes to 13 domain-specific audit skills (255 expert lenses total) based on what the project needs. Knows which domains matter for which kinds of work and sequences them intelligently.
 
 **Requires:** Domain sub-skills from [audit-framework](https://github.com/lee-fuhr/audit-framework) installed alongside this skill.
 
@@ -161,7 +161,7 @@ Round 3: Re-run all frameworks → Final score
 For each selected domain (in order):
 
 1. **Invoke the domain's slash command**: e.g., run `/qq-audit-ux` with any scope constraints
-2. **The domain orchestrator handles everything**: smart interview, serial framework execution, fixes, report
+2. **The domain skill handles everything from there**: smart interview, serial framework execution, fixes, report
 3. **Collect the domain's output**: overall assessment, critical findings, score trajectory
 4. **Brief the user on results**: "UX scored 82. 3 critical findings fixed, 5 remaining. Moving to Visual."
 5. **Proceed to next domain**

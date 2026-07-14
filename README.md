@@ -23,9 +23,9 @@ Six skills below, one for each of these problems: five cover a single session en
 
 | Command | What it does | Result |
 |---------|-------------|--------|
-| `/qq-externalize` | Routes research, extraction, critique, and adversarial review to free models. Claude synthesizes only. | Free models handle 70%+ of non-synthesis work |
+| `/qq-externalize` | Keeps your Claude subscription for judgment calls only. Routes research, extraction, critique, and adversarial review to free models automatically. | Free models handle 70%+ of non-synthesis work |
 | `/qq-smart-next-move` | When you're in flow and there's a sense of more here: surfaces the smart next move before momentum carries you somewhere obvious. | Compounds good sessions instead of wasting them |
-| `/qq-audit` | Master orchestrator for 255 expert-persona audit frameworks across 13 quality domains. Smart-routes to the right domains in the right order. | SUS 57.5 → 92.5 across 3 rounds on a production app |
+| `/qq-audit` | Gets outside eyes on your code and copy across 255 expert lenses in 13 quality domains, since Claude can't judge its own work fairly. Smart-routes to the right domains in the right order. | SUS 57.5 → 92.5 across 3 rounds on a production app |
 | `/qq-weekend-burn` | Stands up a recurring schedule that fires itself every week and burns your quota on real work, one finished thing at a time. | A weekly cadence that installs once and runs itself forever |
 | `copy-sweep` (hook, not a command) | Blocks em dashes, straight quotes, and Title Case headings before they land in a file. Fires automatically on every Write/Edit. | AI-tell punctuation caught at write time, not cleaned up after |
 | `qq-mailbox` (import, not a command) | Lets two or more concurrent Claude sessions hand work back and forth on their own: a build session and an overseer, a headless keepalive and its live counterpart. Append-only JSONL, atomic cursor, nothing to lock. | A session drops a message and moves on; the other picks it up on its own schedule, no pasted context, no clobbered state |
@@ -110,7 +110,7 @@ export CEREBRAS_API_KEY=...   # cloud.cerebras.ai → API Keys
 **Best for:** Structured JSON output, detailed multi-step analysis, the fallback that never rate-limits  
 **Model:** DeepSeek V4 Flash
 
-Chinese research lab, best-in-class structured output, costs almost nothing. It's a secret weapon.
+Chinese research lab, cleaner structured output than most, costs almost nothing. It's a secret weapon.
 
 ```bash
 pip install openai   # DeepSeek uses the OpenAI-compatible API
@@ -194,7 +194,7 @@ Claude work that should have been externalized: 0
 | Research, fact-finding | Groq (Llama 3.3 70B) | Free, 128K context, fastest |
 | Extraction, classification | Groq | Free, structured output |
 | Summarization | Groq | Free, reliable |
-| Structured JSON, detailed analysis | DeepSeek V3 | Best-in-class structured output, near-free |
+| Structured JSON, detailed analysis | DeepSeek V3 | Clean structured output, near-free |
 | Critique, plan stress-test | Groq + Gemini | Cross-model divergence = real adversarial pressure |
 | Second opinion, alternative framing | DeepSeek or Gemini | Different training = different blind spots |
 | Large context (>100K tokens) | Gemini | 1M token context window |
@@ -228,7 +228,7 @@ This skill captures that. It looks at what just happened, what it unlocked, and 
 > - Data point: zero events in log after three sessions
 > - Risk: low; hook either fires or it doesn't
 >
-> **B. Wire the scorecard into the morning digest.** Invisible unless surfaced daily. High leverage: you see it every morning without thinking about it.
+> **B. Wire the scorecard into the morning digest.** Invisible unless surfaced daily. Small effort, big payoff: you see it every morning without thinking about it.
 > - Data point: digest is checked daily; dashboard is only checked when something feels wrong
 > - Risk: schema change could break existing sections
 >
@@ -257,7 +257,7 @@ This skill captures that. It looks at what just happened, what it unlocked, and 
 
 **The problem:** Claude wrote your code, your copy, and your architecture, which is exactly why it can't audit any of it fairly, it already believes its own intentions were the right call. You need lenses that don't know what you meant to build, only what actually got built, applied domain by domain.
 
-This is the master command for [audit-framework](https://github.com/lee-fuhr/audit-framework): 255 expert-persona frameworks across 13 quality dimensions. It analyzes your project, picks the right domains in the right order, and runs each serially, fixing issues before moving to the next domain so fixes compound.
+This is the master command for [audit-framework](https://github.com/lee-fuhr/audit-framework): 255 expert lenses across 13 quality dimensions. It analyzes your project, picks the right domains in the right order, and runs each serially, fixing issues before moving to the next domain so fixes compound.
 
 ### Commands
 

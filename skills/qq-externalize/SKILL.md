@@ -211,7 +211,7 @@ These should automatically trigger externalization (even without `/qq-externaliz
 - Any product definition → Groq + Gemini as adversarial voices
 - "Is this fix correct?" / validating a verdict against production data → Groq or DeepSeek before declaring PASS
 - User-facing number derived from a formula multiplier (fee rate, probability, percentage) → DeepSeek to verify it represents what the user will think it means, not just that the math is correct ("right number, wrong meaning" class of bug)
-- Interpersonal or political strategy tasks → high-value externalization target; Claude defaults to direct confrontation framing, adversarial pass reliably finds softer leverage points
+- Interpersonal or political strategy tasks → route these out too; Claude defaults to direct confrontation framing, and an adversarial pass reliably finds a softer way in
 - Brand/positioning critique → use customer-resonance prompt (see Step 3), not the default plan stress-test
 - About to escalate to your most expensive model for judgment → externalize first: package what you're uncertain about + relevant context → Groq + Gemini (fallback: DeepSeek → Ollama, always preserve two voices) → show output with 🔀 labels → THEN escalate only if still unresolved or context too dense to package
 
