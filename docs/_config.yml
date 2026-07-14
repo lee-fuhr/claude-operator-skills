@@ -1,0 +1,11 @@
+title: Claude Code operator skills
+description: Skills built to run a real Claude Code setup, model routing, parallel audits, a weekend quota-burn cadence, AI-tell punctuation caught at write time, and cross-session coordination.
+url: "https://lee-fuhr.github.io"
+baseurl: "/claude-operator-skills"
+permalink: pretty
+theme: jekyll-theme-minimal
+plugins:
+  - jekyll-seo-tag
+author: Lee Fuhr
+twitter:
+  card: summary
