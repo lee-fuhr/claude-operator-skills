@@ -28,7 +28,7 @@ Six skills below, one for each of these problems: five cover a single session en
 | `/qq-audit` | Master orchestrator for 255 expert-persona audit frameworks across 13 quality domains. Smart-routes to the right domains in the right order. | SUS 57.5 → 92.5 across 3 rounds on a production app |
 | `/qq-weekend-burn` | Stands up a recurring schedule that fires itself every week and burns your quota on real work, one finished thing at a time. | A weekly cadence that installs once and runs itself forever |
 | `copy-sweep` (hook, not a command) | Blocks em dashes, straight quotes, and Title Case headings before they land in a file. Fires automatically on every Write/Edit. | AI-tell punctuation caught at write time, not cleaned up after |
-| `qq-mailbox` (import, not a command) | Coordination primitive for two or more concurrent Claude sessions handing work back and forth: a build session and an overseer, a headless keepalive and its live counterpart. Append-only JSONL, atomic cursor, nothing to lock. | A session drops a message and moves on; the other picks it up on its own schedule, no pasted context, no clobbered state |
+| `qq-mailbox` (import, not a command) | Lets two or more concurrent Claude sessions hand work back and forth on their own: a build session and an overseer, a headless keepalive and its live counterpart. Append-only JSONL, atomic cursor, nothing to lock. | A session drops a message and moves on; the other picks it up on its own schedule, no pasted context, no clobbered state |
 
 > [!TIP]
 > New here? Start with `/qq-smart-next-move`. Zero setup, just install and use. `/qq-externalize` has the most friction of the four above since it requires at least one external model account.
@@ -438,7 +438,7 @@ on, the one-off bypass flag) is in `skills/copy-sweep/SKILL.md`.
 
 **The problem:** Running an expensive model as the orchestrator over cheaper builder models is accepted practice at this point, nobody needs convincing that the two-tier setup is right. What's still unsolved is how. Subagents look like the obvious way to build it, until you notice they reload their whole context on every single call, burning tokens and losing the thread each time. The real fix is two genuinely separate sessions, an overseer and a builder, each holding its own full context the whole way through. But then you hit the actual wall: nothing lets two independent Claude Code sessions talk to each other. The usual workaround is pasting a prompt from one terminal into the other by hand, every handoff, all night.
 
-This is a coordination primitive, not a command: two named roles, each appending only to the file where it's the sender, so there's nothing to collide on and nothing to lock. `check()` needs a lane directory and a role name; it finds its own unread messages, groups them by kind, and tells you what actually needs a reply.
+This isn't a command, it's a Python import: two named roles, each appending only to the file where it's the sender, so there's nothing to collide on and nothing to lock. `check()` needs a lane directory and a role name; it finds its own unread messages, groups them by kind, and tells you what actually needs a reply.
 
 ### The two calls
 

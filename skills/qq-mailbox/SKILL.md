@@ -16,10 +16,10 @@ metadata:
 # Mailbox — coordination between concurrent Claude sessions
 
 Hardened, reusable version of a pattern that ran ad hoc all night in a live
-build: two Claude sessions (a "build" cockpit and an "overseer") passing
-messages via append-only JSONL files. This skill generalizes that into a
-named-role primitive any two (or more) concurrent sessions can use without
-inventing their own ad-hoc protocol each time.
+build: two Claude sessions (a “build” cockpit and an “overseer”) passing
+messages via append-only JSONL files. This skill turns that into something
+any two (or more) concurrent sessions can reuse with functional role names,
+instead of every pair inventing its own ad-hoc protocol.
 
 **Implementation:** `mailbox.py` (this directory)
 **Tests:** `test_mailbox.py` (core, pure I/O against `tmp_path`) +
