@@ -2,12 +2,13 @@
 name: qq-audit-tracker
 description: Creates and maintains a live Notion tracking doc for audit runs. Standard format with overview table, live feed, per-domain sections, and findings summary. Used by qq-audit-master automatically.
 version: 1.0.0
-author: Lee Fuhr
 triggers:
   - "create audit tracker"
   - "audit tracking doc"
   - "audit notion doc"
 ---
+
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
 
 # Audit tracking doc (Notion)
 

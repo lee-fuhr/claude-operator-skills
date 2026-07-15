@@ -2,7 +2,6 @@
 name: qq-audit-master
 description: Meta-orchestrator that selects and sequences the right combination of audit domains based on project context, conversation state, and user intent. Routes to 13 domain-specific audit skills containing 255 expert-persona frameworks.
 version: 2.0.0
-author: Lee Fuhr
 triggers:
   - "full audit"
   - "audit everything"
@@ -11,6 +10,8 @@ triggers:
   - "run audits"
   - "comprehensive audit"
 ---
+
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
 
 # Run the full audit suite
 

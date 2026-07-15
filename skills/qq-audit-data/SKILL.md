@@ -2,7 +2,6 @@
 name: qq-audit-data
 description: Serialized data quality audit using 15 deep framework subskills. Each framework runs in its own agent context with expert-level depth. Smart interview pre-fills from conversation context.
 version: 3.0.0
-author: Lee Fuhr
 triggers:
   - "data audit"
   - "data quality audit"
@@ -11,6 +10,8 @@ triggers:
   - "data review"
   - "run data audit"
 ---
+
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
 
 # Audit data quality with expert personas
 

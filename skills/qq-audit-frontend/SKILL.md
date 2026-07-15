@@ -2,7 +2,6 @@
 name: qq-audit-frontend
 description: Serialized frontend build quality audit using 22 deep framework subskills. Each framework runs in its own agent context with expert-level depth. Smart interview pre-fills from conversation context.
 version: 1.0.0
-author: Lee Fuhr
 triggers:
   - "frontend audit"
   - "code quality audit"
@@ -11,6 +10,8 @@ triggers:
   - "run frontend frameworks"
   - "run frontend audit"
 ---
+
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
 
 # Audit frontend with expert personas
 

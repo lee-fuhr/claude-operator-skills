@@ -2,7 +2,6 @@
 name: qq-audit-copy
 description: Serialized content/copy audit using 22 deep framework subskills. Each framework runs in its own agent context with expert-level depth. Smart interview pre-fills from conversation context.
 version: 1.0.0
-author: Lee Fuhr
 triggers:
   - "copy audit"
   - "content audit"
@@ -12,6 +11,8 @@ triggers:
   - "run copy audit"
   - "editorial review"
 ---
+
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
 
 # Audit copy with expert personas
 

@@ -164,6 +164,22 @@ def test_docs_parity_respects_the_exemptions_file(tmp_path):
     assert check_repo.check_docs_parity(root=tmp_path) == []
 
 
+# -- banner ---------------------------------------------------------------
+
+def test_banner_check_catches_a_skill_missing_the_banner(tmp_path):
+    write(tmp_path / "skills" / "qq-example" / "SKILL.md", "---\nname: qq-example\n---\n# Example\n")
+    findings = check_repo.check_banner(root=tmp_path)
+    assert any("qq-example" in f for f in findings)
+
+
+def test_banner_check_passes_a_skill_with_the_banner(tmp_path):
+    write(
+        tmp_path / "skills" / "qq-example" / "SKILL.md",
+        "---\nname: qq-example\n---\n\n> Part of [Claude Code operator skills](url).\n\n# Example\n",
+    )
+    assert check_repo.check_banner(root=tmp_path) == []
+
+
 # -- end to end on the real repo ------------------------------------------------
 
 def test_real_repo_is_clean():

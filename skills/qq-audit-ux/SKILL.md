@@ -2,7 +2,6 @@
 name: qq-audit-ux
 description: Serialized UX audit using 20 deep framework subskills. Each framework runs in its own agent context with expert-level depth. Smart interview pre-fills from conversation context.
 version: 3.0.0
-author: Lee Fuhr
 triggers:
   - "ux audit"
   - "usability audit"
@@ -12,6 +11,8 @@ triggers:
   - "run all frameworks"
   - "run ux audit"
 ---
+
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
 
 # Audit UX with expert personas
 

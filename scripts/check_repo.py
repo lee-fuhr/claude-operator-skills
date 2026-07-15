@@ -198,12 +198,35 @@ def check_docs_parity(root=ROOT):
     return findings
 
 
+def check_banner(root=ROOT):
+    """Every skill's SKILL.md should carry the parent-repo banner blockquote.
+    Found missing on all 15 audit-domain skills after the audit-framework
+    merge -- an entire family slipped through because docs-parity treats
+    them as exempt sub-components, which says nothing about their own
+    SKILL.md content."""
+    findings = []
+    skills_dir = root / "skills"
+    if not skills_dir.exists():
+        return findings
+    for skill_dir in sorted(skills_dir.iterdir()):
+        if not skill_dir.is_dir():
+            continue
+        skill_md = skill_dir / "SKILL.md"
+        if not skill_md.exists():
+            continue
+        text = skill_md.read_text()
+        if "Part of [Claude Code operator skills]" not in text and "Part of [Operator Skills]" not in text:
+            findings.append(f"skills/{skill_dir.name}/SKILL.md has no parent-repo banner")
+    return findings
+
+
 CHECKS = [
     ("Denylist (leaked internal names/paths)", check_denylist),
     ("Stale self-references (rename left something behind)", check_self_references),
     ("README anchor links", check_anchors),
     ("Straight quotes in prose", check_straight_quotes),
     ("Skill <-> docs page parity", check_docs_parity),
+    ("Parent-repo banner on every skill", check_banner),
 ]
 
 

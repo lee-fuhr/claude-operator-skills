@@ -2,7 +2,6 @@
 name: qq-audit-compliance
 description: Serialized compliance audit using 15 deep framework subskills. Each framework runs in its own agent context with expert-level depth. Smart interview pre-fills from conversation context.
 version: 3.0.0
-author: Lee Fuhr
 triggers:
   - "compliance audit"
   - "legal audit"
@@ -11,6 +10,8 @@ triggers:
   - "accessibility compliance"
   - "run compliance audit"
 ---
+
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
 
 # Audit compliance with expert personas
 

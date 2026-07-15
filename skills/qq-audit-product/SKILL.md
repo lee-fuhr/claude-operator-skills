@@ -2,7 +2,6 @@
 name: qq-audit-product
 description: Serialized product audit using 20 deep framework subskills. Each framework runs in its own agent context with expert-level depth. Smart interview pre-fills from conversation context.
 version: 1.0.0
-author: Lee Fuhr
 triggers:
   - "product audit"
   - "product review"
@@ -12,6 +11,8 @@ triggers:
   - "run product audit"
   - "jobs to be done"
 ---
+
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
 
 # Audit product with expert personas
 

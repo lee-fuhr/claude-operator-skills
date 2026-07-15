@@ -2,7 +2,6 @@
 name: qq-audit-performance
 description: Serialized performance audit using 22 deep framework subskills. Each framework runs in its own agent context with expert-level depth. Smart interview pre-fills from conversation context.
 version: 1.0.0
-author: Lee Fuhr
 triggers:
   - "performance audit"
   - "speed audit"
@@ -12,6 +11,8 @@ triggers:
   - "run performance frameworks"
   - "run perf audit"
 ---
+
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
 
 # Audit performance with expert personas
 
