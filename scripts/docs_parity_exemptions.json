@@ -1,0 +1,18 @@
+{
+  "qq-audit-backend": "domain skill folded into /qq-audit, not separately listed in README",
+  "qq-audit-compliance": "domain skill folded into /qq-audit, not separately listed in README",
+  "qq-audit-copy": "domain skill folded into /qq-audit, not separately listed in README",
+  "qq-audit-data": "domain skill folded into /qq-audit, not separately listed in README",
+  "qq-audit-devops": "domain skill folded into /qq-audit, not separately listed in README",
+  "qq-audit-frontend": "domain skill folded into /qq-audit, not separately listed in README",
+  "qq-audit-master": "the real implementation /qq-audit's own commands/qq-audit.md wraps, not separately listed",
+  "qq-audit-performance": "domain skill folded into /qq-audit, not separately listed in README",
+  "qq-audit-product": "domain skill folded into /qq-audit, not separately listed in README",
+  "qq-audit-security": "domain skill folded into /qq-audit, not separately listed in README",
+  "qq-audit-seo": "domain skill folded into /qq-audit, not separately listed in README",
+  "qq-audit-testing": "domain skill folded into /qq-audit, not separately listed in README",
+  "qq-audit-tracker": "state-tracking helper for /qq-audit, not separately listed in README",
+  "qq-audit-ux": "domain skill folded into /qq-audit, not separately listed in README",
+  "qq-audit-visual": "domain skill folded into /qq-audit, not separately listed in README",
+  "ww-keepalive": "mechanism underlying /qq-weekend-burn, not separately listed in README"
+}

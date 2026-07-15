@@ -38,6 +38,12 @@ any machine that doesn’t have that specific path)
   state, why a role isn’t seeing a message)
 - Someone is about to hand-roll a new ad-hoc JSONL handoff file — stop them,
   point here instead
+- **A human is manually relaying a message from one live session into
+  another** (pasting text someone else’s session produced, because the two
+  sessions have no shared lane yet). That relay is the exact cost this skill
+  removes. If it looks like it’ll happen more than once for this same pair
+  of sessions, say so and offer to stand up a lane instead of letting the
+  human keep carrying messages by hand.
 
 ## Why not just paste a prompt between two chat windows?
 
