@@ -213,3 +213,43 @@ using them, rather than letting them drift the way the ad-hoc version did.
 - **Don’t** assume an unfamiliar `kind` will error — it won’t. Extend
   `KIND_TAXONOMY` in `mailbox.py` when a new kind recurs enough to deserve a
   real action hint; until then the generic hint is enough to keep working.
+
+## Getting notified without polling by hand
+
+`check()` on its own is pull-only — nothing tells you a message arrived until
+you call it. That's a real gap, found in production use: a session doesn't
+know to check unless something external prompts it to.
+
+**Don't fix this with a `UserPromptSubmit` hook.** That only fires when the
+human user types something to the session — it does nothing for the actual
+need, which is the session noticing on its own and coming to the human. A hook
+keyed to the user's own input can't do that by construction.
+
+**Use a persistent background monitor over a poll loop instead** (Claude
+Code's `Monitor` tool, if your environment has one, or any equivalent
+long-running-process-with-notifications mechanism) — each new-mail event
+becomes a real, unprompted notification, not something surfaced only on the
+session's next turn:
+
+```bash
+cd /path/to/mailbox.py's/directory && while true; do
+  python3 -c "
+from mailbox import check
+r = check(lane_dir='/path/to/lane', role='your-role')
+for m in r['unread']:
+    first_line = m['msg'].splitlines()[0][:180] if m['msg'] else ''
+    flag = ' [NEEDS REPLY]' if m.get('needs_reply') else ''
+    print(f\"[qq-mailbox] {m['from']} -> your-role ({m['kind']}){flag}: {first_line}\")
+"
+  sleep 15
+done
+```
+
+This works cleanly because `check()`'s cursor is already idempotent and
+monotonic (see the design invariants above) — polling it on a loop never
+re-surfaces an already-seen message, so no separate "last seen" bookkeeping is
+needed. Run it as a persistent watch so it survives for the length of the
+session. This is a session-scoped fix, not a standing system service — it
+stops when the session ends. If mail needs to be surfaced even when no
+session is active, that's a different, bigger ask (a real background service)
+and shouldn't be reached for by default.
