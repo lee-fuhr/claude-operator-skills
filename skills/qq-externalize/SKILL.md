@@ -3,6 +3,8 @@ name: qq-externalize
 description: Externalize-first audit. Routes research, extraction, critique, summarization, and adversarial review to free/cheap models. Three-tier adversarial stack (cheap/mid/top) with cross-model voices. Cost kill switch. Claude synthesizes only. Use when routing may have drifted or to set up a convergent adversarial pass.
 ---
 
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
+
 # qq-externalize: externalize everything possible
 
 Forces maximum externalization of the current task to the cheapest model that fits. Call when you want to pressure-test whether Claude is doing work a free model should be doing, or to set up a full convergent adversarial flow.

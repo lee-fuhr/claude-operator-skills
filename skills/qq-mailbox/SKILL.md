@@ -13,6 +13,8 @@ metadata:
   bashPattern: []
 ---
 
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
+
 # Mailbox — coordination between concurrent Claude sessions
 
 Hardened, reusable version of a pattern that ran ad hoc all night in a live

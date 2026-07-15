@@ -1,0 +1,70 @@
+---
+permalink: /ww-notion-docs/
+title: "ww-notion-docs: stop guessing why your Notion content won't render"
+description: "Documents Notion's actual non-standard markdown flavor, table tags, callouts, escaping rules, so content stops silently failing to render the way you expect."
+layout: null
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ww-notion-docs: stop guessing why your Notion content won't render</title>
+<meta name="description" content="Documents Notion's actual non-standard markdown flavor, table tags, callouts, escaping rules, so content stops silently failing to render the way you expect.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ww-notion-docs: stop guessing why your Notion content won't render">
+<meta property="og:description" content="Documents Notion's actual non-standard markdown flavor, table tags, callouts, escaping rules, so content stops silently failing to render the way you expect.">
+<meta property="og:url" content="https://skills.leefuhr.com/ww-notion-docs/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ww-notion-docs: stop guessing why your Notion content won't render">
+<meta name="twitter:description" content="Documents Notion's actual non-standard markdown flavor, table tags, callouts, escaping rules, so content stops silently failing to render the way you expect.">
+<link rel="canonical" href="https://skills.leefuhr.com/ww-notion-docs/">
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #1a1a1a; background: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #14151a; }
+    a { color: #8ab4f8; }
+    code { background: #22242c; }
+    pre { background: #1a1c22 !important; }
+    hr { border-color: #333; }
+  }
+  h1 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 0.3rem; }
+  h2, h3 { margin-top: 2rem; }
+  code { background: #f2f2f2; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
+  pre { background: #f2f2f2; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 0.4rem 0.8rem 0.4rem 0; border-bottom: 1px solid #ddd; }
+  a { color: #0645ad; }
+  .home { font-size: 0.9rem; margin-bottom: 1.5rem; display: inline-block; }
+</style>
+</head>
+<body>
+<a class="home" href="/">&larr; all skills</a>
+<h1>ww-notion-docs</h1>
+
+<p><strong>The problem:</strong> Notion's block editor doesn't speak standard markdown, and it fails quietly. A pipe table just doesn't render. An escaped <code>\n</code> shows up as a literal backslash-n instead of a line break. Curly braces meant to set a block color turn into visible text if they're escaped wrong. None of it throws an error. You just find out later, when you look at the live page and something's broken.</p>
+
+<p>This documents Notion's actual markdown flavor (HTML <code><table></code> tags instead of pipes, <code><callout></code> tags, <code>{color="yellow_bg"}</code> for backgrounds, <code><empty-block/></code> for the vertical space Notion otherwise strips) plus the update patterns that keep an edit from silently failing: always fetch the page before <code>update_content</code>, since a stale <code>old_str</code> just won't match, and default to <code>update_content</code> over <code>replace_content</code>, since a full rewrite destroys whatever a reviewer already left on the page. The other half is the comments-based review cycle itself: comments aren't optional decoration, they're the only way a reviewer can see what changed without re-reading the whole document, so every content update gets one, anchored to the exact text it touched.</p>
+
+<h3>Key principles</h3>
+
+<ul>
+<li>Fetch before you edit, always; a stale <code>old_str</code> fails silently, not loudly</li>
+<li>Default to <code>update_content</code>; <code>replace_content</code> blows away everything already on the page, including reviewer edits</li>
+<li>Newlines have to be real newlines; an escaped <code>\n</code> renders as literal text</li>
+<li>Every change gets a comment anchored to it; without one, the reviewer has to re-read the whole document to find what moved</li>
+<li>Set a real icon on every page you create; Notion's default blank icon is not a real default</li>
+</ul>
+
+<hr>
+
+<p>Part of <a href="https://github.com/lee-fuhr/claude-operator-skills">Claude Code operator skills</a>, a collection of skills for running a real Claude Code setup.</p>
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+---
+permalink: /ww-skill-auditor/
+title: "ww-skill-auditor: know what a skill does before you install it"
+description: "Scans any third-party skill, plugin, or hook for prompt injection, credential theft, and remote-code-execution patterns before it ever runs on your machine."
+layout: null
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ww-skill-auditor: know what a skill does before you install it</title>
+<meta name="description" content="Scans any third-party skill, plugin, or hook for prompt injection, credential theft, and remote-code-execution patterns before it ever runs on your machine.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ww-skill-auditor: know what a skill does before you install it">
+<meta property="og:description" content="Scans any third-party skill, plugin, or hook for prompt injection, credential theft, and remote-code-execution patterns before it ever runs on your machine.">
+<meta property="og:url" content="https://skills.leefuhr.com/ww-skill-auditor/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ww-skill-auditor: know what a skill does before you install it">
+<meta name="twitter:description" content="Scans any third-party skill, plugin, or hook for prompt injection, credential theft, and remote-code-execution patterns before it ever runs on your machine.">
+<link rel="canonical" href="https://skills.leefuhr.com/ww-skill-auditor/">
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #1a1a1a; background: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #14151a; }
+    a { color: #8ab4f8; }
+    code { background: #22242c; }
+    pre { background: #1a1c22 !important; }
+    hr { border-color: #333; }
+  }
+  h1 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 0.3rem; }
+  h2, h3 { margin-top: 2rem; }
+  code { background: #f2f2f2; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
+  pre { background: #f2f2f2; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 0.4rem 0.8rem 0.4rem 0; border-bottom: 1px solid #ddd; }
+  a { color: #0645ad; }
+  .home { font-size: 0.9rem; margin-bottom: 1.5rem; display: inline-block; }
+</style>
+</head>
+<body>
+<a class="home" href="/">&larr; all skills</a>
+<h1>ww-skill-auditor</h1>
+
+<p><strong>The problem:</strong> A skill you install is a markdown file, sometimes a script too, that gets read straight into your agent's context and sometimes executed. It can ask your agent to read your <code>.env</code> file, pipe a remote script into <code>bash</code>, install a scheduled job, or quietly try to override its own instructions, and none of that is obvious from skimming the description on GitHub.</p>
+
+<p><code>ww-skill-auditor</code> reads the actual SKILL.md before it touches your system. Deterministic regex scans catch the known attack shapes: prompt-injection overrides, credential exfiltration, <code>curl | bash</code>, reverse shells, hook or LaunchAgent installation. A cheap-model second pass (Cerebras, free tier) catches paraphrased versions the regex misses. A short known-good author list lowers the bar for publishers you already trust; everyone else defaults to CAUTION even at zero pattern hits.</p>
+
+<h3>Commands</h3>
+
+<pre><code class="language-bash">
+python3 audit.py "&lt;author&gt;/&lt;repo&gt;/&lt;skill&gt;"          # npx skills add spec
+python3 audit.py "https://github.com/.../SKILL.md"  # raw, or blob/tree URL
+python3 audit.py --file /path/to/SKILL.md           # local file
+</code></pre>
+
+<table><thead><tr>
+<th>Exit code</th><th>Verdict</th><th>Meaning</th>
+</tr></thead><tbody>
+<tr><td>0</td><td>SAFE</td><td>No signals, known-good author. Proceed.</td></tr>
+<tr><td>1</td><td>CAUTION</td><td>Low-risk findings, or an unknown author. Review before approving.</td></tr>
+<tr><td>2</td><td>UNSAFE</td><td>High-risk pattern hit. Do not install.</td></tr>
+<tr><td>3</td><td>UNKNOWN</td><td>Could not fetch, or inconclusive. Do not install until the source is locatable.</td></tr>
+</tbody></table>
+
+<h3>Key principles</h3>
+
+<ul>
+<li>Severity scales with blast radius: medium for skills, high for agents and plugins, critical for hooks, since a hook runs automatically with nobody in the loop</li>
+<li>Pattern hits always override author reputation; a known-good author can still ship a regressed skill</li>
+<li>The semantic check fails open, no key means it silently skips, so a missing Cerebras key never blocks the deterministic half</li>
+<li>Never install on inferred consent; the verdict has to be visible to whoever approves, every time</li>
+</ul>
+
+<hr>
+
+<p>Part of <a href="https://github.com/lee-fuhr/claude-operator-skills">Claude Code operator skills</a>, a collection of skills for running a real Claude Code setup.</p>
+
+</body>
+</html>

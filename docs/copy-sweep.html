@@ -1,11 +1,14 @@
 ---
 permalink: /copy-sweep/
+title: "copy-sweep: catch AI-tell punctuation before it ever lands in a file"
+description: "Stop cleaning up em dashes and straight quotes after the fact. This hook blocks the write itself the moment a tell shows up, so the bad version never exists on disk in the first place."
 layout: null
 ---
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>copy-sweep: catch AI-tell punctuation before it ever lands in a file</title>
 <meta name="description" content="Stop cleaning up em dashes and straight quotes after the fact. This hook blocks the write itself the moment a tell shows up, so the bad version never exists on disk in the first place.">
 <meta property="og:type" content="website">
@@ -15,11 +18,114 @@ layout: null
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="copy-sweep: catch AI-tell punctuation before it ever lands in a file">
 <meta name="twitter:description" content="Stop cleaning up em dashes and straight quotes after the fact. This hook blocks the write itself the moment a tell shows up, so the bad version never exists on disk in the first place.">
-<link rel="canonical" href="https://github.com/lee-fuhr/claude-operator-skills#copy-sweep">
-<meta http-equiv="refresh" content="0; url=https://github.com/lee-fuhr/claude-operator-skills#copy-sweep">
-<script>window.location.replace('https://github.com/lee-fuhr/claude-operator-skills#copy-sweep');</script>
+<link rel="canonical" href="https://skills.leefuhr.com/copy-sweep/">
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #1a1a1a; background: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #14151a; }
+    a { color: #8ab4f8; }
+    code { background: #22242c; }
+    pre { background: #1a1c22 !important; }
+    hr { border-color: #333; }
+  }
+  h1 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 0.3rem; }
+  h2, h3 { margin-top: 2rem; }
+  code { background: #f2f2f2; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
+  pre { background: #f2f2f2; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 0.4rem 0.8rem 0.4rem 0; border-bottom: 1px solid #ddd; }
+  a { color: #0645ad; }
+  .home { font-size: 0.9rem; margin-bottom: 1.5rem; display: inline-block; }
+</style>
 </head>
 <body>
-<p>Redirecting to <a href="https://github.com/lee-fuhr/claude-operator-skills#copy-sweep">GitHub</a>...</p>
+<a class="home" href="/">&larr; all skills</a>
+<h1>copy-sweep</h1>
+
+<p><strong>The problem:</strong> Nobody sits down meaning to write an em dash or a straight quote into a draft, it</p>
+<p>just creeps in, one write at a time, until the tells are everywhere and you've stopped noticing</p>
+<p>them. The usual fix is a cleanup pass after the fact: catch what you can, hope you got it all.</p>
+<p>copy-sweep skips the pass entirely: the write fails before the tell ever exists.</p>
+
+<p><code>copy-sweep</code> is a <code>PreToolUse</code> hook. It has no command because you never invoke it; it fires on</p>
+<p>every <code>Write</code>/<code>Edit</code>/<code>MultiEdit</code> to a matching file, scans the new content before it's saved, and</p>
+<p>blocks the write if it finds a violation, and Claude gets a line-numbered list of exactly what's</p>
+<p>wrong and fixes it inline, same turn, before the bad version ever exists on disk. Which is a good</p>
+<p>moment to admit that I built this, then ran it on the repo you're reading, and found 272 em</p>
+<p>dashes I'd apparently written myself without noticing across every file in here, so any rule in</p>
+<p>this doc that sounds strict is strict because I've already been on the wrong end of it.</p>
+
+<h3>What it catches</h3>
+
+<p>Deterministic, on by default, zero model calls:</p>
+
+<table><thead><tr>
+<th>Check</th><th>Catches</th>
+</tr></thead><tbody>
+<tr><td><code>em_dash</code></td><td>A budget, not a ban: 0 allowed under 400 words, 1 allowed above it, and that one still has to earn its place</td></tr>
+<tr><td><code>straight_quote</code></td><td><code>"</code> where a curly quote <code>“ ”</code> belongs</td></tr>
+<tr><td><code>title_case</code></td><td><code>## The Big New Feature Launch</code> instead of <code>## The big new feature launch</code></td></tr>
+<tr><td><code>banned_phrase</code></td><td>Corporate-speak: leverage, synergy, touch base, cutting-edge, excited to announce, and more</td></tr>
+<tr><td><code>throat_clearing</code></td><td>“As you know,” “We're excited to announce”</td></tr>
+<tr><td><code>summary_crutch</code></td><td>“Bottom line:”, “Key takeaways:”</td></tr>
+<tr><td><code>we_pronoun</code></td><td>Off by default: a bare <code>We</code> in solo-voice copy, opt in if you write alone</td></tr>
+</tbody></table>
+
+<p>Semantic, off by default, needs a model call: <code>vague_pronoun</code>, <code>rule_of_three</code>, <code>pontificating</code>,</p>
+<p><code>staccato_cadence</code>.</p>
+<p>These catch patterns a regex genuinely can't; full explanation of the tradeoff (nondeterminism,</p>
+<p>latency, small API cost, fail-open by design) is in [the skill's own</p>
+<p>doc](skills/copy-sweep/SKILL.md#semantic-checks-off-by-default-read-this-first).</p>
+
+<h3>Install</h3>
+
+<p><strong>Easiest, just tell Claude:</strong></p>
+
+<p>> Install copy-sweep from https://github.com/lee-fuhr/claude-operator-skills and walk me through my config options.</p>
+
+<p>Claude does the file copy and the <code>settings.json</code> edit itself, then asks a handful of plain</p>
+<p>questions instead of handing you env var names to memorize: scope it to one folder or the</p>
+<p>whole repo, catch stray “We”s or not, turn on the deeper AI-graded checks or skip them, what</p>
+<p>counts as “long” for you. Full walkthrough script for Claude to follow is in [the skill's own</p>
+<p>doc](skills/copy-sweep/SKILL.md#install-just-tell-claude).</p>
+
+<p><strong>Manual, if you'd rather do it yourself:</strong></p>
+
+<pre><code class="language-bash">
+mkdir -p ~/.claude/hooks
+cp skills/copy-sweep/hooks/copy_sweep.py ~/.claude/hooks/copy_sweep.py
+chmod +x ~/.claude/hooks/copy_sweep.py
+</code></pre>
+
+<p>Then add this to <code>~/.claude/settings.json</code> (or <code>.claude/settings.json</code> for one repo only):</p>
+
+<pre><code class="language-json">
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "python3 ~/.claude/hooks/copy_sweep.py" }
+        ]
+      }
+    ]
+  }
+}
+</code></pre>
+
+<p>Restart Claude Code. Full config reference (scoping to a <code>drafts/</code> folder, turning <code>we_pronoun</code></p>
+<p>on, the one-off bypass flag) is in <code>skills/copy-sweep/SKILL.md</code>.</p>
+
+<hr>
+
+<p>Part of <a href="https://github.com/lee-fuhr/claude-operator-skills">Claude Code operator skills</a>, a collection of skills for running a real Claude Code setup.</p>
+
 </body>
 </html>

@@ -3,6 +3,8 @@ name: keepalive
 description: Stands up a self-relaying overnight worker in about 60 seconds, a `claude -p` loop that survives 5-hour caps, session death, and reboots so a long campaign keeps running while you're away from the keyboard. Owns the resilience mechanism (fresh `claude -p`, never `--resume`; gates + liveness checks + dual-account failover + `--permission-mode auto`; a one-paste plist install; and a standard queue.md/done.md tasklist scaffolded per campaign) so any campaign that needs to outlive a single session can build on this instead of reinventing it. Invoke when you say "keepalive", "keep it alive", "stand up a worker", "self-relaying worker", "overnight worker", "make it survive caps", or any autonomous-run skill needs the resilience backbone.
 ---
 
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
+
 # keepalive: the self-relaying overnight worker
 
 Most autonomous-run setups eventually re-invent the same thing: a loop that survives session caps, the same plist install, the same failover logic, each one built slightly differently and drifting out of sync over time. This skill is that one mechanism, built once, so anything that needs a long unattended run can build on it instead of reinventing it.

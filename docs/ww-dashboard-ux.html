@@ -1,0 +1,75 @@
+---
+permalink: /ww-dashboard-ux/
+title: "ww-dashboard-ux: a hard rulebook for dashboards that don't lie"
+description: "Three-part error messages, real drill-down architecture, and honest status display, a falsifiable rulebook for operational dashboards, not a vibe."
+layout: null
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ww-dashboard-ux: a hard rulebook for dashboards that don't lie</title>
+<meta name="description" content="Three-part error messages, real drill-down architecture, and honest status display, a falsifiable rulebook for operational dashboards, not a vibe.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ww-dashboard-ux: a hard rulebook for dashboards that don't lie">
+<meta property="og:description" content="Three-part error messages, real drill-down architecture, and honest status display, a falsifiable rulebook for operational dashboards, not a vibe.">
+<meta property="og:url" content="https://skills.leefuhr.com/ww-dashboard-ux/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ww-dashboard-ux: a hard rulebook for dashboards that don't lie">
+<meta name="twitter:description" content="Three-part error messages, real drill-down architecture, and honest status display, a falsifiable rulebook for operational dashboards, not a vibe.">
+<link rel="canonical" href="https://skills.leefuhr.com/ww-dashboard-ux/">
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #1a1a1a; background: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #14151a; }
+    a { color: #8ab4f8; }
+    code { background: #22242c; }
+    pre { background: #1a1c22 !important; }
+    hr { border-color: #333; }
+  }
+  h1 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 0.3rem; }
+  h2, h3 { margin-top: 2rem; }
+  code { background: #f2f2f2; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
+  pre { background: #f2f2f2; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 0.4rem 0.8rem 0.4rem 0; border-bottom: 1px solid #ddd; }
+  a { color: #0645ad; }
+  .home { font-size: 0.9rem; margin-bottom: 1.5rem; display: inline-block; }
+</style>
+</head>
+<body>
+<a class="home" href="/">&larr; all skills</a>
+<h1>ww-dashboard-ux</h1>
+
+<p><strong>The problem:</strong> An operational dashboard gets reached for at the worst possible moment: someone thinks something might be wrong, and they're often already stressed. That's exactly when a spinner with no error state, a status dot a colorblind person can't read, or a metric with no idea how stale it is does the most damage, and dashboards built without a deliberate stance on these fail in the same handful of predictable ways, over and over.</p>
+
+<p>Eight iron laws, unconditional, no “it depends.” They survived an adversarial process on purpose: several passes proposed principles against a real production dashboard, then a dedicated skeptic pass tried to kill each one, and only what stayed unconditional, falsifiable, and enforceable made the final eight.</p>
+
+<table><thead><tr>
+<th>Iron law</th><th>The one-line test</th>
+</tr></thead><tbody>
+<tr><td>Error messages</td><td>Says what happened, why it matters, what to do right now</td></tr>
+<tr><td>Status indicators</td><td>Never color alone; at least two independent encodings</td></tr>
+<tr><td>Metric age</td><td>Every stale-capable metric shows how old it is</td></tr>
+<tr><td>Action logging</td><td>Who, when, what, outcome, on every user-initiated action</td></tr>
+<tr><td>Modals</td><td>Close explicitly (button or Escape), never by timeout</td></tr>
+<tr><td>Alert triage</td><td>Urgency, not subjective severity</td></tr>
+<tr><td>Drill-down</td><td>Bounded depth, breadcrumbs, an explicit close</td></tr>
+<tr><td>Action surfaces</td><td>Tested to a live destination, never assumed to work</td></tr>
+</tbody></table>
+
+<p>Ten expert-lens frameworks (error states, notification design, drill-down architecture, data visualization, actionability, performance perception, accessibility, temporal patterns, navigation, data provenance) sit behind the table for a full audit; run one framework for a focused pass, or all ten for a pre-launch check.</p>
+
+<hr>
+
+<p>Part of <a href="https://github.com/lee-fuhr/claude-operator-skills">Claude Code operator skills</a>, a collection of skills for running a real Claude Code setup.</p>
+
+</body>
+</html>

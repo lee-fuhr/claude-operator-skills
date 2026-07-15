@@ -1,0 +1,70 @@
+---
+permalink: /ww-plan-audit/
+title: "ww-plan-audit: stress-test a plan before it becomes code"
+description: "A full gauntlet before a big plan gets built, not after it breaks: interview, anti-pattern hunt, multi-domain audit, and a pre-mortem that actually changes the design."
+layout: null
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ww-plan-audit: stress-test a plan before it becomes code</title>
+<meta name="description" content="A full gauntlet before a big plan gets built, not after it breaks: interview, anti-pattern hunt, multi-domain audit, and a pre-mortem that actually changes the design.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ww-plan-audit: stress-test a plan before it becomes code">
+<meta property="og:description" content="A full gauntlet before a big plan gets built, not after it breaks: interview, anti-pattern hunt, multi-domain audit, and a pre-mortem that actually changes the design.">
+<meta property="og:url" content="https://skills.leefuhr.com/ww-plan-audit/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ww-plan-audit: stress-test a plan before it becomes code">
+<meta name="twitter:description" content="A full gauntlet before a big plan gets built, not after it breaks: interview, anti-pattern hunt, multi-domain audit, and a pre-mortem that actually changes the design.">
+<link rel="canonical" href="https://skills.leefuhr.com/ww-plan-audit/">
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #1a1a1a; background: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #14151a; }
+    a { color: #8ab4f8; }
+    code { background: #22242c; }
+    pre { background: #1a1c22 !important; }
+    hr { border-color: #333; }
+  }
+  h1 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 0.3rem; }
+  h2, h3 { margin-top: 2rem; }
+  code { background: #f2f2f2; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
+  pre { background: #f2f2f2; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 0.4rem 0.8rem 0.4rem 0; border-bottom: 1px solid #ddd; }
+  a { color: #0645ad; }
+  .home { font-size: 0.9rem; margin-bottom: 1.5rem; display: inline-block; }
+</style>
+</head>
+<body>
+<a class="home" href="/">&larr; all skills</a>
+<h1>ww-plan-audit</h1>
+
+<p><strong>The problem:</strong> A plan reads fine in the moment you write it. The gap you didn't think to ask about, the assumption you didn't know you were making, the domain you didn't consider: none of that shows up until you're three milestones in and it's expensive to unwind. Auditing code after it's built catches bugs. Auditing a plan before it's built catches the thing that would have made the whole build go differently.</p>
+
+<p>This is the full gauntlet: ten passes over a plan before it ever becomes code. An interview surfaces what's in your head that the plan itself doesn't capture. A principles read checks it against your own standards. A multi-domain audit runs product, UX, security, and ten more lenses against the plan, not the code, so the wisdom gets front-loaded instead of discovered mid-build. A steelman routes the plan through two different external models for a real adversarial pass; Claude synthesizes, it never grades its own homework. A pre-mortem asks what kills this in six months. It converges, round after round, until nothing new survives, capped at three rounds so it can't loop forever.</p>
+
+<h3>Key principles</h3>
+
+<ul>
+<li>Interview first, before mechanical auditing starts: the best plans fail because they solved the wrong problem, not because they had technical gaps</li>
+<li>Domain audits on a plan are prophylactic, not corrective: “here are the accessibility patterns to follow,” not a bug report</li>
+<li>Every criticism gets steelmanned; roughly half of “critical issues” from a first pass are fear-driven and don't survive</li>
+<li>Convergence, not a single pass: one audit round finds about 60% of issues, the loop is what catches the rest</li>
+<li>The plan's owner stays in control throughout; findings get presented, never silently applied</li>
+</ul>
+
+<hr>
+
+<p>Part of <a href="https://github.com/lee-fuhr/claude-operator-skills">Claude Code operator skills</a>, a collection of skills for running a real Claude Code setup.</p>
+
+</body>
+</html>

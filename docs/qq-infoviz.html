@@ -1,0 +1,78 @@
+---
+permalink: /qq-infoviz/
+title: "qq-infoviz: turn a dataset into a chart worth publishing"
+description: "Turns a dataset into an editorial-quality, branded chart image in minutes, no design tool, no manual export, no third round of tweaking axis labels."
+layout: null
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>qq-infoviz: turn a dataset into a chart worth publishing</title>
+<meta name="description" content="Turns a dataset into an editorial-quality, branded chart image in minutes, no design tool, no manual export, no third round of tweaking axis labels.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="qq-infoviz: turn a dataset into a chart worth publishing">
+<meta property="og:description" content="Turns a dataset into an editorial-quality, branded chart image in minutes, no design tool, no manual export, no third round of tweaking axis labels.">
+<meta property="og:url" content="https://skills.leefuhr.com/qq-infoviz/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="qq-infoviz: turn a dataset into a chart worth publishing">
+<meta name="twitter:description" content="Turns a dataset into an editorial-quality, branded chart image in minutes, no design tool, no manual export, no third round of tweaking axis labels.">
+<link rel="canonical" href="https://skills.leefuhr.com/qq-infoviz/">
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #1a1a1a; background: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #14151a; }
+    a { color: #8ab4f8; }
+    code { background: #22242c; }
+    pre { background: #1a1c22 !important; }
+    hr { border-color: #333; }
+  }
+  h1 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 0.3rem; }
+  h2, h3 { margin-top: 2rem; }
+  code { background: #f2f2f2; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
+  pre { background: #f2f2f2; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 0.4rem 0.8rem 0.4rem 0; border-bottom: 1px solid #ddd; }
+  a { color: #0645ad; }
+  .home { font-size: 0.9rem; margin-bottom: 1.5rem; display: inline-block; }
+</style>
+</head>
+<body>
+<a class="home" href="/">&larr; all skills</a>
+<h1>qq-infoviz</h1>
+
+<p><strong>The problem:</strong> A LinkedIn chart made with default matplotlib styling reads as a data science notebook, not something worth a thumb pausing on mid-scroll. Data-heavy posts get skipped past unless the numbers are the most visually dominant thing on the canvas, and getting there by hand, in a design tool, for every post, doesn't scale.</p>
+
+<p><code>qq-infoviz</code> renders a self-contained HTML file through Playwright at a fixed 1200x627 canvas, LinkedIn's own optimal ratio, using one converged brand system: Source Serif 4 for the numbers, Inter for the labels, a dark navy background, and a small fixed palette tinted per stat. Five chart types cover most stories: horizontal bars for ranked metrics, a stat grid for equal-weight scorecards, vertical columns for descending scale, a newspaper layout for one hero stat plus supporting context, and a quote-plus-stat strip for provocative copy backed by a number.</p>
+
+<h3>Commands</h3>
+
+<pre><code class="language-bash">
+python3 screenshot.py /tmp/infoviz-chart.html /tmp/chart-linkedin.png 1200 627
+</code></pre>
+
+<p>Width and height have to be passed explicitly; the script's own default is a 1800x1800 square built for a different canvas.</p>
+
+<h3>Key principles</h3>
+
+<ul>
+<li>Data is the point: exaggerated sizes, big serif numbers, minimal whitespace</li>
+<li>Fills go bottom-up, always; a top-down fill is treated as a defect</li>
+<li>Sentence-flow labels (“85% don't name a single machine they run”), not a stat stacked over a caption</li>
+<li>Fewer, bigger stats beat more, smaller ones: three huge numbers outperform six tiny ones</li>
+<li>Never guess at the data, query your own source, and never skip opening the rendered image to actually look at it</li>
+</ul>
+
+<hr>
+
+<p>Part of <a href="https://github.com/lee-fuhr/claude-operator-skills">Claude Code operator skills</a>, a collection of skills for running a real Claude Code setup.</p>
+
+</body>
+</html>

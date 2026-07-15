@@ -1,11 +1,14 @@
 ---
 permalink: /qq-weekend-burn/
+title: "qq-weekend-burn: put your unused Claude quota to work every week"
+description: "Your subscription resets its quota weekly whether you used it or not. This fires itself on a schedule, works one real thing to a finished state, and stands down the moment you're back. Install once, it runs forever."
 layout: null
 ---
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>qq-weekend-burn: put your unused Claude quota to work every week</title>
 <meta name="description" content="Your subscription resets its quota weekly whether you used it or not. This fires itself on a schedule, works one real thing to a finished state, and stands down the moment you're back. Install once, it runs forever.">
 <meta property="og:type" content="website">
@@ -15,11 +18,74 @@ layout: null
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="qq-weekend-burn: put your unused Claude quota to work every week">
 <meta name="twitter:description" content="Your subscription resets its quota weekly whether you used it or not. This fires itself on a schedule, works one real thing to a finished state, and stands down the moment you're back. Install once, it runs forever.">
-<link rel="canonical" href="https://github.com/lee-fuhr/claude-operator-skills#qq-weekend-burn">
-<meta http-equiv="refresh" content="0; url=https://github.com/lee-fuhr/claude-operator-skills#qq-weekend-burn">
-<script>window.location.replace('https://github.com/lee-fuhr/claude-operator-skills#qq-weekend-burn');</script>
+<link rel="canonical" href="https://skills.leefuhr.com/qq-weekend-burn/">
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #1a1a1a; background: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #14151a; }
+    a { color: #8ab4f8; }
+    code { background: #22242c; }
+    pre { background: #1a1c22 !important; }
+    hr { border-color: #333; }
+  }
+  h1 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 0.3rem; }
+  h2, h3 { margin-top: 2rem; }
+  code { background: #f2f2f2; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
+  pre { background: #f2f2f2; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 0.4rem 0.8rem 0.4rem 0; border-bottom: 1px solid #ddd; }
+  a { color: #0645ad; }
+  .home { font-size: 0.9rem; margin-bottom: 1.5rem; display: inline-block; }
+</style>
 </head>
 <body>
-<p>Redirecting to <a href="https://github.com/lee-fuhr/claude-operator-skills#qq-weekend-burn">GitHub</a>...</p>
+<a class="home" href="/">&larr; all skills</a>
+<h1>qq-weekend-burn</h1>
+
+<p><strong>The value:</strong> A Claude subscription resets its quota every week whether you used it or not, that part everyone already knows. What doesn't happen on its own is someone actually sitting down and driving a long autonomous session by hand, every single Saturday, forever. <code>qq-weekend-burn</code> turns “put the unused quota to work” from a thing you keep meaning to get around to into a standing decision you make exactly once.</p>
+
+<p><strong>The benefit:</strong> Install it and walk away. It fires itself inside a recurring window you choose (Friday evening through Sunday night, say), works one real capability at a time to an actual finished state, and stands down the moment you're back at the keyboard. You come back Monday to shipped things, not a pile of half-touched projects and a wasted week of quota.</p>
+
+<p><strong>The features:</strong></p>
+
+<ul>
+<li>A recurring calendar schedule that fires itself, every week, with no re-invocation: install once</li>
+<li>A finish-discipline doctrine: one project worked to a real terminal state before the next starts, so a long unattended run ships finished things instead of a dozen started ones</li>
+<li>An intake standard: a fuzzy backlog item is never dropped; it's tagged <code>needs-definition</code> and gets your single most capable model for exactly one job (writing a clear definition of done), then drops straight back to normal cheap-model execution</li>
+<li>A kill switch where the word you write decides the failure mode: <code>PAUSE</code> self-heals after a TTL, <code>STOP</code> holds until you clear it, anything else gets flagged loudly instead of silently obeyed</li>
+<li>Built on <code>keepalive</code> (also in this repo) for the actual session-survival mechanism: the fresh-process-per-fire trick that means a 5-hour cap, a closed laptop, or a reboot never stops the schedule. You don't invoke <code>keepalive</code> yourself; <code>/qq-weekend-burn</code> does it for you.</li>
+</ul>
+
+<h3>Commands</h3>
+
+<pre><code>
+/qq-weekend-burn   — stand up a new weekend-burn lane: write the governing doc, seed the
+                      backlog, wire the recurring window function, and hand you the
+                      one-paste install block for the actual schedule
+</code></pre>
+
+<h3>How to invoke it</h3>
+
+<p>Deterministic, not a phrase Claude has to guess at: run <code>/qq-weekend-burn</code>. Claude scaffolds every file the schedule needs (the governing doc, the backlog, the window function, the state) and hands you a one-paste block to install the actual recurring trigger yourself. That last step is always yours: the platform's safety classifier blocks an agent installing its own unattended loop, on purpose.</p>
+
+<h3>Key principles</h3>
+
+<ul>
+<li>Sequence, not a cap: a productive burn finishes many things, just one at a time</li>
+<li>“The code ran” is not done; done is the observable finish line, verified</li>
+<li>A human-gated step doesn't block the run: stage it, mark it, move to the next project</li>
+<li>Unused quota at reset is wasted, not saved</li>
+</ul>
+
+<hr>
+
+<p>Part of <a href="https://github.com/lee-fuhr/claude-operator-skills">Claude Code operator skills</a>, a collection of skills for running a real Claude Code setup.</p>
+
 </body>
 </html>

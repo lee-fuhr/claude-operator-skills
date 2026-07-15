@@ -1,11 +1,14 @@
 ---
 permalink: /qq-audit/
+title: "qq-audit: the quality check Claude can't run on its own code"
+description: "Get outside eyes on what Claude built, UX, security, performance, and 10 more angles it can't judge fairly on its own. 255 expert lenses across 13 domains, smart-routed. Took one production dashboard from a 57.5 usability score to 92.5 in three rounds."
 layout: null
 ---
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>qq-audit: the quality check Claude can't run on its own code</title>
 <meta name="description" content="Get outside eyes on what Claude built, UX, security, performance, and 10 more angles it can't judge fairly on its own. 255 expert lenses across 13 domains, smart-routed. Took one production dashboard from a 57.5 usability score to 92.5 in three rounds.">
 <meta property="og:type" content="website">
@@ -15,11 +18,108 @@ layout: null
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="qq-audit: the quality check Claude can't run on its own code">
 <meta name="twitter:description" content="Get outside eyes on what Claude built, UX, security, performance, and 10 more angles it can't judge fairly on its own. 255 expert lenses across 13 domains, smart-routed. Took one production dashboard from a 57.5 usability score to 92.5 in three rounds.">
-<link rel="canonical" href="https://github.com/lee-fuhr/claude-operator-skills#qq-audit">
-<meta http-equiv="refresh" content="0; url=https://github.com/lee-fuhr/claude-operator-skills#qq-audit">
-<script>window.location.replace('https://github.com/lee-fuhr/claude-operator-skills#qq-audit');</script>
+<link rel="canonical" href="https://skills.leefuhr.com/qq-audit/">
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #1a1a1a; background: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #14151a; }
+    a { color: #8ab4f8; }
+    code { background: #22242c; }
+    pre { background: #1a1c22 !important; }
+    hr { border-color: #333; }
+  }
+  h1 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 0.3rem; }
+  h2, h3 { margin-top: 2rem; }
+  code { background: #f2f2f2; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
+  pre { background: #f2f2f2; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 0.4rem 0.8rem 0.4rem 0; border-bottom: 1px solid #ddd; }
+  a { color: #0645ad; }
+  .home { font-size: 0.9rem; margin-bottom: 1.5rem; display: inline-block; }
+</style>
 </head>
 <body>
-<p>Redirecting to <a href="https://github.com/lee-fuhr/claude-operator-skills#qq-audit">GitHub</a>...</p>
+<a class="home" href="/">&larr; all skills</a>
+<h1>qq-audit</h1>
+
+<p><strong>The problem:</strong> Claude wrote your code, your copy, and your architecture, which is exactly why it can't audit any of it fairly, it already believes its own intentions were the right call. You need lenses that don't know what you meant to build, only what actually got built, applied domain by domain.</p>
+
+<p>This is the master command for <a href="https://github.com/lee-fuhr/audit-framework">audit-framework</a>: 255 expert lenses across 13 quality dimensions. It analyzes your project, picks the right domains in the right order, and runs each serially, fixing issues before moving to the next domain so fixes compound.</p>
+
+<h3>Commands</h3>
+
+<pre><code>
+/qq-audit                   — smart routing: picks the right domains for your project
+/qq-audit [domains]         — run specific domains (e.g. "ux + copy")
+/qq-audit pre-launch        — 8 domains before going live
+/qq-audit quick             — UX + Visual + Copy fast check
+/qq-audit post-build        — UX + Visual + Copy + Frontend after a feature
+/qq-audit deep              — all 13 domains
+/qq-audit list              — show all 13 domains with framework counts
+</code></pre>
+
+<h3>The 13 domains</h3>
+
+<table><thead><tr>
+<th>Domain</th><th>Command</th><th>Frameworks</th><th>Expert lens</th>
+</tr></thead><tbody>
+<tr><td>UX</td><td><code>/qq-audit-ux</code></td><td>20</td><td>Does the brain work well with this?</td></tr>
+<tr><td>Product</td><td><code>/qq-audit-product</code></td><td>20</td><td>Is this the right product?</td></tr>
+<tr><td>Visual UI</td><td><code>/qq-audit-visual</code></td><td>22</td><td>Does this look professional?</td></tr>
+<tr><td>Content/Copy</td><td><code>/qq-audit-copy</code></td><td>22</td><td>Is the writing good?</td></tr>
+<tr><td>Frontend</td><td><code>/qq-audit-frontend</code></td><td>22</td><td>Is the code well-built?</td></tr>
+<tr><td>Performance</td><td><code>/qq-audit-performance</code></td><td>22</td><td>Is it fast?</td></tr>
+<tr><td>Security</td><td><code>/qq-audit-security</code></td><td>23</td><td>Is it safe?</td></tr>
+<tr><td>QA/Testing</td><td><code>/qq-audit-testing</code></td><td>22</td><td>Is it tested?</td></tr>
+<tr><td>Backend/API</td><td><code>/qq-audit-backend</code></td><td>22</td><td>Is the server-side solid?</td></tr>
+<tr><td>SEO</td><td><code>/qq-audit-seo</code></td><td>15</td><td>Can people find it?</td></tr>
+<tr><td>DevOps</td><td><code>/qq-audit-devops</code></td><td>15</td><td>Is it deployable and resilient?</td></tr>
+<tr><td>Data Quality</td><td><code>/qq-audit-data</code></td><td>15</td><td>Is the data trustworthy?</td></tr>
+<tr><td>Compliance</td><td><code>/qq-audit-compliance</code></td><td>15</td><td>Is it legally sound?</td></tr>
+<tr><td><strong>Total</strong></td><td></td><td><strong>255</strong></td><td></td></tr>
+</tbody></table>
+
+<h3>Convergence protocol</h3>
+
+<p>Each domain runs up to 3 rounds. Round 1 finds ~60% of issues. Round 2 finds 25% more: fixes from round 1 expose new problems. Round 3 catches the last 10–15%. Move on when a domain hits 9.5/10 or exhausts 3 rounds.</p>
+
+<pre><code>
+UX: Round 1 = 7.2 → Round 2 = 8.8 → Round 3 = 9.6 ✓ — moving to Visual
+Visual: Round 1 = 8.1 → Round 2 = 9.7 ✓ — moving to Copy
+</code></pre>
+
+<h3>Results</h3>
+
+<p>Measured on a production Next.js dashboard (170+ components, UX domain):</p>
+
+<table><thead><tr>
+<th></th><th>Score</th><th>Fixes</th>
+</tr></thead><tbody>
+<tr><td>Baseline</td><td>SUS 57.5</td><td>0</td></tr>
+<tr><td>After round 1</td><td>SUS 77.5</td><td>100+</td></tr>
+<tr><td>After round 2</td><td>SUS 90.0</td><td>45</td></tr>
+<tr><td>After round 3</td><td>SUS 92.5</td><td>8</td></tr>
+<tr><td>Ceiling</td><td>~93–95</td><td>Remaining issues are product decisions</td></tr>
+</tbody></table>
+
+<h3>Domain sequencing</h3>
+
+<p>No point auditing visual design when UX is broken: you'll redesign those screens anyway. Domains run in dependency order:</p>
+
+<pre><code>
+Product → UX → Visual → Copy → Frontend → Backend → Performance
+       → Security → Testing → SEO → DevOps → Data → Compliance
+</code></pre>
+
+<hr>
+
+<p>Part of <a href="https://github.com/lee-fuhr/claude-operator-skills">Claude Code operator skills</a>, a collection of skills for running a real Claude Code setup.</p>
+
 </body>
 </html>

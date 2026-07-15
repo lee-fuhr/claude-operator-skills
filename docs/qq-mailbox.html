@@ -1,11 +1,14 @@
 ---
 permalink: /qq-mailbox/
+title: "qq-mailbox: two Claude Code sessions that just talk to each other"
+description: "Stop pasting a prompt from one terminal into another by hand, every handoff, all night. An overseer session and a builder session each drop messages the other picks up on its own schedule, so neither loses the thread if one restarts."
 layout: null
 ---
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>qq-mailbox: two Claude Code sessions that just talk to each other</title>
 <meta name="description" content="Stop pasting a prompt from one terminal into another by hand, every handoff, all night. An overseer session and a builder session each drop messages the other picks up on its own schedule, so neither loses the thread if one restarts.">
 <meta property="og:type" content="website">
@@ -15,11 +18,64 @@ layout: null
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="qq-mailbox: two Claude Code sessions that just talk to each other">
 <meta name="twitter:description" content="Stop pasting a prompt from one terminal into another by hand, every handoff, all night. An overseer session and a builder session each drop messages the other picks up on its own schedule, so neither loses the thread if one restarts.">
-<link rel="canonical" href="https://github.com/lee-fuhr/claude-operator-skills#qq-mailbox">
-<meta http-equiv="refresh" content="0; url=https://github.com/lee-fuhr/claude-operator-skills#qq-mailbox">
-<script>window.location.replace('https://github.com/lee-fuhr/claude-operator-skills#qq-mailbox');</script>
+<link rel="canonical" href="https://skills.leefuhr.com/qq-mailbox/">
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #1a1a1a; background: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #14151a; }
+    a { color: #8ab4f8; }
+    code { background: #22242c; }
+    pre { background: #1a1c22 !important; }
+    hr { border-color: #333; }
+  }
+  h1 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 0.3rem; }
+  h2, h3 { margin-top: 2rem; }
+  code { background: #f2f2f2; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
+  pre { background: #f2f2f2; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 0.4rem 0.8rem 0.4rem 0; border-bottom: 1px solid #ddd; }
+  a { color: #0645ad; }
+  .home { font-size: 0.9rem; margin-bottom: 1.5rem; display: inline-block; }
+</style>
 </head>
 <body>
-<p>Redirecting to <a href="https://github.com/lee-fuhr/claude-operator-skills#qq-mailbox">GitHub</a>...</p>
+<a class="home" href="/">&larr; all skills</a>
+<h1>qq-mailbox</h1>
+
+<p><strong>The problem:</strong> Running an expensive model as the orchestrator over cheaper builder models is accepted practice at this point, nobody needs convincing that the two-tier setup is right. What's still unsolved is how. Subagents look like the obvious way to build it, until you notice they reload their whole context on every single call, burning tokens and losing the thread each time. The real fix is two genuinely separate sessions, an overseer and a builder, each holding its own full context the whole way through. But then you hit the actual wall: nothing lets two independent Claude Code sessions talk to each other. The usual workaround is pasting a prompt from one terminal into the other by hand, every handoff, all night.</p>
+
+<p>This isn't a command, it's a Python import: two named roles, each appending only to the file where it's the sender, so there's nothing to collide on and nothing to lock. <code>check()</code> needs a lane directory and a role name; it finds its own unread messages, groups them by kind, and tells you what actually needs a reply.</p>
+
+<h3>The two calls</h3>
+
+<pre><code class="language-python">
+from mailbox import send, check
+
+send(lane, from_role="builder", to_role="overseer", kind="design-task", msg="...")
+result = check(lane, role="overseer")
+# result["action_needed"] -&gt; messages that actually need a response
+</code></pre>
+
+<h3>Key principles</h3>
+
+<ul>
+<li>One append-only file per directed pair of roles. A role only ever writes to files where it's the sender, so two processes can never collide on the same write.</li>
+<li>A reply is a new message, never an edit to someone else's line. Append-only holds everywhere, no exceptions.</li>
+<li>Cursor state is temp-file-then-rename, never a direct write, and it's monotonic under a race: two overlapping reads can double-surface a message, never lose one.</li>
+<li>Role names are job titles, not model names. <code>builder</code>/<code>overseer</code> survives a model swap; <code>opus</code>/<code>fable</code> doesn't (a lesson learned by shipping the second one first, then having to explain why that was a mistake in the same session).</li>
+</ul>
+
+<p>Full worked example, kind taxonomy, and the invariants behind each design choice are in <a href="https://github.com/lee-fuhr/claude-operator-skills/blob/main/skills/qq-mailbox/SKILL.md">the skill's own doc</a>.</p>
+
+<hr>
+
+<p>Part of <a href="https://github.com/lee-fuhr/claude-operator-skills">Claude Code operator skills</a>, a collection of skills for running a real Claude Code setup.</p>
+
 </body>
 </html>

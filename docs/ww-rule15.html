@@ -1,0 +1,70 @@
+---
+permalink: /ww-rule15/
+title: "ww-rule15: stop mistaking a rendered screen for a working feature"
+description: "Forces a real trace from trigger to outcome before anything gets marked done, PASS, PARTIAL, COSMETIC, or BROKEN, graded on evidence, not on the UI looking right."
+layout: null
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ww-rule15: stop mistaking a rendered screen for a working feature</title>
+<meta name="description" content="Forces a real trace from trigger to outcome before anything gets marked done, PASS, PARTIAL, COSMETIC, or BROKEN, graded on evidence, not on the UI looking right.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ww-rule15: stop mistaking a rendered screen for a working feature">
+<meta property="og:description" content="Forces a real trace from trigger to outcome before anything gets marked done, PASS, PARTIAL, COSMETIC, or BROKEN, graded on evidence, not on the UI looking right.">
+<meta property="og:url" content="https://skills.leefuhr.com/ww-rule15/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ww-rule15: stop mistaking a rendered screen for a working feature">
+<meta name="twitter:description" content="Forces a real trace from trigger to outcome before anything gets marked done, PASS, PARTIAL, COSMETIC, or BROKEN, graded on evidence, not on the UI looking right.">
+<link rel="canonical" href="https://skills.leefuhr.com/ww-rule15/">
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #1a1a1a; background: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #14151a; }
+    a { color: #8ab4f8; }
+    code { background: #22242c; }
+    pre { background: #1a1c22 !important; }
+    hr { border-color: #333; }
+  }
+  h1 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 0.3rem; }
+  h2, h3 { margin-top: 2rem; }
+  code { background: #f2f2f2; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
+  pre { background: #f2f2f2; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 0.4rem 0.8rem 0.4rem 0; border-bottom: 1px solid #ddd; }
+  a { color: #0645ad; }
+  .home { font-size: 0.9rem; margin-bottom: 1.5rem; display: inline-block; }
+</style>
+</head>
+<body>
+<a class="home" href="/">&larr; all skills</a>
+<h1>ww-rule15</h1>
+
+<p><strong>The problem:</strong> “Done” gets said more often than it's true. A button changes color, nothing saved, nothing sent, nobody downstream ever sees the change, and nobody notices for three weeks, because the code path exists even though the outcome never happened.</p>
+
+<p>Rule 15 forces a stated outcome in one sentence before anything else happens, traces the actual action chain from trigger to outcome, and checks the feedback loop (success state, error state, loading state) on every mutation. Effort scales with what changed: touch more than one file and the floor rises to checking integration points; touch a hook or a shared config and the floor is a real behavioral test, not “the file exists.” And the implementer's own reasoning never counts as the check: any PASS verdict at medium effort or higher needs evidence from outside the person who built it, pasted command output, a grep, a full test run, not “I expect it would return...”. A PASS without that evidence auto-downgrades to PARTIAL.</p>
+
+<h3>Key principles</h3>
+
+<ul>
+<li>The intended outcome is a sentence, stated first, never inferred after the fact</li>
+<li>Every mutation needs a success state, an error state, and a loading state, or it's PARTIAL</li>
+<li>Effort floors scale with blast radius and can't be self-downgraded by the person doing the work</li>
+<li>External evidence is mandatory at medium effort or higher; the implementer's own word is not evidence</li>
+<li>“Works in the code” but doesn't deliver the outcome is COSMETIC, not done</li>
+</ul>
+
+<hr>
+
+<p>Part of <a href="https://github.com/lee-fuhr/claude-operator-skills">Claude Code operator skills</a>, a collection of skills for running a real Claude Code setup.</p>
+
+</body>
+</html>

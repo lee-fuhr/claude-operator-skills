@@ -10,6 +10,8 @@ triggers:
   - "what now"
 ---
 
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
+
 # Smart next move
 
 Things are clicking, you're in flow, and there's a sense that you're not done, that there's a smart next move right here you don't want to miss.

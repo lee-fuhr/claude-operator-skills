@@ -1,0 +1,70 @@
+---
+permalink: /ww-overnight-runner/
+title: "ww-overnight-runner: a real contract for working while you're away"
+description: "What to decide alone, what to stop for, how to hand off cleanly, so a long unattended run doesn't freeze on every judgment call or barrel through something irreversible."
+layout: null
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ww-overnight-runner: a real contract for working while you're away</title>
+<meta name="description" content="What to decide alone, what to stop for, how to hand off cleanly, so a long unattended run doesn't freeze on every judgment call or barrel through something irreversible.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ww-overnight-runner: a real contract for working while you're away">
+<meta property="og:description" content="What to decide alone, what to stop for, how to hand off cleanly, so a long unattended run doesn't freeze on every judgment call or barrel through something irreversible.">
+<meta property="og:url" content="https://skills.leefuhr.com/ww-overnight-runner/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ww-overnight-runner: a real contract for working while you're away">
+<meta name="twitter:description" content="What to decide alone, what to stop for, how to hand off cleanly, so a long unattended run doesn't freeze on every judgment call or barrel through something irreversible.">
+<link rel="canonical" href="https://skills.leefuhr.com/ww-overnight-runner/">
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #1a1a1a; background: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #14151a; }
+    a { color: #8ab4f8; }
+    code { background: #22242c; }
+    pre { background: #1a1c22 !important; }
+    hr { border-color: #333; }
+  }
+  h1 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 0.3rem; }
+  h2, h3 { margin-top: 2rem; }
+  code { background: #f2f2f2; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
+  pre { background: #f2f2f2; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 0.4rem 0.8rem 0.4rem 0; border-bottom: 1px solid #ddd; }
+  a { color: #0645ad; }
+  .home { font-size: 0.9rem; margin-bottom: 1.5rem; display: inline-block; }
+</style>
+</head>
+<body>
+<a class="home" href="/">&larr; all skills</a>
+<h1>ww-overnight-runner</h1>
+
+<p><strong>The problem:</strong> You hand off a multi-hour work queue and walk away, and everything downstream of that moment is a gamble. An agent that stops to ask permission on every judgment call burns the whole night waiting on you. An agent that never stops might quietly delete something, push to main, or send a message it shouldn't have. Neither failure announces itself until morning, and by then it's too late to redirect.</p>
+
+<p>This is the actual contract, not a hope. It sets decision rules for choosing without you in the loop (reuse existing patterns, prefer reversible changes, validate small then broaden), a short list of true blockers that always stop the work (missing credentials, anything destructive or irreversible, a decision you explicitly reserved), and a place for every non-blocking question to land instead of interrupting you: a <code>QUESTIONS-FOR-YOU.md</code> file, triaged in the morning instead of pinged at 2am. Status lives on a phone-checkable surface with a three-second glance test: a health callout and a status row above the fold, nothing else. And because in-session task state doesn't survive a context compaction, the results file, not the task tracker, is the ground truth on resume.</p>
+
+<h3>Key principles</h3>
+
+<ul>
+<li>Default to non-blocking; only escalate to blocking if the wrong choice risks data loss or something irreversible</li>
+<li>Never delete data, send external messages, or push to main without explicitly flagging it, no exceptions</li>
+<li>The results file is ground truth on resume; in-session task tracking does not survive compaction</li>
+<li>A failed task gets one retry with a different approach, then it's logged and you move on, never a silent loop</li>
+<li>Silence is not a green light; an autonomous choice made without you gets logged as a decision, not buried in a diff</li>
+</ul>
+
+<hr>
+
+<p>Part of <a href="https://github.com/lee-fuhr/claude-operator-skills">Claude Code operator skills</a>, a collection of skills for running a real Claude Code setup.</p>
+
+</body>
+</html>

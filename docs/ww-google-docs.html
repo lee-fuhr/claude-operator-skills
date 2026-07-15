@@ -1,0 +1,69 @@
+---
+permalink: /ww-google-docs/
+title: "ww-google-docs: make generated docs match your house style"
+description: "Two proven methods for making a Google Doc built by an API actually look like your house style instead of Google's defaults, the difference between a doc that reads generated and one that doesn't."
+layout: null
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ww-google-docs: make generated docs match your house style</title>
+<meta name="description" content="Two proven methods for making a Google Doc built by an API actually look like your house style instead of Google's defaults, the difference between a doc that reads generated and one that doesn't.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ww-google-docs: make generated docs match your house style">
+<meta property="og:description" content="Two proven methods for making a Google Doc built by an API actually look like your house style instead of Google's defaults, the difference between a doc that reads generated and one that doesn't.">
+<meta property="og:url" content="https://skills.leefuhr.com/ww-google-docs/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ww-google-docs: make generated docs match your house style">
+<meta name="twitter:description" content="Two proven methods for making a Google Doc built by an API actually look like your house style instead of Google's defaults, the difference between a doc that reads generated and one that doesn't.">
+<link rel="canonical" href="https://skills.leefuhr.com/ww-google-docs/">
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #1a1a1a; background: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #14151a; }
+    a { color: #8ab4f8; }
+    code { background: #22242c; }
+    pre { background: #1a1c22 !important; }
+    hr { border-color: #333; }
+  }
+  h1 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 0.3rem; }
+  h2, h3 { margin-top: 2rem; }
+  code { background: #f2f2f2; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
+  pre { background: #f2f2f2; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 0.4rem 0.8rem 0.4rem 0; border-bottom: 1px solid #ddd; }
+  a { color: #0645ad; }
+  .home { font-size: 0.9rem; margin-bottom: 1.5rem; display: inline-block; }
+</style>
+</head>
+<body>
+<a class="home" href="/">&larr; all skills</a>
+<h1>ww-google-docs</h1>
+
+<p><strong>The problem:</strong> The Google Docs API defaults to Arial, default spacing, and default margins, none of which is anyone's actual house style. A document headed to a client or a teammate who's seen your other docs before reads as generic in a way that's easy to notice and hard to unsee once you've seen it.</p>
+
+<p>Two reliable methods, and the API is honest about the tradeoff between them. Copying an already-styled template and pouring content into it guarantees an exact match, since the copy inherits the source doc's named styles and theme, but only works if a clean template exists to copy. Explicit named-style requests work on any fresh doc, but every style in your table has to be pushed through <code>updateTextStyle</code> and <code>updateParagraphStyle</code> by hand, since a fresh doc's named styles are still Google's defaults underneath. Either way, a successful API response is not proof the doc looks right: only a read-back, re-fetching the document and confirming the styles and links actually landed, is.</p>
+
+<h3>Key principles</h3>
+
+<ul>
+<li>Build your own house-style table once (font, size, weight, spacing per named style) before starting; everything else assumes it already exists</li>
+<li>Prefer copying a styled template over explicit style requests whenever a clean template exists; it's less work and less error-prone</li>
+<li>Hyperlink the descriptive text, never a bare “link”</li>
+<li>The read-back is mandatory; a successful insert or update response never proves the style actually applied</li>
+</ul>
+
+<hr>
+
+<p>Part of <a href="https://github.com/lee-fuhr/claude-operator-skills">Claude Code operator skills</a>, a collection of skills for running a real Claude Code setup.</p>
+
+</body>
+</html>

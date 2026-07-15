@@ -1,0 +1,69 @@
+---
+permalink: /ww-agent-watchdog/
+title: "ww-agent-watchdog: verify another agent's work without redoing it"
+description: "Points at a finished session, PR, or branch and produces an evidence-based gap report on whether it actually did what was asked."
+layout: null
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ww-agent-watchdog: verify another agent's work without redoing it</title>
+<meta name="description" content="Points at a finished session, PR, or branch and produces an evidence-based gap report on whether it actually did what was asked.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ww-agent-watchdog: verify another agent's work without redoing it">
+<meta property="og:description" content="Points at a finished session, PR, or branch and produces an evidence-based gap report on whether it actually did what was asked.">
+<meta property="og:url" content="https://skills.leefuhr.com/ww-agent-watchdog/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ww-agent-watchdog: verify another agent's work without redoing it">
+<meta name="twitter:description" content="Points at a finished session, PR, or branch and produces an evidence-based gap report on whether it actually did what was asked.">
+<link rel="canonical" href="https://skills.leefuhr.com/ww-agent-watchdog/">
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #1a1a1a; background: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #14151a; }
+    a { color: #8ab4f8; }
+    code { background: #22242c; }
+    pre { background: #1a1c22 !important; }
+    hr { border-color: #333; }
+  }
+  h1 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 0.3rem; }
+  h2, h3 { margin-top: 2rem; }
+  code { background: #f2f2f2; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
+  pre { background: #f2f2f2; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 0.4rem 0.8rem 0.4rem 0; border-bottom: 1px solid #ddd; }
+  a { color: #0645ad; }
+  .home { font-size: 0.9rem; margin-bottom: 1.5rem; display: inline-block; }
+</style>
+</head>
+<body>
+<a class="home" href="/">&larr; all skills</a>
+<h1>ww-agent-watchdog</h1>
+
+<p><strong>The problem:</strong> An agent finishes a session and reports “done,” and you have no independent way to know if that's true. Reading the whole transcript to check takes about as long as doing the work yourself. Trusting the summary means trusting the exact thing you're trying to verify.</p>
+
+<p><code>ww-agent-watchdog</code> treats the user's original request as the source of truth, not the other agent's claim about what it did. It resolves whatever artifact you point it at, a session ID, a transcript, a PR, a branch, a pasted summary, reconstructs the real contract (the request, the constraints, the implied acceptance criteria), and checks evidence instead of prose: the actual diff, the actual test output, the actual CI state, screenshots instead of a description of a screenshot. Each finding gets classified as a gap, a bug, a verification miss, scope drift, or genuinely no issue. If you've authorized repair, it fixes narrowly, the clear gaps only, and stops rather than guessing when a fix would need a product decision or a destructive action.</p>
+
+<h3>Key principles</h3>
+
+<ul>
+<li>Evidence over claims: read the diff, run the actual command, check the actual CI state</li>
+<li>The user's original request is the source of truth, never the watched agent's own summary of it</li>
+<li>Fix narrowly when authorized; a fix that needs a product decision gets reported, not guessed at</li>
+<li>If authority is unclear, default to audit-only and say what you would fix</li>
+</ul>
+
+<hr>
+
+<p>Part of <a href="https://github.com/lee-fuhr/claude-operator-skills">Claude Code operator skills</a>, a collection of skills for running a real Claude Code setup.</p>
+
+</body>
+</html>

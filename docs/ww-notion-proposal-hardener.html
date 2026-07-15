@@ -1,0 +1,70 @@
+---
+permalink: /ww-notion-proposal-hardener/
+title: "ww-notion-proposal-hardener: stop losing edits to Notion's silent failures"
+description: "Documents three real, reproducible ways Notion's API silently drops or misapplies edits, and the checks that catch each one before a review round quietly loses work."
+layout: null
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ww-notion-proposal-hardener: stop losing edits to Notion's silent failures</title>
+<meta name="description" content="Documents three real, reproducible ways Notion's API silently drops or misapplies edits, and the checks that catch each one before a review round quietly loses work.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ww-notion-proposal-hardener: stop losing edits to Notion's silent failures">
+<meta property="og:description" content="Documents three real, reproducible ways Notion's API silently drops or misapplies edits, and the checks that catch each one before a review round quietly loses work.">
+<meta property="og:url" content="https://skills.leefuhr.com/ww-notion-proposal-hardener/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ww-notion-proposal-hardener: stop losing edits to Notion's silent failures">
+<meta name="twitter:description" content="Documents three real, reproducible ways Notion's API silently drops or misapplies edits, and the checks that catch each one before a review round quietly loses work.">
+<link rel="canonical" href="https://skills.leefuhr.com/ww-notion-proposal-hardener/">
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #1a1a1a; background: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #14151a; }
+    a { color: #8ab4f8; }
+    code { background: #22242c; }
+    pre { background: #1a1c22 !important; }
+    hr { border-color: #333; }
+  }
+  h1 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 0.3rem; }
+  h2, h3 { margin-top: 2rem; }
+  code { background: #f2f2f2; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
+  pre { background: #f2f2f2; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 0.4rem 0.8rem 0.4rem 0; border-bottom: 1px solid #ddd; }
+  a { color: #0645ad; }
+  .home { font-size: 0.9rem; margin-bottom: 1.5rem; display: inline-block; }
+</style>
+</head>
+<body>
+<a class="home" href="/">&larr; all skills</a>
+<h1>ww-notion-proposal-hardener</h1>
+
+<p><strong>The problem:</strong> The Notion API will tell you an edit succeeded when it silently dropped half your patches. It'll tell you a comment anchor is unique when a phrase that repeats three paragraphs down makes it ambiguous. Both failures are invisible until someone reads the live document closely, usually the reviewer you were revising it for.</p>
+
+<p>This names the three specific ways the API misleads you and pairs each with the check that catches it. <code>update_content</code> returns success even when an <code>old_str</code> doesn't match (a stray em dash, a bold marker, a discussion-span wrapper around the target text), so every patch gets re-verified against a fresh fetch, never trusted from the response alone. Comment anchoring searches the whole document for the closing phrase, not just your target block, so before posting a comment you count how many times that phrase appears anywhere later in the page; more than once means the anchor is ambiguous and needs tightening. And <code>notion-get-comments</code> itself can silently under-return: an open comment the UI shows plainly can come back as zero results from the API, so the API's comment count is treated as a floor, never a complete count, and confirmed against the reviewer's own screenshot when it matters.</p>
+
+<h3>Key principles</h3>
+
+<ul>
+<li>Re-fetch and verify after every <code>update_content</code> call; a success response is not proof anything actually changed</li>
+<li>Count occurrences of the end phrase before anchoring a comment; local uniqueness in your target block isn't enough</li>
+<li>A discussion-span wrapper blocks a plain <code>old_str</code> match; include the span itself in the patch, or the edit silently skips</li>
+<li>Treat the API's comment list as a floor, not a ceiling; confirm completeness against the reviewer's own view when it matters</li>
+<li>Before any <code>replace_content</code>, record every open thread's anchor text and summary first; a full rewrite destroys every inline anchor at once</li>
+</ul>
+
+<hr>
+
+<p>Part of <a href="https://github.com/lee-fuhr/claude-operator-skills">Claude Code operator skills</a>, a collection of skills for running a real Claude Code setup.</p>
+
+</body>
+</html>

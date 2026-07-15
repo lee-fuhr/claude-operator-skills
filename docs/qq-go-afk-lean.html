@@ -1,0 +1,70 @@
+---
+permalink: /qq-go-afk-lean/
+title: "qq-go-afk-lean: conserve your Claude usage as a repeatable discipline"
+description: "Pushes research, extraction, and critique to free models by default, and spends Claude tokens only on synthesis, voice, and calls that are genuinely hard to reverse."
+layout: null
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>qq-go-afk-lean: conserve your Claude usage as a repeatable discipline</title>
+<meta name="description" content="Pushes research, extraction, and critique to free models by default, and spends Claude tokens only on synthesis, voice, and calls that are genuinely hard to reverse.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="qq-go-afk-lean: conserve your Claude usage as a repeatable discipline">
+<meta property="og:description" content="Pushes research, extraction, and critique to free models by default, and spends Claude tokens only on synthesis, voice, and calls that are genuinely hard to reverse.">
+<meta property="og:url" content="https://skills.leefuhr.com/qq-go-afk-lean/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="qq-go-afk-lean: conserve your Claude usage as a repeatable discipline">
+<meta name="twitter:description" content="Pushes research, extraction, and critique to free models by default, and spends Claude tokens only on synthesis, voice, and calls that are genuinely hard to reverse.">
+<link rel="canonical" href="https://skills.leefuhr.com/qq-go-afk-lean/">
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #1a1a1a; background: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #14151a; }
+    a { color: #8ab4f8; }
+    code { background: #22242c; }
+    pre { background: #1a1c22 !important; }
+    hr { border-color: #333; }
+  }
+  h1 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 0.3rem; }
+  h2, h3 { margin-top: 2rem; }
+  code { background: #f2f2f2; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
+  pre { background: #f2f2f2; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 0.4rem 0.8rem 0.4rem 0; border-bottom: 1px solid #ddd; }
+  a { color: #0645ad; }
+  .home { font-size: 0.9rem; margin-bottom: 1.5rem; display: inline-block; }
+</style>
+</head>
+<body>
+<a class="home" href="/">&larr; all skills</a>
+<h1>qq-go-afk-lean</h1>
+
+<p><strong>The problem:</strong> Left to its own habits, an autonomous or long-running session drifts back to the expensive model one convenient call at a time. Nothing forces the drift, it just happens, and by the time the weekly quota is gone you didn't get nearly as much done as the quota should have bought.</p>
+
+<p><code>qq-go-afk-lean</code> is a standing posture, not a one-off routing decision. Every unit of work defaults to the cheapest capable model: Groq or Cerebras first (free), Ollama for anything private, DeepSeek Flash as the paid anchor that essentially never rate-limits. Claude is reserved for exactly four things: final synthesis of what the cheap models produced, voice and copy (the one place cheap models genuinely damage quality instead of just costing more), irreversible or architectural judgment, and deep reasoning an external model has already demonstrably failed at, never preemptively. On a 429 or a timeout, the rule is always “try a different external model,” never “fall back to Claude to just get it done,” since that defeats the entire posture. It composes with pace, not against it: a bounded one-task-at-a-time run and a wide fan-out run are both still lean as long as the workers doing the actual work are external and Claude only judges the result.</p>
+
+<h3>Key principles</h3>
+
+<ul>
+<li>The bar to spend a Claude token is high: you have to be able to say why no external model could've done it</li>
+<li>Escalate to Claude only after an external model actually fails, never preemptively</li>
+<li>Every externalized step gets labeled with which model handled it; silence on routing is non-compliance</li>
+<li>Token source and pace are separate decisions; lean composes with either a bounded cadence or a wide fan-out</li>
+<li>Overnight, a question that needs a human never stalls the worker; it goes in a running questions file while the next unblocked unit starts immediately</li>
+</ul>
+
+<hr>
+
+<p>Part of <a href="https://github.com/lee-fuhr/claude-operator-skills">Claude Code operator skills</a>, a collection of skills for running a real Claude Code setup.</p>
+
+</body>
+</html>

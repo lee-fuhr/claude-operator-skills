@@ -11,6 +11,8 @@ triggers:
   - "comprehensive audit"
 ---
 
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
+
 # Master audit router
 
 Routes to 13 domain-specific audit skills (255 expert lenses total) based on what the project needs. Knows which domains matter for which kinds of work and sequences them intelligently.

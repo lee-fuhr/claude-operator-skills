@@ -1,11 +1,14 @@
 ---
 permalink: /qq-externalize/
+title: "qq-externalize: route work to free models, not your Claude subscription"
+description: "Save your Claude subscription for the calls that actually need judgment. This skill sends research, extraction, and critique to free models (Groq, DeepSeek, Gemini, Ollama) automatically, no manual routing."
 layout: null
 ---
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>qq-externalize: route work to free models, not your Claude subscription</title>
 <meta name="description" content="Save your Claude subscription for the calls that actually need judgment. This skill sends research, extraction, and critique to free models (Groq, DeepSeek, Gemini, Ollama) automatically, no manual routing.">
 <meta property="og:type" content="website">
@@ -15,11 +18,93 @@ layout: null
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="qq-externalize: route work to free models, not your Claude subscription">
 <meta name="twitter:description" content="Save your Claude subscription for the calls that actually need judgment. This skill sends research, extraction, and critique to free models (Groq, DeepSeek, Gemini, Ollama) automatically, no manual routing.">
-<link rel="canonical" href="https://github.com/lee-fuhr/claude-operator-skills#qq-externalize">
-<meta http-equiv="refresh" content="0; url=https://github.com/lee-fuhr/claude-operator-skills#qq-externalize">
-<script>window.location.replace('https://github.com/lee-fuhr/claude-operator-skills#qq-externalize');</script>
+<link rel="canonical" href="https://skills.leefuhr.com/qq-externalize/">
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #1a1a1a; background: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #14151a; }
+    a { color: #8ab4f8; }
+    code { background: #22242c; }
+    pre { background: #1a1c22 !important; }
+    hr { border-color: #333; }
+  }
+  h1 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 0.3rem; }
+  h2, h3 { margin-top: 2rem; }
+  code { background: #f2f2f2; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
+  pre { background: #f2f2f2; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 0.4rem 0.8rem 0.4rem 0; border-bottom: 1px solid #ddd; }
+  a { color: #0645ad; }
+  .home { font-size: 0.9rem; margin-bottom: 1.5rem; display: inline-block; }
+</style>
 </head>
 <body>
-<p>Redirecting to <a href="https://github.com/lee-fuhr/claude-operator-skills#qq-externalize">GitHub</a>...</p>
+<a class="home" href="/">&larr; all skills</a>
+<h1>qq-externalize</h1>
+
+<p><strong>The problem:</strong> Free models are genuinely good enough now for research, extraction, and critique, that's not really in dispute anymore. What's still happening is Claude does that work anyway, out of habit, and every one of those calls bills your subscription for something a free model would've handled the same way for nothing.</p>
+
+<p>This skill audits the current task, routes everything externalizable to a free model, and flags anything Claude did that it shouldn't have. In adversarial mode, it runs your plan through Groq (first-principles critique) + Gemini (alternative framing), then has Claude synthesize only the criticisms that survive.</p>
+
+<h3>Commands</h3>
+
+<pre><code>
+/qq-externalize              — audit current task, produce routing plan, execute
+/qq-externalize [task]       — route a specific task to the right free model
+/qq-externalize adversarial  — cross-model adversarial pass on what's in context
+/qq-externalize help         — print command list only
+</code></pre>
+
+<h3>What it produces</h3>
+
+<pre><code>
+ROUTING PLAN
+============
+EXTERNALIZE (free/cheap):
+  - Research Stripe API rate limits → Groq (fact-finding, no judgment needed)
+  - Summarize this 8,000-word spec → Groq (extraction)
+  - Critique the architecture plan → Groq + Gemini (adversarial)
+
+KEEP (Claude only):
+  - Synthesize critique outputs → Sonnet (judgment required)
+  - Write the implementation → Sonnet (multi-file code)
+
+EXTERNALIZATION SCORECARD
+=========================
+Externalized: 3 subtasks → Groq ×2, Gemini ×1
+Kept in Claude: 2 subtasks (justified)
+Claude work that should have been externalized: 0
+</code></pre>
+
+<h3>Model routing card</h3>
+
+<table><thead><tr>
+<th>Task</th><th>Route to</th><th>Why</th>
+</tr></thead><tbody>
+<tr><td>Research, fact-finding</td><td>Groq (Llama 3.3 70B)</td><td>Free, 128K context, fastest</td></tr>
+<tr><td>Extraction, classification</td><td>Groq</td><td>Free, structured output</td></tr>
+<tr><td>Summarization</td><td>Groq</td><td>Free, reliable</td></tr>
+<tr><td>Structured JSON, detailed analysis</td><td>DeepSeek V3</td><td>Clean structured output, near-free</td></tr>
+<tr><td>Critique, plan stress-test</td><td>Groq + Gemini</td><td>Cross-model divergence = real adversarial pressure</td></tr>
+<tr><td>Second opinion, alternative framing</td><td>DeepSeek or Gemini</td><td>Different training = different blind spots</td></tr>
+<tr><td>Large context (>100K tokens)</td><td>Gemini</td><td>1M token context window</td></tr>
+<tr><td>Private data, simple transforms</td><td>Ollama</td><td>Local, nothing leaves your machine</td></tr>
+<tr><td>Synthesis, multi-file code</td><td>Claude</td><td>Worth paying for</td></tr>
+<tr><td>Irreversible decisions</td><td>Claude Opus</td><td>Worth paying for</td></tr>
+</tbody></table>
+
+<p>> [!NOTE]</p>
+<p>> The invocation patterns in Step 2 of the skill file use generic API calls. Adapt them to match whatever client libraries you've installed.</p>
+
+<hr>
+
+<p>Part of <a href="https://github.com/lee-fuhr/claude-operator-skills">Claude Code operator skills</a>, a collection of skills for running a real Claude Code setup.</p>
+
 </body>
 </html>

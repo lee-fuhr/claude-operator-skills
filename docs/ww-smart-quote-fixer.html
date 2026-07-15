@@ -1,0 +1,78 @@
+---
+permalink: /ww-smart-quote-fixer/
+title: "ww-smart-quote-fixer: get quotes and apostrophes actually right"
+description: "Converts straight quotes into proper typographic quotes and apostrophes, correctly handling the cases a naive find-replace gets wrong: nested quotes, decades, measurements."
+layout: null
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ww-smart-quote-fixer: get quotes and apostrophes actually right</title>
+<meta name="description" content="Converts straight quotes into proper typographic quotes and apostrophes, correctly handling the cases a naive find-replace gets wrong: nested quotes, decades, measurements.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ww-smart-quote-fixer: get quotes and apostrophes actually right">
+<meta property="og:description" content="Converts straight quotes into proper typographic quotes and apostrophes, correctly handling the cases a naive find-replace gets wrong: nested quotes, decades, measurements.">
+<meta property="og:url" content="https://skills.leefuhr.com/ww-smart-quote-fixer/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ww-smart-quote-fixer: get quotes and apostrophes actually right">
+<meta name="twitter:description" content="Converts straight quotes into proper typographic quotes and apostrophes, correctly handling the cases a naive find-replace gets wrong: nested quotes, decades, measurements.">
+<link rel="canonical" href="https://skills.leefuhr.com/ww-smart-quote-fixer/">
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #1a1a1a; background: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #14151a; }
+    a { color: #8ab4f8; }
+    code { background: #22242c; }
+    pre { background: #1a1c22 !important; }
+    hr { border-color: #333; }
+  }
+  h1 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 0.3rem; }
+  h2, h3 { margin-top: 2rem; }
+  code { background: #f2f2f2; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
+  pre { background: #f2f2f2; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 0.4rem 0.8rem 0.4rem 0; border-bottom: 1px solid #ddd; }
+  a { color: #0645ad; }
+  .home { font-size: 0.9rem; margin-bottom: 1.5rem; display: inline-block; }
+</style>
+</head>
+<body>
+<a class="home" href="/">&larr; all skills</a>
+<h1>ww-smart-quote-fixer</h1>
+
+<p><strong>The problem:</strong> Every AI model defaults to straight typewriter quotes, <code>'</code> and <code>"</code>, and real typography doesn't use them. An editor spots a straight quote in a paragraph of running prose in about half a second, and it reads as unpolished, or machine-written, even when nothing else about the copy is wrong. Fixing it by hand means catching every apostrophe, every nested quote, every decade abbreviation, and every foot-and-inch mark without breaking the ones that were already right, or the ones sitting inside a code block where a straight quote is correct.</p>
+
+<p>This does the conversion deterministically instead of a naive find-and-replace that gets the hard cases wrong: the decade gotcha (<code>'90s</code> is a right curly quote, not a left one, even at the start of the token), nested quotes (outer double, inner single), measurements (<code>6′2″</code>, not <code>6'2"</code>), all while leaving fenced code blocks, inline code, file paths, and regex untouched. Short text gets fixed inline by reading it carefully; anything longer runs through a bundled script that handles plain text, markdown, and <code>.docx</code> (preserving bold, italic, and links) alike.</p>
+
+<h3>Commands</h3>
+
+<pre><code class="language-bash">
+python scripts/fix_quotes.py input.md &gt; output.md
+python scripts/fix_quotes.py input.docx -o output.docx
+</code></pre>
+
+<p><code>--no-primes</code> converts measurement quotes to straight marks instead of primes; <code>--apostrophes-only</code> is safe mode, apostrophes only, leaves double quotes alone.</p>
+
+<h3>Key principles</h3>
+
+<ul>
+<li>Produce curly quotes from the start when writing editorial prose; don't write straight and rely on a cleanup pass after</li>
+<li>Code blocks, inline code, file paths, and technical syntax are always exempt</li>
+<li>The decade abbreviation is a right quote, not a left one, the single most common typography mistake</li>
+<li>Some apostrophe cases are genuinely ambiguous (<code>dogs' food</code> vs. <code>dog's food</code>); trust editorial judgment over the script's guess</li>
+</ul>
+
+<hr>
+
+<p>Part of <a href="https://github.com/lee-fuhr/claude-operator-skills">Claude Code operator skills</a>, a collection of skills for running a real Claude Code setup.</p>
+
+</body>
+</html>

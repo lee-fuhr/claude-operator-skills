@@ -3,6 +3,8 @@ name: weekend-burn
 description: Puts your unused weekly Claude quota to work automatically. Weekend burn is a standing, every-weekend cadence (not a one-off campaign) that fires itself inside a recurring window (e.g. Friday evening through Sunday night) and burns the full weekly Claude subscription quota before it resets, finishing ONE real capability completely before starting the next so a productive weekend ships many finished things and never a pile of half-done ones. Builds on the `keepalive` skill for the actual resilience mechanism (fresh `claude -p`, gates, dual-account failover) and adds the recurring-schedule + self-healing kill-switch layer on top. Invoke when you say "weekend burn", "set up a weekend burn", "burn the quota", "run every weekend", "standing weekly cadence", "recurring autonomous campaign", "use the whole week's quota", or want a repeating (not one-off) autonomous run that finishes real, categorical capabilities on a schedule instead of running once and stopping.
 ---
 
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
+
 # Weekend burn: the recurring, quota-burning cadence
 
 **One-line pitch:** a subscription-quota-based Claude plan resets weekly. Most of that quota goes unused because nobody is driving it on a Saturday. Weekend burn is a standing schedule that drives it anyway: automatically, every week, inside a recurring window, with enough discipline that it produces *finished capabilities*, not a pile of half-touched projects.
