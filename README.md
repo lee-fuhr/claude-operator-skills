@@ -499,6 +499,10 @@ result = check(lane, role="overseer")
 - Cursor state is temp-file-then-rename, never a direct write, and it’s monotonic under a race: two overlapping reads can double-surface a message, never lose one.
 - Role names are job titles, not model names. `builder`/`overseer` survives a model swap; `opus`/`fable` doesn’t (a lesson learned by shipping the second one first, then having to explain why that was a mistake in the same session).
 
+### Getting told, not just able to ask
+
+`check()` alone is pull-only — someone has to remember to call it. Point a persistent background watch (Claude Code’s `Monitor` tool, or an equivalent) at a poll loop over `check()` and mail arriving becomes a real trigger, not a log line: read it, act on it, reply, in the same turn — the same as if the human had said it to you directly. A `UserPromptSubmit` hook can’t do this; it only fires when the human types, not when the other session does.
+
 Full worked example, kind taxonomy, and the invariants behind each design choice are in [the skill’s own doc](skills/qq-mailbox/SKILL.md).
 
 ---

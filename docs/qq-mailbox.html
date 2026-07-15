@@ -1,7 +1,7 @@
 ---
 permalink: /qq-mailbox/
 title: "qq-mailbox: two Claude Code sessions that just talk to each other"
-description: "Stop pasting a prompt from one terminal into another by hand, every handoff, all night. An overseer session and a builder session each drop messages the other picks up on its own schedule, so neither loses the thread if one restarts."
+description: "Stop pasting a prompt from one terminal into another by hand, every handoff, all night. An overseer session and a builder session drop messages for each other, and a background watch turns arrival into a real trigger to act, not a schedule to check later."
 layout: null
 ---
 <!doctype html>
@@ -10,14 +10,14 @@ layout: null
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>qq-mailbox: two Claude Code sessions that just talk to each other</title>
-<meta name="description" content="Stop pasting a prompt from one terminal into another by hand, every handoff, all night. An overseer session and a builder session each drop messages the other picks up on its own schedule, so neither loses the thread if one restarts.">
+<meta name="description" content="Stop pasting a prompt from one terminal into another by hand, every handoff, all night. An overseer session and a builder session drop messages for each other, and a background watch turns arrival into a real trigger to act, not a schedule to check later.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="qq-mailbox: two Claude Code sessions that just talk to each other">
-<meta property="og:description" content="Stop pasting a prompt from one terminal into another by hand, every handoff, all night. An overseer session and a builder session each drop messages the other picks up on its own schedule, so neither loses the thread if one restarts.">
+<meta property="og:description" content="Stop pasting a prompt from one terminal into another by hand, every handoff, all night. An overseer session and a builder session drop messages for each other, and a background watch turns arrival into a real trigger to act, not a schedule to check later.">
 <meta property="og:url" content="https://skills.leefuhr.com/qq-mailbox/">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="qq-mailbox: two Claude Code sessions that just talk to each other">
-<meta name="twitter:description" content="Stop pasting a prompt from one terminal into another by hand, every handoff, all night. An overseer session and a builder session each drop messages the other picks up on its own schedule, so neither loses the thread if one restarts.">
+<meta name="twitter:description" content="Stop pasting a prompt from one terminal into another by hand, every handoff, all night. An overseer session and a builder session drop messages for each other, and a background watch turns arrival into a real trigger to act, not a schedule to check later.">
 <link rel="canonical" href="https://skills.leefuhr.com/qq-mailbox/">
 <style>
   :root { color-scheme: light dark; }
@@ -70,6 +70,10 @@ result = check(lane, role="overseer")
 <li>Cursor state is temp-file-then-rename, never a direct write, and it’s monotonic under a race: two overlapping reads can double-surface a message, never lose one.</li>
 <li>Role names are job titles, not model names. <code>builder</code>/<code>overseer</code> survives a model swap; <code>opus</code>/<code>fable</code> doesn’t (a lesson learned by shipping the second one first, then having to explain why that was a mistake in the same session).</li>
 </ul>
+
+<h3>Getting told, not just able to ask</h3>
+
+<p><code>check()</code> alone is pull-only — someone has to remember to call it. Point a persistent background watch (Claude Code’s <code>Monitor</code> tool, or an equivalent) at a poll loop over <code>check()</code> and mail arriving becomes a real trigger, not a log line: read it, act on it, reply, in the same turn — the same as if the human had said it to you directly. A <code>UserPromptSubmit</code> hook can’t do this; it only fires when the human types, not when the other session does.</p>
 
 <p>Full worked example, kind taxonomy, and the invariants behind each design choice are in <a href="https://github.com/lee-fuhr/claude-operator-skills/blob/main/skills/qq-mailbox/SKILL.md">the skill’s own doc</a>.</p>
 
