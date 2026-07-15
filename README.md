@@ -98,7 +98,11 @@ cp -r skills/qq-externalize skills/qq-smart-next-move skills/qq-audit-master ski
 cp commands/qq-externalize.md commands/qq-smart-next-move.md commands/qq-audit.md commands/qq-weekend-burn.md ~/.claude/commands/
 ```
 
-`ww-keepalive` and `qq-mailbox` have no `commands/*.md` of their own. `ww-keepalive` is the mechanism `/qq-weekend-burn` runs on under the hood; `qq-mailbox` is a Python import (`from mailbox import send, check`), not a slash command. Both just need to be present in `~/.claude/skills/` alongside the rest.
+`ww-keepalive` and `qq-mailbox` have no `commands/*.md` of their own, so typing `/ww-keepalive` or
+`/qq-mailbox` only loads the skill doc into context, it doesn’t run anything by itself. `ww-keepalive`
+is the mechanism `/qq-weekend-burn` runs on under the hood; `qq-mailbox`’s real usage is a Python
+import (`from mailbox import send, check`) once its doc is loaded. Both just need to be present in
+`~/.claude/skills/` alongside the rest.
 
 **`ww-copy-sweep` is a hook, not a skill.** It doesn’t go in `~/.claude/skills/` at all, and there’s
 no command to copy. See its own section below for the two-step install (copy the script, add one
