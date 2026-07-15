@@ -1,6 +1,6 @@
 ---
 name: ww-rule15
-description: “Mandatory end-to-end verification before claiming any feature is DONE, working, shipped, or verified. Invoke with /rule15 before marking features complete, after implementing features, or when auditing existing features for cosmetic code. Triggers: claiming something works, marking DONE in plans, before commits that close features, auditing the roadmap. A feature is DONE when its intended outcome is delivered, not when its UI renders.”
+description: “Mandatory end-to-end verification before claiming any feature is DONE, working, shipped, or verified. Invoke with /ww-rule15 before marking features complete, after implementing features, or when auditing existing features for cosmetic code. Triggers: claiming something works, marking DONE in plans, before commits that close features, auditing the roadmap. A feature is DONE when its intended outcome is delivered, not when its UI renders.”
 ---
 
 > Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.

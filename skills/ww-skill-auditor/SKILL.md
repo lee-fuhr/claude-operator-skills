@@ -1,6 +1,6 @@
 ---
 name: ww-skill-auditor
-description: Audit any agent skill, plugin, hook, or external Markdown instruction file before installing or trusting it. Fetches the SKILL.md from GitHub (or accepts a local path or URL), runs deterministic pattern scans for prompt injection, credential exfiltration, dangerous shell commands, hook installation, and supply-chain code execution, then runs a cheap-model semantic check. Returns SAFE / CAUTION / UNSAFE / UNKNOWN with specific findings. Use this skill whenever you or another skill is about to install a third-party skill, when evaluating an unknown component from `npx skills add`, when reviewing a SKILL.md from an external source, when a marketplace or repo is being added, or any time you say “audit this skill,” “is this safe to install,” “/skill-auditor,” “check this skill before installing,” or point to an external skill, plugin, or hook to evaluate.
+description: Audit any agent skill, plugin, hook, or external Markdown instruction file before installing or trusting it. Fetches the SKILL.md from GitHub (or accepts a local path or URL), runs deterministic pattern scans for prompt injection, credential exfiltration, dangerous shell commands, hook installation, and supply-chain code execution, then runs a cheap-model semantic check. Returns SAFE / CAUTION / UNSAFE / UNKNOWN with specific findings. Use this skill whenever you or another skill is about to install a third-party skill, when evaluating an unknown component from `npx skills add`, when reviewing a SKILL.md from an external source, when a marketplace or repo is being added, or any time you say “audit this skill,” “is this safe to install,” “/ww-skill-auditor,” “check this skill before installing,” or point to an external skill, plugin, or hook to evaluate.
 ---
 
 > Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
@@ -95,7 +95,7 @@ Edit `KNOWN_GOOD_AUTHORS` in `audit.py`. Add author handles only after you’ve 
 
 ## When to call this directly
 
-- Someone says “audit this skill” / “is X safe to install” / “/skill-auditor X”
+- Someone says “audit this skill” / “is X safe to install” / “/ww-skill-auditor X”
 - Someone shares a GitHub URL pointing to a SKILL.md and asks about it
 - You’re an automated agent proposing to install a skill on your own
 

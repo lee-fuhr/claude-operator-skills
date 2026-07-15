@@ -161,7 +161,7 @@ SLUG="ka-${SID:0:8}-mylane"                 # first 8 of the session id + a shor
 LANE="$HOME/path/to/your/campaigns/_${SLUG}" # wherever this campaign's state dir should live
 TAG="KEEPALIVE-${SLUG^^}-WORKER"            # unique pgrep banner the brain prints each chunk
 LABEL="com.yourname.${SLUG}-keepalive"
-SKILL="$HOME/.claude/skills/keepalive/templates"
+SKILL="$HOME/.claude/skills/ww-keepalive/templates"
 
 # 2. Scaffold the lane from templates (THE TASKLIST STANDARD: queue.md + done.md always).
 mkdir -p "$LANE"
@@ -228,7 +228,7 @@ Any skill that runs a bounded (one-task-per-cycle, delegate-and-verify) or max-e
 reference this skill instead. Each keeps ONLY its posture section (the brain personality) and adopts
 a one-line reference for the entire resilience backbone:
 
-> **Resilience backbone:** stand up the kept-alive via the `keepalive` skill (`~/.claude/skills/keepalive/SKILL.md`). It owns the fresh-`claude -p` mechanism (never `--resume`), the keepalive.sh gates + pgrep-banner liveness + interactive interlock + dual-account failover + `--permission-mode auto`, the user-run one-paste plist install, and the tasklist.md standard (queue.md + done.md scaffolded in the lane). This skill supplies ONLY the brain’s POSTURE for the `resume.md` template’s `__POSTURE__` slot: bounded = one bounded unit/cycle, the top-tier model writes specs + QCs, cheap models execute, no fan-out. Max-effort = workflows-spawning-workflows, audit-gated, use the quota.
+> **Resilience backbone:** stand up the kept-alive via the `ww-keepalive` skill (`~/.claude/skills/ww-keepalive/SKILL.md`). It owns the fresh-`claude -p` mechanism (never `--resume`), the keepalive.sh gates + pgrep-banner liveness + interactive interlock + dual-account failover + `--permission-mode auto`, the user-run one-paste plist install, and the tasklist.md standard (queue.md + done.md scaffolded in the lane). This skill supplies ONLY the brain’s POSTURE for the `resume.md` template’s `__POSTURE__` slot: bounded = one bounded unit/cycle, the top-tier model writes specs + QCs, cheap models execute, no fan-out. Max-effort = workflows-spawning-workflows, audit-gated, use the quota.
 
 That single line replaces: the “THE ONE NON-NEGOTIABLE MECHANISM LESSON” block, the keepalive.sh
 template, the gates list, the interlock paragraph, the dual-account paragraph, the `--permission-
