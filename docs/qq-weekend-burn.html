@@ -48,18 +48,18 @@ layout: null
 <a class="home" href="/">&larr; all skills</a>
 <h1>qq-weekend-burn</h1>
 
-<p><strong>The value:</strong> A Claude subscription resets its quota every week whether you used it or not, that part everyone already knows. What doesn't happen on its own is someone actually sitting down and driving a long autonomous session by hand, every single Saturday, forever. <code>qq-weekend-burn</code> turns “put the unused quota to work” from a thing you keep meaning to get around to into a standing decision you make exactly once.</p>
+<p><strong>The value:</strong> A Claude subscription resets its quota every week whether you used it or not, that part everyone already knows. What doesn’t happen on its own is someone actually sitting down and driving a long autonomous session by hand, every single Saturday, forever. <code>qq-weekend-burn</code> turns “put the unused quota to work” from a thing you keep meaning to get around to into a standing decision you make exactly once.</p>
 
-<p><strong>The benefit:</strong> Install it and walk away. It fires itself inside a recurring window you choose (Friday evening through Sunday night, say), works one real capability at a time to an actual finished state, and stands down the moment you're back at the keyboard. You come back Monday to shipped things, not a pile of half-touched projects and a wasted week of quota.</p>
+<p><strong>The benefit:</strong> Install it and walk away. It fires itself inside a recurring window you choose (Friday evening through Sunday night, say), works one real capability at a time to an actual finished state, and stands down the moment you’re back at the keyboard. You come back Monday to shipped things, not a pile of half-touched projects and a wasted week of quota.</p>
 
 <p><strong>The features:</strong></p>
 
 <ul>
 <li>A recurring calendar schedule that fires itself, every week, with no re-invocation: install once</li>
 <li>A finish-discipline doctrine: one project worked to a real terminal state before the next starts, so a long unattended run ships finished things instead of a dozen started ones</li>
-<li>An intake standard: a fuzzy backlog item is never dropped; it's tagged <code>needs-definition</code> and gets your single most capable model for exactly one job (writing a clear definition of done), then drops straight back to normal cheap-model execution</li>
+<li>An intake standard: a fuzzy backlog item is never dropped; it’s tagged <code>needs-definition</code> and gets your single most capable model for exactly one job (writing a clear definition of done), then drops straight back to normal cheap-model execution</li>
 <li>A kill switch where the word you write decides the failure mode: <code>PAUSE</code> self-heals after a TTL, <code>STOP</code> holds until you clear it, anything else gets flagged loudly instead of silently obeyed</li>
-<li>Built on <code>keepalive</code> (also in this repo) for the actual session-survival mechanism: the fresh-process-per-fire trick that means a 5-hour cap, a closed laptop, or a reboot never stops the schedule. You don't invoke <code>keepalive</code> yourself; <code>/qq-weekend-burn</code> does it for you.</li>
+<li>Built on <code>keepalive</code> (also in this repo) for the actual session-survival mechanism: the fresh-process-per-fire trick that means a 5-hour cap, a closed laptop, or a reboot never stops the schedule. You don’t invoke <code>keepalive</code> yourself; <code>/qq-weekend-burn</code> does it for you.</li>
 </ul>
 
 <h3>Commands</h3>
@@ -72,14 +72,14 @@ layout: null
 
 <h3>How to invoke it</h3>
 
-<p>Deterministic, not a phrase Claude has to guess at: run <code>/qq-weekend-burn</code>. Claude scaffolds every file the schedule needs (the governing doc, the backlog, the window function, the state) and hands you a one-paste block to install the actual recurring trigger yourself. That last step is always yours: the platform's safety classifier blocks an agent installing its own unattended loop, on purpose.</p>
+<p>Deterministic, not a phrase Claude has to guess at: run <code>/qq-weekend-burn</code>. Claude scaffolds every file the schedule needs (the governing doc, the backlog, the window function, the state) and hands you a one-paste block to install the actual recurring trigger yourself. That last step is always yours: the platform’s safety classifier blocks an agent installing its own unattended loop, on purpose.</p>
 
 <h3>Key principles</h3>
 
 <ul>
 <li>Sequence, not a cap: a productive burn finishes many things, just one at a time</li>
 <li>“The code ran” is not done; done is the observable finish line, verified</li>
-<li>A human-gated step doesn't block the run: stage it, mark it, move to the next project</li>
+<li>A human-gated step doesn’t block the run: stage it, mark it, move to the next project</li>
 <li>Unused quota at reset is wasted, not saved</li>
 </ul>
 

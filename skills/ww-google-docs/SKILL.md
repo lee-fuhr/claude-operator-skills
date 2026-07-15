@@ -2,12 +2,12 @@
 name: ww-google-docs
 description: Creates and edits Google Docs in your own exact house style (font, sizes, spacing, margins) via the Docs API, instead of Google’s defaults. Load this before any Google Docs work, creating a doc, writing or restyling content, converting a note into a polished doc, or building a client-facing deliverable. Covers the two reliable methods (copy a styled template vs. explicit named-style requests), hyperlinking rules, and the read-back verification step. Invoke any time a .gdoc, docs.google.com, “Google Doc”, “GDoc”, or the Docs/Drive API is in play.
 triggers:
-  - "google doc"
-  - "gdoc"
-  - "docs.google.com"
-  - "create a doc"
-  - "style this doc"
-  - "google docs api"
+  - “google doc”
+  - “gdoc”
+  - “docs.google.com”
+  - “create a doc”
+  - “style this doc”
+  - “google docs api”
 ---
 
 > Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.

@@ -48,7 +48,7 @@ layout: null
 <a class="home" href="/">&larr; all skills</a>
 <h1>ww-skill-auditor</h1>
 
-<p><strong>The problem:</strong> A skill you install is a markdown file, sometimes a script too, that gets read straight into your agent's context and sometimes executed. It can ask your agent to read your <code>.env</code> file, pipe a remote script into <code>bash</code>, install a scheduled job, or quietly try to override its own instructions, and none of that is obvious from skimming the description on GitHub.</p>
+<p><strong>The problem:</strong> A skill you install is a markdown file, sometimes a script too, that gets read straight into your agent’s context and sometimes executed. It can ask your agent to read your <code>.env</code> file, pipe a remote script into <code>bash</code>, install a scheduled job, or quietly try to override its own instructions, and none of that is obvious from skimming the description on GitHub.</p>
 
 <p><code>ww-skill-auditor</code> reads the actual SKILL.md before it touches your system. Deterministic regex scans catch the known attack shapes: prompt-injection overrides, credential exfiltration, <code>curl | bash</code>, reverse shells, hook or LaunchAgent installation. A cheap-model second pass (Cerebras, free tier) catches paraphrased versions the regex misses. A short known-good author list lowers the bar for publishers you already trust; everyone else defaults to CAUTION even at zero pattern hits.</p>
 

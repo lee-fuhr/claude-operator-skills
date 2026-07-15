@@ -48,9 +48,9 @@ layout: null
 <a class="home" href="/">&larr; all skills</a>
 <h1>qq-mailbox</h1>
 
-<p><strong>The problem:</strong> Running an expensive model as the orchestrator over cheaper builder models is accepted practice at this point, nobody needs convincing that the two-tier setup is right. What's still unsolved is how. Subagents look like the obvious way to build it, until you notice they reload their whole context on every single call, burning tokens and losing the thread each time. The real fix is two genuinely separate sessions, an overseer and a builder, each holding its own full context the whole way through. But then you hit the actual wall: nothing lets two independent Claude Code sessions talk to each other. The usual workaround is pasting a prompt from one terminal into the other by hand, every handoff, all night.</p>
+<p><strong>The problem:</strong> Running an expensive model as the orchestrator over cheaper builder models is accepted practice at this point, nobody needs convincing that the two-tier setup is right. What’s still unsolved is how. Subagents look like the obvious way to build it, until you notice they reload their whole context on every single call, burning tokens and losing the thread each time. The real fix is two genuinely separate sessions, an overseer and a builder, each holding its own full context the whole way through. But then you hit the actual wall: nothing lets two independent Claude Code sessions talk to each other. The usual workaround is pasting a prompt from one terminal into the other by hand, every handoff, all night.</p>
 
-<p>This isn't a command, it's a Python import: two named roles, each appending only to the file where it's the sender, so there's nothing to collide on and nothing to lock. <code>check()</code> needs a lane directory and a role name; it finds its own unread messages, groups them by kind, and tells you what actually needs a reply.</p>
+<p>This isn’t a command, it’s a Python import: two named roles, each appending only to the file where it’s the sender, so there’s nothing to collide on and nothing to lock. <code>check()</code> needs a lane directory and a role name; it finds its own unread messages, groups them by kind, and tells you what actually needs a reply.</p>
 
 <h3>The two calls</h3>
 
@@ -65,13 +65,13 @@ result = check(lane, role="overseer")
 <h3>Key principles</h3>
 
 <ul>
-<li>One append-only file per directed pair of roles. A role only ever writes to files where it's the sender, so two processes can never collide on the same write.</li>
-<li>A reply is a new message, never an edit to someone else's line. Append-only holds everywhere, no exceptions.</li>
-<li>Cursor state is temp-file-then-rename, never a direct write, and it's monotonic under a race: two overlapping reads can double-surface a message, never lose one.</li>
-<li>Role names are job titles, not model names. <code>builder</code>/<code>overseer</code> survives a model swap; <code>opus</code>/<code>fable</code> doesn't (a lesson learned by shipping the second one first, then having to explain why that was a mistake in the same session).</li>
+<li>One append-only file per directed pair of roles. A role only ever writes to files where it’s the sender, so two processes can never collide on the same write.</li>
+<li>A reply is a new message, never an edit to someone else’s line. Append-only holds everywhere, no exceptions.</li>
+<li>Cursor state is temp-file-then-rename, never a direct write, and it’s monotonic under a race: two overlapping reads can double-surface a message, never lose one.</li>
+<li>Role names are job titles, not model names. <code>builder</code>/<code>overseer</code> survives a model swap; <code>opus</code>/<code>fable</code> doesn’t (a lesson learned by shipping the second one first, then having to explain why that was a mistake in the same session).</li>
 </ul>
 
-<p>Full worked example, kind taxonomy, and the invariants behind each design choice are in <a href="https://github.com/lee-fuhr/claude-operator-skills/blob/main/skills/qq-mailbox/SKILL.md">the skill's own doc</a>.</p>
+<p>Full worked example, kind taxonomy, and the invariants behind each design choice are in <a href="https://github.com/lee-fuhr/claude-operator-skills/blob/main/skills/qq-mailbox/SKILL.md">the skill’s own doc</a>.</p>
 
 <hr>
 

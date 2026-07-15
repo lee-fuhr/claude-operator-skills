@@ -48,18 +48,18 @@ layout: null
 <a class="home" href="/">&larr; all skills</a>
 <h1>ww-notion-proposal-hardener</h1>
 
-<p><strong>The problem:</strong> The Notion API will tell you an edit succeeded when it silently dropped half your patches. It'll tell you a comment anchor is unique when a phrase that repeats three paragraphs down makes it ambiguous. Both failures are invisible until someone reads the live document closely, usually the reviewer you were revising it for.</p>
+<p><strong>The problem:</strong> The Notion API will tell you an edit succeeded when it silently dropped half your patches. It’ll tell you a comment anchor is unique when a phrase that repeats three paragraphs down makes it ambiguous. Both failures are invisible until someone reads the live document closely, usually the reviewer you were revising it for.</p>
 
-<p>This names the three specific ways the API misleads you and pairs each with the check that catches it. <code>update_content</code> returns success even when an <code>old_str</code> doesn't match (a stray em dash, a bold marker, a discussion-span wrapper around the target text), so every patch gets re-verified against a fresh fetch, never trusted from the response alone. Comment anchoring searches the whole document for the closing phrase, not just your target block, so before posting a comment you count how many times that phrase appears anywhere later in the page; more than once means the anchor is ambiguous and needs tightening. And <code>notion-get-comments</code> itself can silently under-return: an open comment the UI shows plainly can come back as zero results from the API, so the API's comment count is treated as a floor, never a complete count, and confirmed against the reviewer's own screenshot when it matters.</p>
+<p>This names the three specific ways the API misleads you and pairs each with the check that catches it. <code>update_content</code> returns success even when an <code>old_str</code> doesn’t match (a stray em dash, a bold marker, a discussion-span wrapper around the target text), so every patch gets re-verified against a fresh fetch, never trusted from the response alone. Comment anchoring searches the whole document for the closing phrase, not just your target block, so before posting a comment you count how many times that phrase appears anywhere later in the page; more than once means the anchor is ambiguous and needs tightening. And <code>notion-get-comments</code> itself can silently under-return: an open comment the UI shows plainly can come back as zero results from the API, so the API’s comment count is treated as a floor, never a complete count, and confirmed against the reviewer’s own screenshot when it matters.</p>
 
 <h3>Key principles</h3>
 
 <ul>
 <li>Re-fetch and verify after every <code>update_content</code> call; a success response is not proof anything actually changed</li>
-<li>Count occurrences of the end phrase before anchoring a comment; local uniqueness in your target block isn't enough</li>
+<li>Count occurrences of the end phrase before anchoring a comment; local uniqueness in your target block isn’t enough</li>
 <li>A discussion-span wrapper blocks a plain <code>old_str</code> match; include the span itself in the patch, or the edit silently skips</li>
-<li>Treat the API's comment list as a floor, not a ceiling; confirm completeness against the reviewer's own view when it matters</li>
-<li>Before any <code>replace_content</code>, record every open thread's anchor text and summary first; a full rewrite destroys every inline anchor at once</li>
+<li>Treat the API’s comment list as a floor, not a ceiling; confirm completeness against the reviewer’s own view when it matters</li>
+<li>Before any <code>replace_content</code>, record every open thread’s anchor text and summary first; a full rewrite destroys every inline anchor at once</li>
 </ul>
 
 <hr>

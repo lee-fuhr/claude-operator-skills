@@ -1,6 +1,6 @@
 ---
 name: keepalive
-description: Stands up a self-relaying overnight worker in about 60 seconds, a `claude -p` loop that survives 5-hour caps, session death, and reboots so a long campaign keeps running while you're away from the keyboard. Owns the resilience mechanism (fresh `claude -p`, never `--resume`; gates + liveness checks + dual-account failover + `--permission-mode auto`; a one-paste plist install; and a standard queue.md/done.md tasklist scaffolded per campaign) so any campaign that needs to outlive a single session can build on this instead of reinventing it. Invoke when you say "keepalive", "keep it alive", "stand up a worker", "self-relaying worker", "overnight worker", "make it survive caps", or any autonomous-run skill needs the resilience backbone.
+description: Stands up a self-relaying overnight worker in about 60 seconds, a `claude -p` loop that survives 5-hour caps, session death, and reboots so a long campaign keeps running while you’re away from the keyboard. Owns the resilience mechanism (fresh `claude -p`, never `--resume`; gates + liveness checks + dual-account failover + `--permission-mode auto`; a one-paste plist install; and a standard queue.md/done.md tasklist scaffolded per campaign) so any campaign that needs to outlive a single session can build on this instead of reinventing it. Invoke when you say “keepalive”, “keep it alive”, “stand up a worker”, “self-relaying worker”, “overnight worker”, “make it survive caps”, or any autonomous-run skill needs the resilience backbone.
 ---
 
 > Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
@@ -18,14 +18,14 @@ NEVER copy-paste a keepalive script again, since copy-drift is exactly what this
 independent lanes needing the *same* binary-path fix or hand-wired quota gate, one at a time, is the
 signal that a shared engine was overdue; with the engine, one fix lands everywhere at once.
 
-**Hard-won lesson: bash 3.2 unbound-variable trap.** `launch_once()`'s `"${sp[@]}"` (an optional
-`--system-prompt` array) throws `unbound variable` under `set -u` on macOS's default bash 3.2
+**Hard-won lesson: bash 3.2 unbound-variable trap.** `launch_once()`‘s `"${sp[@]}"` (an optional
+`--system-prompt` array) throws `unbound variable` under `set -u` on macOS’s default bash 3.2
 whenever the optional system-prompt var is unset, true of most real confs. This aborts BEFORE
 `claude` is ever invoked, but the nonzero exit can get misread by the retry loop as an ordinary
 account cap and retried forever, silently. One production campaign did zero real work for 5
-straight days while its own log read as merely "capped." Fix: `"${sp[@]}"` → `${sp[@]+"${sp[@]}"}`,
-the standard bash-<4.4-safe idiom. If a campaign is stuck repeating "capped/failed" for many cycles,
-check the raw stderr of a manual (non-dry) fire before assuming it's really quota: a silent script
+straight days while its own log read as merely “capped.” Fix: `"${sp[@]}"` → `${sp[@]+"${sp[@]}"}`,
+the standard bash-<4.4-safe idiom. If a campaign is stuck repeating “capped/failed” for many cycles,
+check the raw stderr of a manual (non-dry) fire before assuming it’s really quota: a silent script
 crash reads identically to a cap in this log format.
 
 Conf keys: `KA_LANE KA_BRAIN KA_STATE KA_TAG` (required) · `KA_MODEL` · `KA_PACE`
@@ -36,7 +36,7 @@ Conf keys: `KA_LANE KA_BRAIN KA_STATE KA_TAG` (required) · `KA_MODEL` · `KA_PA
 
 **Campaign lane contract (scaffold ALL of these):** `queue.md` (priority tasks) + `done.md`
 (dense evidence log, worker-facing) + `CHANGELOG.md` (your primary read) + the conf + state json.
-If you keep a broader "what document goes where" standard for projects, treat a campaign lane as
+If you keep a broader “what document goes where” standard for projects, treat a campaign lane as
 one instance of it: every role, every audience, every update moment should already have a home.
 
 **Changelog format.** If you already have a house changelog standard, use it. The addition THIS
@@ -57,7 +57,7 @@ running bash script must never be edited in place while a fire could be mid-read
 
 Two campaigns were once stood up with a session-resume scaffolder instead. Both **failed silently
 on every single fire** with `No conversation found with session ID …` → `exit 0` → **zero work all
-night**. Root cause: `claude -p --resume <SID>` cannot reattach to a **live interactive session's**
+night**. Root cause: `claude -p --resume <SID>` cannot reattach to a **live interactive session’s**
 id (only headless-spawned sessions are resumable that way), and it couples the loop to fragile
 session state regardless.
 
@@ -69,8 +69,8 @@ session to lose.
 
 (Exception, if you have a strong in-thread preference: `claude -p --resume <SID> --permission-mode auto`
 can resume the SAME session in-thread for full-context continuity, but ONLY on a session you KNOW
-was headless-spawned and resumable, never a live interactive session's id, and it loses dual-account
-failover, since a different account can't resume another account's session. Default to fresh-`claude -p`
+was headless-spawned and resumable, never a live interactive session’s id, and it loses dual-account
+failover, since a different account can’t resume another account’s session. Default to fresh-`claude -p`
 for resilience.)
 
 ---
@@ -102,14 +102,14 @@ Two workers on one non-git tree = last-write-wins collision, so this interlock i
 a wrapper script with a stable, externally-`kill -0`-able PID. An interactive chat session has no
 such handle. A PID captured from one shell call was confirmed alive, then a real engine fire in the
 very next call proceeded straight past the check because that PID was already dead (each shell
-invocation isn't guaranteed to share a process). The correct move when scaffolding a campaign FROM a
+invocation isn’t guaranteed to share a process). The correct move when scaffolding a campaign FROM a
 chat session (not a wrapper script): do not write a fake `interactive.pid`. Set `KA_INTERLOCK=0`
 explicitly in the conf with a comment explaining why, and load the plist only when actually stepping
-away from the chat, not while it's open. Your own load/unload action becomes the real interlock,
-so don't ship a false sense of protection.
+away from the chat, not while it’s open. Your own load/unload action becomes the real interlock,
+so don’t ship a false sense of protection.
 
 ### 4. Dual-account failover
-Primary token first, fall to a backup account on cap, so a 5h limit on one account doesn't stall the
+Primary token first, fall to a backup account on cap, so a 5h limit on one account doesn’t stall the
 lane (e.g. two token files at stable paths, separate quotas). The template tries primary, greps the
 output for cap signals, and retries the whole chunk on backup. A single-flight `.launch.lock`
 (1800s stale-steal) prevents double-fire; a 45s spin-guard pauses if a chunk returns instantly
@@ -117,8 +117,8 @@ output for cap signals, and retries the whole chunk on backup. A single-flight `
 
 ### 5. `--permission-mode auto`, NEVER `--dangerously-skip-permissions`
 Recent Claude Code releases have the auto-mode safety classifier **BLOCK creating a
-`--dangerously-skip-permissions` loop** (it reads as "create unsafe agents"), so a skip-permissions
-keepalive won't even install. The write of it gets denied. `--permission-mode auto` keeps the
+`--dangerously-skip-permissions` loop** (it reads as “create unsafe agents”), so a skip-permissions
+keepalive won’t even install. The write of it gets denied. `--permission-mode auto` keeps the
 classifier ON: it auto-approves safe work (in-scope edits, reads, builds, tests, declared deps,
 memory writes, scheduling) and auto-denies the dangerous classes (prod deploy, blind --force,
 irreversible local destruction, creating more unsafe agents, credential exfil). In headless `-p` a
@@ -131,7 +131,7 @@ brain to stage-and-note held deploys rather than fight the gate.)
 ## THE TASKLIST.MD STANDARD (mandatory: every campaign scaffolds this)
 
 **Every keepalive campaign scaffolds `queue.md` + `done.md` in its lane.** This is non-negotiable and
-the reason it's a STANDARD, not a per-campaign choice:
+the reason it’s a STANDARD, not a per-campaign choice:
 
 - **`queue.md`**: the durable, priority-ordered backlog. Opening it works in ANY session.
 - **`done.md`**: append-only, VERIFIED units only. The worker reads it every resume and SKIPS
@@ -140,8 +140,8 @@ the reason it's a STANDARD, not a per-campaign choice:
 Why a standard: the worker is stateless by design, so its memory MUST live on disk in a predictable
 place. Because the files are plain markdown in the lane, **they survive caps, session death, and
 reboots, and opening `queue.md` / `done.md` gives you (or any fresh session) the live state from
-anywhere**: no session to resume, no tool to query. queue.md is what you're working toward; done.md
-is what's verified done; together they ARE the campaign's task list. `state.json` carries the
+anywhere**: no session to resume, no tool to query. queue.md is what you’re working toward; done.md
+is what’s verified done; together they ARE the campaign’s task list. `state.json` carries the
 machine flags (deadline/complete/heartbeat); the two .md files carry the human-readable work. Never
 let a dashboard/glance surface read better than these two files.
 
@@ -149,7 +149,7 @@ let a dashboard/glance surface read better than these two files.
 
 ## How to stand one up in 60 seconds
 
-Templates live in `./templates/` (this skill's dir). Pick a slug, scaffold the lane, parameterize,
+Templates live in `./templates/` (this skill’s dir). Pick a slug, scaffold the lane, parameterize,
 hand yourself the one-paste plist install. **The agent should NOT self-install the plist**: the
 auto-mode classifier blocks an agent creating an autonomous loop for itself, so `launchctl load` is a
 one-paste block you run yourself. The agent scaffolds the files; you arm the loop.
@@ -197,7 +197,7 @@ launchctl unload ~/Library/LaunchAgents/$LABEL.plist 2>/dev/null; launchctl load
 echo "loaded $LABEL — fires every 15min, RunAtLoad false"
 ```
 
-Note the plist passes `$LANE` as the keepalive's `$1` (the state dir), so a copied script can never
+Note the plist passes `$LANE` as the keepalive’s `$1` (the state dir), so a copied script can never
 point back at the original lane. If you keep a registry of what background services are running on
 your machine, register the new LaunchAgent there at install time. An unregistered background
 process is the kind of thing that gets rediscovered confused, months later.
@@ -215,7 +215,7 @@ rm ~/Library/LaunchAgents/$LABEL.plist                      # remove it
 
 ## The heartbeat (optional but recommended)
 For the interactive interlock + a recent-activity signal, touch the heartbeat from the working
-session each meaningful turn: `templates/` does not include a heartbeat script because it's a
+session each meaningful turn: `templates/` does not include a heartbeat script because it’s a
 one-liner. `python3 -c "import json,time;p='$LANE/state.json';s=json.load(open(p));s['heartbeat']=time.time();json.dump(s,open(p,'w'))"`.
 The pgrep-banner is the primary liveness signal; the heartbeat is the interlock + freshness signal.
 
@@ -228,9 +228,9 @@ Any skill that runs a bounded (one-task-per-cycle, delegate-and-verify) or max-e
 reference this skill instead. Each keeps ONLY its posture section (the brain personality) and adopts
 a one-line reference for the entire resilience backbone:
 
-> **Resilience backbone:** stand up the kept-alive via the `keepalive` skill (`~/.claude/skills/keepalive/SKILL.md`). It owns the fresh-`claude -p` mechanism (never `--resume`), the keepalive.sh gates + pgrep-banner liveness + interactive interlock + dual-account failover + `--permission-mode auto`, the user-run one-paste plist install, and the tasklist.md standard (queue.md + done.md scaffolded in the lane). This skill supplies ONLY the brain's POSTURE for the `resume.md` template's `__POSTURE__` slot: bounded = one bounded unit/cycle, the top-tier model writes specs + QCs, cheap models execute, no fan-out. Max-effort = workflows-spawning-workflows, audit-gated, use the quota.
+> **Resilience backbone:** stand up the kept-alive via the `keepalive` skill (`~/.claude/skills/keepalive/SKILL.md`). It owns the fresh-`claude -p` mechanism (never `--resume`), the keepalive.sh gates + pgrep-banner liveness + interactive interlock + dual-account failover + `--permission-mode auto`, the user-run one-paste plist install, and the tasklist.md standard (queue.md + done.md scaffolded in the lane). This skill supplies ONLY the brain’s POSTURE for the `resume.md` template’s `__POSTURE__` slot: bounded = one bounded unit/cycle, the top-tier model writes specs + QCs, cheap models execute, no fan-out. Max-effort = workflows-spawning-workflows, audit-gated, use the quota.
 
-That single line replaces: the "THE ONE NON-NEGOTIABLE MECHANISM LESSON" block, the keepalive.sh
+That single line replaces: the “THE ONE NON-NEGOTIABLE MECHANISM LESSON” block, the keepalive.sh
 template, the gates list, the interlock paragraph, the dual-account paragraph, the `--permission-
 mode auto` block, the plist/StartInterval instructions, and the queue.md/done.md description, all
 of which now live HERE. A sibling skill shrinks to: when-to-use, Step-0 framing, and the POSTURE.
@@ -238,7 +238,7 @@ of which now live HERE. A sibling skill shrinks to: when-to-use, Step-0 framing,
 ---
 
 ## Self-improvement
-When a mechanism bug is found (a gate that didn't fire, a liveness false-positive, a failover that
+When a mechanism bug is found (a gate that didn’t fire, a liveness false-positive, a failover that
 stalled), fix it HERE in `templates/` + this doc, once, and every sibling skill inherits it. Do NOT
 patch a per-campaign copy and leave the template stale; that re-creates the drift this skill exists
 to kill: one canonical home per thing.

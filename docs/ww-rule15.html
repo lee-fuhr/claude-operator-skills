@@ -48,18 +48,18 @@ layout: null
 <a class="home" href="/">&larr; all skills</a>
 <h1>ww-rule15</h1>
 
-<p><strong>The problem:</strong> “Done” gets said more often than it's true. A button changes color, nothing saved, nothing sent, nobody downstream ever sees the change, and nobody notices for three weeks, because the code path exists even though the outcome never happened.</p>
+<p><strong>The problem:</strong> “Done” gets said more often than it’s true. A button changes color, nothing saved, nothing sent, nobody downstream ever sees the change, and nobody notices for three weeks, because the code path exists even though the outcome never happened.</p>
 
-<p>Rule 15 forces a stated outcome in one sentence before anything else happens, traces the actual action chain from trigger to outcome, and checks the feedback loop (success state, error state, loading state) on every mutation. Effort scales with what changed: touch more than one file and the floor rises to checking integration points; touch a hook or a shared config and the floor is a real behavioral test, not “the file exists.” And the implementer's own reasoning never counts as the check: any PASS verdict at medium effort or higher needs evidence from outside the person who built it, pasted command output, a grep, a full test run, not “I expect it would return...”. A PASS without that evidence auto-downgrades to PARTIAL.</p>
+<p>Rule 15 forces a stated outcome in one sentence before anything else happens, traces the actual action chain from trigger to outcome, and checks the feedback loop (success state, error state, loading state) on every mutation. Effort scales with what changed: touch more than one file and the floor rises to checking integration points; touch a hook or a shared config and the floor is a real behavioral test, not “the file exists.” And the implementer’s own reasoning never counts as the check: any PASS verdict at medium effort or higher needs evidence from outside the person who built it, pasted command output, a grep, a full test run, not “I expect it would return...”. A PASS without that evidence auto-downgrades to PARTIAL.</p>
 
 <h3>Key principles</h3>
 
 <ul>
 <li>The intended outcome is a sentence, stated first, never inferred after the fact</li>
-<li>Every mutation needs a success state, an error state, and a loading state, or it's PARTIAL</li>
-<li>Effort floors scale with blast radius and can't be self-downgraded by the person doing the work</li>
-<li>External evidence is mandatory at medium effort or higher; the implementer's own word is not evidence</li>
-<li>“Works in the code” but doesn't deliver the outcome is COSMETIC, not done</li>
+<li>Every mutation needs a success state, an error state, and a loading state, or it’s PARTIAL</li>
+<li>Effort floors scale with blast radius and can’t be self-downgraded by the person doing the work</li>
+<li>External evidence is mandatory at medium effort or higher; the implementer’s own word is not evidence</li>
+<li>“Works in the code” but doesn’t deliver the outcome is COSMETIC, not done</li>
 </ul>
 
 <hr>

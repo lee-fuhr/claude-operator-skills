@@ -48,9 +48,9 @@ layout: null
 <a class="home" href="/">&larr; all skills</a>
 <h1>ww-notion-docs</h1>
 
-<p><strong>The problem:</strong> Notion's block editor doesn't speak standard markdown, and it fails quietly. A pipe table just doesn't render. An escaped <code>\n</code> shows up as a literal backslash-n instead of a line break. Curly braces meant to set a block color turn into visible text if they're escaped wrong. None of it throws an error. You just find out later, when you look at the live page and something's broken.</p>
+<p><strong>The problem:</strong> Notion’s block editor doesn’t speak standard markdown, and it fails quietly. A pipe table just doesn’t render. An escaped <code>\n</code> shows up as a literal backslash-n instead of a line break. Curly braces meant to set a block color turn into visible text if they’re escaped wrong. None of it throws an error. You just find out later, when you look at the live page and something’s broken.</p>
 
-<p>This documents Notion's actual markdown flavor (HTML <code><table></code> tags instead of pipes, <code><callout></code> tags, <code>{color="yellow_bg"}</code> for backgrounds, <code><empty-block/></code> for the vertical space Notion otherwise strips) plus the update patterns that keep an edit from silently failing: always fetch the page before <code>update_content</code>, since a stale <code>old_str</code> just won't match, and default to <code>update_content</code> over <code>replace_content</code>, since a full rewrite destroys whatever a reviewer already left on the page. The other half is the comments-based review cycle itself: comments aren't optional decoration, they're the only way a reviewer can see what changed without re-reading the whole document, so every content update gets one, anchored to the exact text it touched.</p>
+<p>This documents Notion’s actual markdown flavor (HTML <code><table></code> tags instead of pipes, <code><callout></code> tags, <code>{color="yellow_bg"}</code> for backgrounds, <code><empty-block/></code> for the vertical space Notion otherwise strips) plus the update patterns that keep an edit from silently failing: always fetch the page before <code>update_content</code>, since a stale <code>old_str</code> just won’t match, and default to <code>update_content</code> over <code>replace_content</code>, since a full rewrite destroys whatever a reviewer already left on the page. The other half is the comments-based review cycle itself: comments aren’t optional decoration, they’re the only way a reviewer can see what changed without re-reading the whole document, so every content update gets one, anchored to the exact text it touched.</p>
 
 <h3>Key principles</h3>
 
@@ -59,7 +59,7 @@ layout: null
 <li>Default to <code>update_content</code>; <code>replace_content</code> blows away everything already on the page, including reviewer edits</li>
 <li>Newlines have to be real newlines; an escaped <code>\n</code> renders as literal text</li>
 <li>Every change gets a comment anchored to it; without one, the reviewer has to re-read the whole document to find what moved</li>
-<li>Set a real icon on every page you create; Notion's default blank icon is not a real default</li>
+<li>Set a real icon on every page you create; Notion’s default blank icon is not a real default</li>
 </ul>
 
 <hr>

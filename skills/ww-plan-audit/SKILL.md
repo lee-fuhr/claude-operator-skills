@@ -3,13 +3,13 @@ name: ww-plan-audit
 description: The full gauntlet for plans. Runs automatically before exiting plan mode on any multi-phase plan, rather than waiting to be invoked by name. Combines interviewing, a principles deep read, multi-domain audit, steelman, pre-mortem, convergence, and prophylactic guardrails into one comprehensive quality process.
 version: 1.0.0
 triggers:
-  - "audit this plan"
-  - "full gauntlet"
-  - "plan audit"
-  - "is this plan ready"
-  - "stress test the plan"
-  - "plan quality check"
-  - "run the gauntlet"
+  - “audit this plan”
+  - “full gauntlet”
+  - “plan audit”
+  - “is this plan ready”
+  - “stress test the plan”
+  - “plan quality check”
+  - “run the gauntlet”
 ---
 
 > Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.

@@ -48,9 +48,9 @@ layout: null
 <a class="home" href="/">&larr; all skills</a>
 <h1>qq-infoviz</h1>
 
-<p><strong>The problem:</strong> A LinkedIn chart made with default matplotlib styling reads as a data science notebook, not something worth a thumb pausing on mid-scroll. Data-heavy posts get skipped past unless the numbers are the most visually dominant thing on the canvas, and getting there by hand, in a design tool, for every post, doesn't scale.</p>
+<p><strong>The problem:</strong> A LinkedIn chart made with default matplotlib styling reads as a data science notebook, not something worth a thumb pausing on mid-scroll. Data-heavy posts get skipped past unless the numbers are the most visually dominant thing on the canvas, and getting there by hand, in a design tool, for every post, doesn’t scale.</p>
 
-<p><code>qq-infoviz</code> renders a self-contained HTML file through Playwright at a fixed 1200x627 canvas, LinkedIn's own optimal ratio, using one converged brand system: Source Serif 4 for the numbers, Inter for the labels, a dark navy background, and a small fixed palette tinted per stat. Five chart types cover most stories: horizontal bars for ranked metrics, a stat grid for equal-weight scorecards, vertical columns for descending scale, a newspaper layout for one hero stat plus supporting context, and a quote-plus-stat strip for provocative copy backed by a number.</p>
+<p><code>qq-infoviz</code> renders a self-contained HTML file through Playwright at a fixed 1200x627 canvas, LinkedIn’s own optimal ratio, using one converged brand system: Source Serif 4 for the numbers, Inter for the labels, a dark navy background, and a small fixed palette tinted per stat. Five chart types cover most stories: horizontal bars for ranked metrics, a stat grid for equal-weight scorecards, vertical columns for descending scale, a newspaper layout for one hero stat plus supporting context, and a quote-plus-stat strip for provocative copy backed by a number.</p>
 
 <h3>Commands</h3>
 
@@ -58,14 +58,14 @@ layout: null
 python3 screenshot.py /tmp/infoviz-chart.html /tmp/chart-linkedin.png 1200 627
 </code></pre>
 
-<p>Width and height have to be passed explicitly; the script's own default is a 1800x1800 square built for a different canvas.</p>
+<p>Width and height have to be passed explicitly; the script’s own default is a 1800x1800 square built for a different canvas.</p>
 
 <h3>Key principles</h3>
 
 <ul>
 <li>Data is the point: exaggerated sizes, big serif numbers, minimal whitespace</li>
 <li>Fills go bottom-up, always; a top-down fill is treated as a defect</li>
-<li>Sentence-flow labels (“85% don't name a single machine they run”), not a stat stacked over a caption</li>
+<li>Sentence-flow labels (“85% don’t name a single machine they run”), not a stat stacked over a caption</li>
 <li>Fewer, bigger stats beat more, smaller ones: three huge numbers outperform six tiny ones</li>
 <li>Never guess at the data, query your own source, and never skip opening the rendered image to actually look at it</li>
 </ul>

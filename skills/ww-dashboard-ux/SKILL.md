@@ -1,15 +1,15 @@
 ---
 name: ww-dashboard-ux
-description: "Rules for operational dashboard UX/UI: actionable error states, drill-down architecture, notification design, data visualization, progressive disclosure, performance perception, and accessibility. Load when building, reviewing, or auditing any operational or monitoring dashboard."
+description: “Rules for operational dashboard UX/UI: actionable error states, drill-down architecture, notification design, data visualization, progressive disclosure, performance perception, and accessibility. Load when building, reviewing, or auditing any operational or monitoring dashboard.”
 version: 1.0.0
 triggers:
-  - "dashboard audit"
-  - "dashboard UX"
-  - "dashboard best practices"
-  - "review this dashboard"
-  - "operational dashboard"
-  - "monitoring UI"
-when_to_use: "Any dashboard or monitoring interface, new build, code review, pre-launch QA, or post-build audit."
+  - “dashboard audit”
+  - “dashboard UX”
+  - “dashboard best practices”
+  - “review this dashboard”
+  - “operational dashboard”
+  - “monitoring UI”
+when_to_use: “Any dashboard or monitoring interface, new build, code review, pre-launch QA, or post-build audit.”
 ---
 
 > Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.

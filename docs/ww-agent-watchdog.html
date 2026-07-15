@@ -48,15 +48,15 @@ layout: null
 <a class="home" href="/">&larr; all skills</a>
 <h1>ww-agent-watchdog</h1>
 
-<p><strong>The problem:</strong> An agent finishes a session and reports “done,” and you have no independent way to know if that's true. Reading the whole transcript to check takes about as long as doing the work yourself. Trusting the summary means trusting the exact thing you're trying to verify.</p>
+<p><strong>The problem:</strong> An agent finishes a session and reports “done,” and you have no independent way to know if that’s true. Reading the whole transcript to check takes about as long as doing the work yourself. Trusting the summary means trusting the exact thing you’re trying to verify.</p>
 
-<p><code>ww-agent-watchdog</code> treats the user's original request as the source of truth, not the other agent's claim about what it did. It resolves whatever artifact you point it at, a session ID, a transcript, a PR, a branch, a pasted summary, reconstructs the real contract (the request, the constraints, the implied acceptance criteria), and checks evidence instead of prose: the actual diff, the actual test output, the actual CI state, screenshots instead of a description of a screenshot. Each finding gets classified as a gap, a bug, a verification miss, scope drift, or genuinely no issue. If you've authorized repair, it fixes narrowly, the clear gaps only, and stops rather than guessing when a fix would need a product decision or a destructive action.</p>
+<p><code>ww-agent-watchdog</code> treats the user’s original request as the source of truth, not the other agent’s claim about what it did. It resolves whatever artifact you point it at, a session ID, a transcript, a PR, a branch, a pasted summary, reconstructs the real contract (the request, the constraints, the implied acceptance criteria), and checks evidence instead of prose: the actual diff, the actual test output, the actual CI state, screenshots instead of a description of a screenshot. Each finding gets classified as a gap, a bug, a verification miss, scope drift, or genuinely no issue. If you’ve authorized repair, it fixes narrowly, the clear gaps only, and stops rather than guessing when a fix would need a product decision or a destructive action.</p>
 
 <h3>Key principles</h3>
 
 <ul>
 <li>Evidence over claims: read the diff, run the actual command, check the actual CI state</li>
-<li>The user's original request is the source of truth, never the watched agent's own summary of it</li>
+<li>The user’s original request is the source of truth, never the watched agent’s own summary of it</li>
 <li>Fix narrowly when authorized; a fix that needs a product decision gets reported, not guessed at</li>
 <li>If authority is unclear, default to audit-only and say what you would fix</li>
 </ul>

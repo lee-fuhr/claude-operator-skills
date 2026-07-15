@@ -48,9 +48,9 @@ layout: null
 <a class="home" href="/">&larr; all skills</a>
 <h1>qq-audit</h1>
 
-<p><strong>The problem:</strong> Claude wrote your code, your copy, and your architecture, which is exactly why it can't audit any of it fairly, it already believes its own intentions were the right call. You need lenses that don't know what you meant to build, only what actually got built, applied domain by domain.</p>
+<p><strong>The problem:</strong> Claude wrote your code, your copy, and your architecture, which is exactly why it can’t audit any of it fairly, it already believes its own intentions were the right call. You need lenses that don’t know what you meant to build, only what actually got built, applied domain by domain.</p>
 
-<p>This is the master command for <a href="https://github.com/lee-fuhr/audit-framework">audit-framework</a>: 255 expert lenses across 13 quality dimensions. It analyzes your project, picks the right domains in the right order, and runs each serially, fixing issues before moving to the next domain so fixes compound.</p>
+<p>This is the master command for the 255-framework audit system: 255 expert lenses across 13 quality dimensions. It analyzes your project, picks the right domains in the right order, and runs each serially, fixing issues before moving to the next domain so fixes compound.</p>
 
 <h3>Commands</h3>
 
@@ -110,7 +110,7 @@ Visual: Round 1 = 8.1 → Round 2 = 9.7 ✓ — moving to Copy
 
 <h3>Domain sequencing</h3>
 
-<p>No point auditing visual design when UX is broken: you'll redesign those screens anyway. Domains run in dependency order:</p>
+<p>No point auditing visual design when UX is broken: you’ll redesign those screens anyway. Domains run in dependency order:</p>
 
 <pre><code>
 Product → UX → Visual → Copy → Frontend → Backend → Performance

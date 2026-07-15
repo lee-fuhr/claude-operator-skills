@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """mailbox.py — hardened two-role coordination mailbox.
 
-Design (approved, steelmanned): /Users/lee/.claude/jobs/ae278b06/tmp/mailbox-skill-design.md
-Hardens the ad-hoc opus-to-fable.jsonl / fable-to-opus.jsonl pattern used all
-night in the ea-pm-consolidation lane into a reusable primitive. Skill surface:
-~/.agents/skills/qq-mailbox/SKILL.md.
+Hardens the ad-hoc pattern of two named roles passing JSONL messages back and
+forth, first proven in a real live coordination lane between an overseer and
+a build session, into a reusable primitive. Skill surface: SKILL.md in this
+same directory.
 
 NOTE on the module name: this shadows Python's stdlib `mailbox` module (mbox/
 Maildir handling) for any importer whose sys.path puts this file's directory

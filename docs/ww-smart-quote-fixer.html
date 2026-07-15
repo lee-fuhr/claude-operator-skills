@@ -48,7 +48,7 @@ layout: null
 <a class="home" href="/">&larr; all skills</a>
 <h1>ww-smart-quote-fixer</h1>
 
-<p><strong>The problem:</strong> Every AI model defaults to straight typewriter quotes, <code>'</code> and <code>"</code>, and real typography doesn't use them. An editor spots a straight quote in a paragraph of running prose in about half a second, and it reads as unpolished, or machine-written, even when nothing else about the copy is wrong. Fixing it by hand means catching every apostrophe, every nested quote, every decade abbreviation, and every foot-and-inch mark without breaking the ones that were already right, or the ones sitting inside a code block where a straight quote is correct.</p>
+<p><strong>The problem:</strong> Every AI model defaults to straight typewriter quotes, <code>'</code> and <code>"</code>, and real typography doesn’t use them. An editor spots a straight quote in a paragraph of running prose in about half a second, and it reads as unpolished, or machine-written, even when nothing else about the copy is wrong. Fixing it by hand means catching every apostrophe, every nested quote, every decade abbreviation, and every foot-and-inch mark without breaking the ones that were already right, or the ones sitting inside a code block where a straight quote is correct.</p>
 
 <p>This does the conversion deterministically instead of a naive find-and-replace that gets the hard cases wrong: the decade gotcha (<code>'90s</code> is a right curly quote, not a left one, even at the start of the token), nested quotes (outer double, inner single), measurements (<code>6′2″</code>, not <code>6'2"</code>), all while leaving fenced code blocks, inline code, file paths, and regex untouched. Short text gets fixed inline by reading it carefully; anything longer runs through a bundled script that handles plain text, markdown, and <code>.docx</code> (preserving bold, italic, and links) alike.</p>
 
@@ -64,10 +64,10 @@ python scripts/fix_quotes.py input.docx -o output.docx
 <h3>Key principles</h3>
 
 <ul>
-<li>Produce curly quotes from the start when writing editorial prose; don't write straight and rely on a cleanup pass after</li>
+<li>Produce curly quotes from the start when writing editorial prose; don’t write straight and rely on a cleanup pass after</li>
 <li>Code blocks, inline code, file paths, and technical syntax are always exempt</li>
 <li>The decade abbreviation is a right quote, not a left one, the single most common typography mistake</li>
-<li>Some apostrophe cases are genuinely ambiguous (<code>dogs' food</code> vs. <code>dog's food</code>); trust editorial judgment over the script's guess</li>
+<li>Some apostrophe cases are genuinely ambiguous (<code>dogs' food</code> vs. <code>dog's food</code>); trust editorial judgment over the script’s guess</li>
 </ul>
 
 <hr>

@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """TDD for mailbox.py — concurrency race safety + real-production-data smoke
-test. Split out of test_mailbox.py to stay under the 500-line file cap
-(Bible §6.7).
+test. Split out of test_mailbox.py to stay under the 500-line file cap.
 
-The real-data test copies the live ea-pm-consolidation lane's _sync/ files
-into tmp_path first — it never reads a live cursor into the real directory
-and never writes to it. check() writes a cursor file as a side effect of
-every call, so calling it directly against the live lane (even read-only in
-intent) would leave a stray file in a directory a live Overseer session
-depends on right now. Copying first gets the identical proof value (real,
-messy production content) with zero risk to the live channel.
+The real-data test, if you point REAL_LANE_SYNC at a lane of your own, copies
+its live _sync/ files into tmp_path first — it never reads a live cursor into
+the real directory and never writes to it. check() writes a cursor file as a
+side effect of every call, so calling it directly against a live lane (even
+read-only in intent) would leave a stray file in a directory an active
+session might depend on right now. Copying first gets the identical proof
+value (real, messy production content) with zero risk to the live channel.
+Skipped by default (see the skipif below) since no such lane exists unless
+you've set one up and pointed this at it.
 """
 import json
 import shutil
@@ -19,9 +20,9 @@ from pathlib import Path
 import pytest
 
 
-REAL_LANE_SYNC = Path(
-    "/Users/lee/CC/Work/LFI/_ Operations/_notes/ea-pm-consolidation/_sync"
-)
+# Point this at your own real coordination lane's _sync/ dir to exercise the
+# real-data smoke test below; the test skips cleanly if the path doesn't exist.
+REAL_LANE_SYNC = Path("~/example-lane/_sync").expanduser()
 
 
 def test_concurrent_check_race_safety(tmp_path):
@@ -117,22 +118,22 @@ def test_concurrent_send_never_interleaves_or_corrupts_lines(tmp_path):
     assert parsed_msgs == expected
 
 
-@pytest.mark.skipif(not REAL_LANE_SYNC.exists(), reason="real ea-pm-consolidation lane not present")
+@pytest.mark.skipif(not REAL_LANE_SYNC.exists(), reason="no real lane configured at REAL_LANE_SYNC")
 def test_check_against_real_production_snapshot(tmp_path):
     """Proves the parser/grouping logic against genuinely real, messy
     production data -- long free-text messages, varied kind values that don't
     match the v1 taxonomy. Operates on a COPY of the real lane (tmp_path),
-    never the live directory itself."""
+    never the live directory itself. Skipped unless you've pointed
+    REAL_LANE_SYNC at a real lane of your own; validated during development
+    against a real overseer/builder lane that used role names like "opus" and
+    "fable" -- swap the role below for whatever your own lane actually uses."""
     from mailbox import check
 
-    lane_copy = tmp_path / "ea-pm-consolidation"
+    lane_copy = tmp_path / "example-lane"
     shutil.copytree(REAL_LANE_SYNC, lane_copy / "_sync")
 
-    # The real files predate this module and use short aliases in the FILENAME
-    # (opus-to-fable.jsonl, fable-to-opus.jsonl) even though the "from"/"to"
-    # envelope fields drifted to longer role names over the session
-    # (opus-build, fable-qc, opus-cockpit-qqstatus-live, fable-qc-headless...).
-    # from_role=None (glob mode) finds the file by its real name regardless.
+    # from_role=None (glob mode) finds every *-to-<role>.jsonl file regardless
+    # of exactly what the sender/receiver role names are.
     result = check(lane_copy, role="fable")
     assert len(result["unread"]) > 0
     # Real data has kinds far outside the v1 taxonomy (e.g. handshake,

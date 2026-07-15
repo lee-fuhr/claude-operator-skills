@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """TDD for mailbox.py — hardened two-role coordination mailbox (core cases).
 
-Design: /Users/lee/.claude/jobs/ae278b06/tmp/mailbox-skill-design.md (approved
-2026-07-14). Hardens the ad-hoc opus-to-fable.jsonl / fable-to-opus.jsonl
-pattern used all night in the ea-pm-consolidation lane.
+Hardens the ad-hoc pattern of two named roles passing JSONL messages back and
+forth, first proven in a real live coordination lane between an overseer and
+a build session.
 
 Concurrency-race and real-production-data tests live in
 test_mailbox_concurrency.py (kept separate to stay under the 500-line file

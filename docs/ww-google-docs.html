@@ -48,15 +48,15 @@ layout: null
 <a class="home" href="/">&larr; all skills</a>
 <h1>ww-google-docs</h1>
 
-<p><strong>The problem:</strong> The Google Docs API defaults to Arial, default spacing, and default margins, none of which is anyone's actual house style. A document headed to a client or a teammate who's seen your other docs before reads as generic in a way that's easy to notice and hard to unsee once you've seen it.</p>
+<p><strong>The problem:</strong> The Google Docs API defaults to Arial, default spacing, and default margins, none of which is anyone’s actual house style. A document headed to a client or a teammate who’s seen your other docs before reads as generic in a way that’s easy to notice and hard to unsee once you’ve seen it.</p>
 
-<p>Two reliable methods, and the API is honest about the tradeoff between them. Copying an already-styled template and pouring content into it guarantees an exact match, since the copy inherits the source doc's named styles and theme, but only works if a clean template exists to copy. Explicit named-style requests work on any fresh doc, but every style in your table has to be pushed through <code>updateTextStyle</code> and <code>updateParagraphStyle</code> by hand, since a fresh doc's named styles are still Google's defaults underneath. Either way, a successful API response is not proof the doc looks right: only a read-back, re-fetching the document and confirming the styles and links actually landed, is.</p>
+<p>Two reliable methods, and the API is honest about the tradeoff between them. Copying an already-styled template and pouring content into it guarantees an exact match, since the copy inherits the source doc’s named styles and theme, but only works if a clean template exists to copy. Explicit named-style requests work on any fresh doc, but every style in your table has to be pushed through <code>updateTextStyle</code> and <code>updateParagraphStyle</code> by hand, since a fresh doc’s named styles are still Google’s defaults underneath. Either way, a successful API response is not proof the doc looks right: only a read-back, re-fetching the document and confirming the styles and links actually landed, is.</p>
 
 <h3>Key principles</h3>
 
 <ul>
 <li>Build your own house-style table once (font, size, weight, spacing per named style) before starting; everything else assumes it already exists</li>
-<li>Prefer copying a styled template over explicit style requests whenever a clean template exists; it's less work and less error-prone</li>
+<li>Prefer copying a styled template over explicit style requests whenever a clean template exists; it’s less work and less error-prone</li>
 <li>Hyperlink the descriptive text, never a bare “link”</li>
 <li>The read-back is mandatory; a successful insert or update response never proves the style actually applied</li>
 </ul>
