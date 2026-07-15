@@ -40,7 +40,7 @@ Eighteen skills below. The first six cover a single session end to end, before y
 | `/qq-audit` | Gets outside eyes on your code and copy across 255 expert lenses in 13 quality domains, since Claude can’t judge its own work fairly. Smart-routes to the right domains in the right order. | SUS 57.5 → 92.5 across 3 rounds on a production app |
 | `/qq-weekend-burn` | Stands up a recurring schedule that fires itself every week and burns your quota on real work, one finished thing at a time. | A weekly cadence that installs once and runs itself forever |
 | `copy-sweep` (hook, not a command) | Blocks em dashes, straight quotes, and Title Case headings before they land in a file. Fires automatically on every Write/Edit. | AI-tell punctuation caught at write time, not cleaned up after |
-| `qq-mailbox` (import, not a command) | Lets two or more concurrent Claude sessions hand work back and forth on their own: a build session and an overseer, a headless keepalive and its live counterpart. Append-only JSONL, atomic cursor, nothing to lock. | A session drops a message and moves on; the other picks it up on its own schedule, no pasted context, no clobbered state |
+| `qq-mailbox` (import, not a command) | Lets two or more concurrent Claude sessions hand work back and forth on their own: a build session and an overseer, a headless `ww-keepalive` worker and its live counterpart. Append-only JSONL, atomic cursor, nothing to lock. | A session drops a message and moves on; the other picks it up on its own schedule, no pasted context, no clobbered state |
 | `ww-plan-audit` (loads automatically before exiting plan mode) | Runs a ten-dimension gauntlet on any multi-phase plan: an interview, a principles read, a multi-domain audit, and two external models arguing with it, before you build anything. | Wisdom that would’ve surfaced three weeks into the build shows up before the first commit |
 | `ww-rule15` (say “is this actually done”, or run it before any DONE claim) | Forces a stated outcome, a traced action chain, and evidence from outside your own head before “done” gets to land. | A PASS without external evidence auto-downgrades to PARTIAL, so cosmetic done stops passing as done |
 | `ww-skill-auditor` (`python3 audit.py "<author>/<repo>/<skill>"`, run before any third-party install) | Pattern-scans a SKILL.md for prompt injection, credential theft, and remote code execution, then runs a cheap-model second pass. | A specific, evidenced SAFE/CAUTION/UNSAFE/UNKNOWN verdict before a stranger’s markdown enters your agent’s context |
@@ -73,11 +73,11 @@ Claude will read this file and walk you through the rest. Or manually:
 git clone https://github.com/lee-fuhr/claude-operator-skills.git
 cd claude-operator-skills
 
-cp -r skills/qq-externalize skills/qq-smart-next-move skills/qq-audit-master skills/weekend-burn skills/keepalive skills/qq-mailbox ~/.claude/skills/
+cp -r skills/qq-externalize skills/qq-smart-next-move skills/qq-audit-master skills/weekend-burn skills/ww-keepalive skills/qq-mailbox ~/.claude/skills/
 cp commands/qq-externalize.md commands/qq-smart-next-move.md commands/qq-audit.md commands/qq-weekend-burn.md ~/.claude/commands/
 ```
 
-`keepalive` and `qq-mailbox` have no `commands/*.md` of their own. `keepalive` is the mechanism `/qq-weekend-burn` runs on under the hood; `qq-mailbox` is a Python import (`from mailbox import send, check`), not a slash command. Both just need to be present in `~/.claude/skills/` alongside the rest.
+`ww-keepalive` and `qq-mailbox` have no `commands/*.md` of their own. `ww-keepalive` is the mechanism `/qq-weekend-burn` runs on under the hood; `qq-mailbox` is a Python import (`from mailbox import send, check`), not a slash command. Both just need to be present in `~/.claude/skills/` alongside the rest.
 
 **`copy-sweep` is a hook, not a skill.** It doesn’t go in `~/.claude/skills/` at all, and there’s
 no command to copy. See its own section below for the two-step install (copy the script, add one
@@ -357,7 +357,7 @@ Product → UX → Visual → Copy → Frontend → Backend → Performance
 - A finish-discipline doctrine: one project worked to a real terminal state before the next starts, so a long unattended run ships finished things instead of a dozen started ones
 - An intake standard: a fuzzy backlog item is never dropped; it’s tagged `needs-definition` and gets your single most capable model for exactly one job (writing a clear definition of done), then drops straight back to normal cheap-model execution
 - A kill switch where the word you write decides the failure mode: `PAUSE` self-heals after a TTL, `STOP` holds until you clear it, anything else gets flagged loudly instead of silently obeyed
-- Built on `keepalive` (also in this repo) for the actual session-survival mechanism: the fresh-process-per-fire trick that means a 5-hour cap, a closed laptop, or a reboot never stops the schedule. You don’t invoke `keepalive` yourself; `/qq-weekend-burn` does it for you.
+- Built on `ww-keepalive` (also in this repo) for the actual session-survival mechanism: the fresh-process-per-fire trick that means a 5-hour cap, a closed laptop, or a reboot never stops the schedule. You don’t invoke `ww-keepalive` yourself; `/qq-weekend-burn` does it for you.
 
 ### Commands
 

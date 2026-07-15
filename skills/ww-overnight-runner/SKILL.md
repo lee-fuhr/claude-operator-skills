@@ -11,7 +11,7 @@ description: Autonomous overnight operation protocol for when you step away for 
 
 This is a real contract for working unattended for hours: what to decide alone, what to always stop for, how to launch and parallelize agents, where non-blocking questions get parked instead of asked, what QA standard applies with nobody watching, and what a clean morning handoff actually looks like.
 
-**This is a decision contract, not a process-survival mechanism.** It governs what an agent decides on its own and how it reports back; it has nothing to say about surviving a 5-hour session cap, a closed laptop, or a reboot. If you also need the run to survive those, pair this with a resilience mechanism like the `keepalive` skill (also in this repo): `keepalive` keeps the process alive across interruptions, this skill governs what it does with that time.
+**This is a decision contract, not a process-survival mechanism.** It governs what an agent decides on its own and how it reports back; it has nothing to say about surviving a 5-hour session cap, a closed laptop, or a reboot. If you also need the run to survive those, pair this with a resilience mechanism like the `ww-keepalive` skill (also in this repo): `ww-keepalive` keeps the process alive across interruptions, this skill governs what it does with that time.
 
 ---
 

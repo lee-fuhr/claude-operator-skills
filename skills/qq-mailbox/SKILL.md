@@ -33,7 +33,7 @@ any machine that doesn’t have that specific path)
 
 - Standing up a new coordination lane between two or more concurrent Claude
   sessions (a build session and a QC/overseer session, two build sessions on
-  different subsystems, a headless keepalive and its live counterpart)
+  different subsystems, a headless `ww-keepalive` worker and its live counterpart)
 - Debugging an existing lane’s `_sync/` directory (message ordering, cursor
   state, why a role isn’t seeing a message)
 - Someone is about to hand-roll a new ad-hoc JSONL handoff file — stop them,

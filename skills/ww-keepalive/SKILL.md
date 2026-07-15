@@ -1,5 +1,5 @@
 ---
-name: keepalive
+name: ww-keepalive
 description: Stands up a self-relaying overnight worker in about 60 seconds, a `claude -p` loop that survives 5-hour caps, session death, and reboots so a long campaign keeps running while you’re away from the keyboard. Owns the resilience mechanism (fresh `claude -p`, never `--resume`; gates + liveness checks + dual-account failover + `--permission-mode auto`; a one-paste plist install; and a standard queue.md/done.md tasklist scaffolded per campaign) so any campaign that needs to outlive a single session can build on this instead of reinventing it. Invoke when you say “keepalive”, “keep it alive”, “stand up a worker”, “self-relaying worker”, “overnight worker”, “make it survive caps”, or any autonomous-run skill needs the resilience backbone.
 ---
 

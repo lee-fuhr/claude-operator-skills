@@ -1,6 +1,6 @@
 ---
 name: weekend-burn
-description: Puts your unused weekly Claude quota to work automatically. Weekend burn is a standing, every-weekend cadence (not a one-off campaign) that fires itself inside a recurring window (e.g. Friday evening through Sunday night) and burns the full weekly Claude subscription quota before it resets, finishing ONE real capability completely before starting the next so a productive weekend ships many finished things and never a pile of half-done ones. Builds on the `keepalive` skill for the actual resilience mechanism (fresh `claude -p`, gates, dual-account failover) and adds the recurring-schedule + self-healing kill-switch layer on top. Invoke when you say “weekend burn”, “set up a weekend burn”, “burn the quota”, “run every weekend”, “standing weekly cadence”, “recurring autonomous campaign”, “use the whole week’s quota”, or want a repeating (not one-off) autonomous run that finishes real, categorical capabilities on a schedule instead of running once and stopping.
+description: Puts your unused weekly Claude quota to work automatically. Weekend burn is a standing, every-weekend cadence (not a one-off campaign) that fires itself inside a recurring window (e.g. Friday evening through Sunday night) and burns the full weekly Claude subscription quota before it resets, finishing ONE real capability completely before starting the next so a productive weekend ships many finished things and never a pile of half-done ones. Builds on the `ww-keepalive` skill for the actual resilience mechanism (fresh `claude -p`, gates, dual-account failover) and adds the recurring-schedule + self-healing kill-switch layer on top. Invoke when you say “weekend burn”, “set up a weekend burn”, “burn the quota”, “run every weekend”, “standing weekly cadence”, “recurring autonomous campaign”, “use the whole week’s quota”, or want a repeating (not one-off) autonomous run that finishes real, categorical capabilities on a schedule instead of running once and stopping.
 ---
 
 > Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
@@ -9,18 +9,18 @@ description: Puts your unused weekly Claude quota to work automatically. Weekend
 
 **One-line pitch:** a subscription-quota-based Claude plan resets weekly. Most of that quota goes unused because nobody is driving it on a Saturday. Weekend burn is a standing schedule that drives it anyway: automatically, every week, inside a recurring window, with enough discipline that it produces *finished capabilities*, not a pile of half-touched projects.
 
-This skill does not reinvent the resilience mechanism. It is a thin, opinionated layer on top of `keepalive` (fresh `claude -p` each fire, the gate order, dual-account failover, the queue.md/done.md tasklist standard) that adds two things keepalive doesn’t own: **a recurring calendar schedule** (so it fires itself every week without being re-invoked) and **a finish-discipline doctrine** (so a long unattended run produces done things instead of many started things).
+This skill does not reinvent the resilience mechanism. It is a thin, opinionated layer on top of `ww-keepalive` (fresh `claude -p` each fire, the gate order, dual-account failover, the queue.md/done.md tasklist standard) that adds two things ww-keepalive doesn’t own: **a recurring calendar schedule** (so it fires itself every week without being re-invoked) and **a finish-discipline doctrine** (so a long unattended run produces done things instead of many started things).
 
 ---
 
-## What weekend-burn adds on top of keepalive
+## What weekend-burn adds on top of ww-keepalive
 
 | Skill | Shape | Decides |
 |---|---|---|
-| **keepalive** | mechanism | how a loop survives caps, session death, reboots |
+| **ww-keepalive** | mechanism | how a loop survives caps, session death, reboots |
 | **weekend-burn (this skill)** | **standing, recurring** | **when the whole thing fires, and what “done” means across a long unattended run** |
 
-**The distinction that matters:** most autonomous-run setups are invoked *on a task*: you hand over a campaign, it runs once (however long “once” takes) and finishes. Weekend burn is invoked *once, to install a schedule*; after that, it fires itself every week on calendar time, with no re-invocation, until you tear it down. What it adds on top of keepalive’s resilience mechanism is the *when* and the *finish discipline*.
+**The distinction that matters:** most autonomous-run setups are invoked *on a task*: you hand over a campaign, it runs once (however long “once” takes) and finishes. Weekend burn is invoked *once, to install a schedule*; after that, it fires itself every week on calendar time, with no re-invocation, until you tear it down. What it adds on top of ww-keepalive’s resilience mechanism is the *when* and the *finish discipline*.
 
 ---
 
@@ -86,9 +86,9 @@ These are worth far more used early and often than saved for a closing retrospec
 
 ---
 
-## The mechanism: keepalive plus a recurring window gate
+## The mechanism: ww-keepalive plus a recurring window gate
 
-Weekend burn is `keepalive`‘s mechanism (see that skill for the full mechanism: fresh `claude -p` per fire, the gate order, the interactive interlock, dual-account failover, `--permission-mode auto`) with two additions layered on top:
+Weekend burn is `ww-keepalive`‘s mechanism (see that skill for the full mechanism: fresh `claude -p` per fire, the gate order, the interactive interlock, dual-account failover, `--permission-mode auto`) with two additions layered on top:
 
 ### 1. A pure, stateless window function
 
@@ -117,19 +117,19 @@ Test this function directly (it’s pure, no I/O, trivially unit-testable) rathe
 
 ### 2. A calendar-driven fire schedule
 
-Schedule the launcher via `StartCalendarInterval` entries (not a bare interval) covering the window at your chosen cadence: e.g. every two hours across the whole window, plus the window’s opening moment. Each fire: check the window function, check the kill switch (below), check whether the backlog has unchecked work, and only then invoke the keepalive engine for a chunk. A separate lightweight watchdog on its own interval (every few hours is plenty) checks for silent stalls: a fire that should have happened and didn’t.
+Schedule the launcher via `StartCalendarInterval` entries (not a bare interval) covering the window at your chosen cadence: e.g. every two hours across the whole window, plus the window’s opening moment. Each fire: check the window function, check the kill switch (below), check whether the backlog has unchecked work, and only then invoke the ww-keepalive engine for a chunk. A separate lightweight watchdog on its own interval (every few hours is plenty) checks for silent stalls: a fire that should have happened and didn’t.
 
 ### 3. A governing doc every fire reads first
 
 The pattern that makes “one project at a time” actually hold across dozens of independent, stateless fires: a single doc (call it `GOVERNING-DOC.md` in the lane) that carries the prime directive, the intake standard, the definition-of-done rules, the reflection instruments, the kill-switch semantics, and, updated every cycle, an **“active project”** pointer naming exactly what’s being worked right now and what’s already finished. Every fire reads this doc first, finds the active project, works only that project until it’s done or staged, and only then updates the pointer and descends to the next backlog item. This is what stops a stateless relay of independent `claude -p` calls from turning into N sessions each nibbling a different unfinished thing.
 
-This doc is a specialization of the `queue.md` + `done.md` tasklist standard keepalive already requires; the addition here is the standing doctrine (prime directive, intake, definition of done) plus the single “active project” spotlight that enforces sequencing across fires that share no memory with each other.
+This doc is a specialization of the `queue.md` + `done.md` tasklist standard ww-keepalive already requires; the addition here is the standing doctrine (prime directive, intake, definition of done) plus the single “active project” spotlight that enforces sequencing across fires that share no memory with each other.
 
 ---
 
 ## The kill switch: self-healing, never silently dark
 
-A recurring, unattended cadence has one structural risk keepalive’s mechanism doesn’t fully cover on its own: **a halt that nobody remembers to clear.** A single stray word in a kill-switch file can silently stop a weekly cadence for weeks, with every fire reading it, exiting clean, and telling nobody. A crash-only watchdog sees a clean exit and thinks all is well.
+A recurring, unattended cadence has one structural risk ww-keepalive’s mechanism doesn’t fully cover on its own: **a halt that nobody remembers to clear.** A single stray word in a kill-switch file can silently stop a weekly cadence for weeks, with every fire reading it, exiting clean, and telling nobody. A crash-only watchdog sees a clean exit and thinks all is well.
 
 The fix is that **the word you write decides what happens if you forget it there:**
 
@@ -145,11 +145,11 @@ The invariant this buys: in a burn window with queued work, the system is **eith
 
 1. **Pick a lane**, a directory that will hold the schedule’s state: the governing doc, the backlog, `queue.md`/`done.md`, `CHANGELOG.md`, `state.json`, the kill-switch file, and logs.
 2. **Write the window function** (above) and its tests. Confirm it returns true/false correctly for the boundary hours, not just the middle of the window.
-3. **Scaffold the keepalive engine** into the lane per the `keepalive` skill. The campaign lane contract (`queue.md`, `done.md`, `CHANGELOG.md`, the conf/state) is identical here; weekend burn doesn’t change that contract, it just adds the calendar gate and the governing doc on top.
+3. **Scaffold the ww-keepalive engine** into the lane per the `ww-keepalive` skill. The campaign lane contract (`queue.md`, `done.md`, `CHANGELOG.md`, the conf/state) is identical here; weekend burn doesn’t change that contract, it just adds the calendar gate and the governing doc on top.
 4. **Write the governing doc**: prime directive, intake standard, definition-of-done rules, reflection instruments, kill-switch semantics, and an “active project” section that gets rewritten every cycle. Seed the backlog with real, intake-passed items (each with a definition of done, a priority, and an autonomy tag, no exceptions).
-5. **Write the launcher**: checks the window function, checks the kill switch, checks whether the backlog has unchecked work, then invokes the keepalive engine for one chunk. Exits cleanly (not an error) on any negative check.
+5. **Write the launcher**: checks the window function, checks the kill switch, checks whether the backlog has unchecked work, then invokes the ww-keepalive engine for one chunk. Exits cleanly (not an error) on any negative check.
 6. **Write a watchdog** on a longer interval that flags a fire that should have happened and didn’t; a stale-log check is enough; it doesn’t need to know anything the launcher doesn’t already know.
-7. **Hand off the calendar schedule for install**: same rule as keepalive. The agent scaffolds the files; the human installs the actual recurring trigger themselves (the platform’s autonomous-loop safety classifier blocks an agent creating a self-triggering unattended schedule for itself). Give a one-paste install block and a matching teardown block.
+7. **Hand off the calendar schedule for install**: same rule as ww-keepalive. The agent scaffolds the files; the human installs the actual recurring trigger themselves (the platform’s autonomous-loop safety classifier blocks an agent creating a self-triggering unattended schedule for itself). Give a one-paste install block and a matching teardown block.
 8. **Confirm the loop is genuinely idle-safe.** With no kill switch present and an empty backlog, a fire inside the window should do a short, honest health pass and stop. Never manufacture work just because the schedule fired.
 
 ---
@@ -166,4 +166,4 @@ The invariant this buys: in a burn window with queued work, the system is **eith
 
 ## Self-improvement
 
-When a mechanism bug specific to the *recurring* layer turns up (a window boundary off by an hour, a kill-switch edge case, a watchdog false-positive), fix it here and in the window/guard functions, once. Mechanism bugs shared with plain on-demand campaigns belong in `keepalive` instead; don’t let this skill’s copy of the mechanism drift from that one.
+When a mechanism bug specific to the *recurring* layer turns up (a window boundary off by an hour, a kill-switch edge case, a watchdog false-positive), fix it here and in the window/guard functions, once. Mechanism bugs shared with plain on-demand campaigns belong in `ww-keepalive` instead; don’t let this skill’s copy of the mechanism drift from that one.
