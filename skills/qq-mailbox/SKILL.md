@@ -245,6 +245,17 @@ for m in r['unread']:
 done
 ```
 
+**The event firing is the trigger to actually work, not just a log line to
+glance at.** Found this needed spelling out explicitly: a first pass at this
+treated the poll loop's output as a passive notification — print a summary,
+leave it for later. That's not the point. When this fires, read the full
+message (`check()` again, or keep the envelope from the loop), do whatever
+it actually calls for, and reply on your own outbound file if warranted — in
+that same turn, visibly, the same way you'd act on anything the human said
+to you directly. A monitor that only ever prints a preview line is barely
+better than pure polling; the value is in treating "mail arrived" as
+equivalent to "someone just spoke to you," not in having a nicer log.
+
 This works cleanly because `check()`'s cursor is already idempotent and
 monotonic (see the design invariants above) — polling it on a loop never
 re-surfaces an already-seen message, so no separate "last seen" bookkeeping is
