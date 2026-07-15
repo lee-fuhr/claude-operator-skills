@@ -8,7 +8,7 @@ triggers:
   - "audit notion doc"
 ---
 
-> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills): a collection of skills for running a real Claude Code setup.
 
 # Audit tracking doc (Notion)
 
@@ -20,12 +20,12 @@ Standard format for live audit tracking in Notion. Created at audit start, updat
 
 ## When to create
 
-At the start of every audit run (invoked by qq-audit-master). Use your own Notion deliverables/tracking database — set its data source ID in your project config rather than hardcoding one here.
+At the start of every audit run (invoked by qq-audit-master). Use your own Notion deliverables/tracking database. Set its data source ID in your project config rather than hardcoding one here.
 
 ## Page properties
 
 ```
-Name: "Audit: [Product] — [date]"
+Name: "Audit: [Product], [date]"
 Project: [client name or your own org name]
 Status: "Draft" → "Final" when complete
 Session: [session name]
@@ -44,7 +44,7 @@ Icon: 🔍
 ```markdown
 <table fit-page-width="true" header-row="true">
   <tr><td>Phase</td><td>Domain</td><td>Score</td><td>Target</td><td>Rounds</td><td>Status</td></tr>
-  <tr><td>UX</td><td>UX (N frameworks)</td><td>—</td><td>9.0</td><td>0/3</td><td>⏳ Pending</td></tr>
+  <tr><td>UX</td><td>UX (N frameworks)</td><td>–</td><td>9.0</td><td>0/3</td><td>⏳ Pending</td></tr>
   ...
 </table>
 ```
@@ -57,7 +57,7 @@ Running log of the spiciest findings as each framework and fix completes. Newest
 
 **Entry format:**
 ```
-**HH:MM — [Event name]** ⬆️ old→new
+**HH:MM: [Event name]** ⬆️ old→new
 One sentence: the finding or fix that matters most.
 → N fixes applied, N remaining
 ```
@@ -110,6 +110,6 @@ The master orchestrator should:
 
 ## Notion MCP tools used
 
-- `notion-create-pages` — initial creation
-- `notion-update-page` with `update_content` — all subsequent updates
-- `notion-fetch` with `include_discussions: true` — check for the user’s comments
+- `notion-create-pages`: initial creation
+- `notion-update-page` with `update_content`: all subsequent updates
+- `notion-fetch` with `include_discussions: true` to check for the user’s comments

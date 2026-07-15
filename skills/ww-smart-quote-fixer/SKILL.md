@@ -1,9 +1,9 @@
 ---
 name: ww-smart-quote-fixer
-description: Convert straight quotes (' and ") into proper typographic quotes, apostrophes, and primes. Use this skill whenever the user asks to fix quotes, fix typography, clean up AI-generated text, polish content for publication, or apply smart quotes — and apply it proactively when producing editorial prose (blog posts, articles, marketing copy, proposals, web copy, client deliverables) so output uses proper typography from the start. Handles contractions (don't → don’t), possessives (writer's → writer’s), nested quotes, decade abbreviations ('90s → ’90s), and measurements (6'2" → 6′2″). Triggers on phrases like "fix quotes," "smart quotes," "curly quotes," "clean up this text," or whenever editing pasted content from another tool. Skip inside code, file paths, regex, and technical syntax where literal quote characters matter.
+description: Convert straight quotes (' and ") into proper typographic quotes, apostrophes, and primes. Use this skill whenever the user asks to fix quotes, fix typography, clean up AI-generated text, polish content for publication, or apply smart quotes, and apply it proactively when producing editorial prose (blog posts, articles, marketing copy, proposals, web copy, client deliverables) so output uses proper typography from the start. Handles contractions (don't → don’t), possessives (writer's → writer’s), nested quotes, decade abbreviations ('90s → ’90s), and measurements (6'2" → 6′2″). Triggers on phrases like "fix quotes," "smart quotes," "curly quotes," "clean up this text," or whenever editing pasted content from another tool. Skip inside code, file paths, regex, and technical syntax where literal quote characters matter.
 ---
 
-> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills): a collection of skills for running a real Claude Code setup.
 
 # Smart quote fixer
 
@@ -58,7 +58,7 @@ Output: `She said, “I heard ‘no way’ from him.”`
 
 ### Short text (a sentence to a paragraph)
 
-Apply the rules inline yourself — produce the corrected version directly without running the script. A few sentences pasted into chat is faster handled by reading carefully than by setting up a script call.
+Apply the rules inline yourself, producing the corrected version directly without running the script. A few sentences pasted into chat is faster handled by reading carefully than by setting up a script call.
 
 ### Long text, full files, or anything where reliability matters
 
@@ -71,7 +71,7 @@ python scripts/fix_quotes.py input.md > output.md
 cat input.txt | python scripts/fix_quotes.py > output.txt
 ```
 
-**.docx files (preserves formatting — bold, italic, links, headings):**
+**.docx files (preserves formatting: bold, italic, links, headings):**
 ```bash
 python scripts/fix_quotes.py input.docx -o output.docx
 ```
@@ -82,12 +82,12 @@ The script auto-detects format from the file extension.
 
 The script accepts these flags for team or project-specific preferences:
 
-- `--no-primes` — convert measurement quotes to straight `'` and `"` instead of primes. Some style guides prefer straight quotes for inches and feet.
-- `--apostrophes-only` — safe mode: only fix apostrophes (contractions, possessives, decades). Leaves all double quotes alone. Useful when you’re unsure about quote pairing in a complex document.
+- `--no-primes`: convert measurement quotes to straight `'` and `"` instead of primes. Some style guides prefer straight quotes for inches and feet.
+- `--apostrophes-only`: safe mode, only fix apostrophes (contractions, possessives, decades). Leaves all double quotes alone. Useful when you’re unsure about quote pairing in a complex document.
 
 ## Editorial writing default
 
-When producing editorial prose in any project that has this skill installed — proposals, blog drafts, marketing copy, web content, client deliverables — write with curly quotes from the start. Don’t produce straight quotes and rely on someone running the fixer after; produce the right characters in the first place.
+When producing editorial prose in any project that has this skill installed, proposals, blog drafts, marketing copy, web content, client deliverables, write with curly quotes from the start. Don’t produce straight quotes and rely on someone running the fixer after; produce the right characters in the first place.
 
 - Apostrophes in contractions and possessives: `’`
 - Quotations: `“…”`

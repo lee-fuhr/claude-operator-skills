@@ -11,7 +11,7 @@ triggers:
   - "run devops audit"
 ---
 
-> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills): a collection of skills for running a real Claude Code setup.
 
 # Audit DevOps with expert personas
 
@@ -27,7 +27,7 @@ Supersedes: ad-hoc infrastructure reviews, one-off uptime checks.
 
 ## Modes
 
-This skill responds to three modes based on the args passed. Interpret intent loosely — fuzzy matching, not exact phrasing.
+This skill responds to three modes based on the args passed. Interpret intent loosely, using fuzzy matching, not exact phrasing.
 
 ### Mode 1: Full serial audit (no args or "run all")
 
@@ -37,7 +37,7 @@ Triggers: `/qq-audit-devops`, "run all", "full audit", "everything", no args at 
 
 Triggers: `/qq-audit-devops 12-factor`, "just run monitoring on the production stack", "check CI/CD pipeline", etc.
 
-Match the framework name fuzzily — "12 factor", "twelve factor", "12factor" should all match 12-Factor App. "ci", "cicd", "pipeline", "github actions" should all match CI/CD Pipeline Maturity. If ambiguous, show the 2-3 closest matches and ask.
+Match the framework name fuzzily: "12 factor", "twelve factor", "12factor" should all match 12-Factor App. "ci", "cicd", "pipeline", "github actions" should all match CI/CD Pipeline Maturity. If ambiguous, show the 2-3 closest matches and ask.
 
 ### Mode 3: List frameworks (help/list/discovery)
 
@@ -51,24 +51,24 @@ Show the framework table from the framework inventory below, then ask which one(
 
 **DO NOT ask dumb questions.** Before asking anything, gather what you already know:
 
-1. **Check conversation context** — What product are we working on? What files have been discussed? What has the user been complaining about?
-2. **Check project CLAUDE.md** — Product description, tech stack, target audience.
-3. **Check recent session state** — What was just built or changed?
+1. **Check conversation context**: what product are we working on? What files have been discussed? What has the user been complaining about?
+2. **Check project CLAUDE.md**: product description, tech stack, target audience.
+3. **Check recent session state**: what was just built or changed?
 
 **Pre-fill and present assumptions:**
 
 > "Here’s what I know going in:
-> - **Product:** [name] — [description from context]
-> - **Hosting:** [Vercel / AWS / GCP / self-hosted — inferred from project]
-> - **CI/CD:** [GitHub Actions / CircleCI / none — inferred from config files]
+> - **Product:** [name], [description from context]
+> - **Hosting:** [Vercel / AWS / GCP / self-hosted, inferred from project]
+> - **CI/CD:** [GitHub Actions / CircleCI / none, inferred from config files]
 > - **Known ops concerns:** [what the user has mentioned or what recent incidents suggest]
 > - **Scope:** [full infrastructure / specific service / specific pipeline]
 >
 > Anything wrong or missing?"
 
-Use AskUserQuestion with multiple choice ONLY for genuine gaps — e.g., if you truly can’t tell what the hosting platform is, ask. If you can infer it, state the inference.
+Use AskUserQuestion with multiple choice ONLY for genuine gaps. For example, if you truly can’t tell what the hosting platform is, ask. If you can infer it, state the inference.
 
-**Interview output becomes the audit context** — passed to every framework agent so they audit with purpose, not generically.
+**Interview output becomes the audit context**: passed to every framework agent so they audit with purpose, not generically.
 
 ---
 
@@ -117,8 +117,8 @@ For each framework (in order 1-15):
 
 ### Phase 4: Report
 Save to project’s data directory:
-- `data/audit-devops-[date].md` — full report
-- `data/audit-devops-[date]-summary.md` — scores + critical findings only
+- `data/audit-devops-[date].md`: full report
+- `data/audit-devops-[date]-summary.md`: scores + critical findings only
 
 ---
 
@@ -126,30 +126,30 @@ Save to project’s data directory:
 
 | # | Framework | Expert lens | Subskill file |
 |---|-----------|-------------|---------------|
-| 1 | 12-Factor App | Application architecture fundamentals — does this app follow the patterns that make deployment, scaling, and maintenance predictable? | `01-twelve-factor.md` |
-| 2 | Infrastructure as Code | Infrastructure reproducibility — is every piece of infrastructure version-controlled, reviewable, and rebuildable from scratch? | `02-iac-audit.md` |
-| 3 | CI/CD Pipeline Maturity | Deployment pipeline health — are you shipping frequently, reliably, and with confidence that nothing is broken? | `03-cicd-maturity.md` |
-| 4 | Deployment Strategy | Release mechanics — can you ship to production with zero downtime, instant rollback, and controlled blast radius? | `04-deployment-strategy.md` |
-| 5 | Monitoring and Alerting Coverage | Operational visibility — do you know when something is broken before your users tell you, and does the alert tell you what to do about it? | `05-monitoring-alerting.md` |
-| 6 | Incident Response Readiness | Incident management — when production breaks at 3 AM, does the team know who responds, what to do, and how to communicate? | `06-incident-response.md` |
-| 7 | Backup and Disaster Recovery | Data protection and recovery — if you lost everything right now, how long until you’re back, and how much data is gone? | `07-backup-disaster-recovery.md` |
-| 8 | Log Aggregation and Search | Centralized logging — can you find the needle in the haystack when debugging a production issue at 3 AM? | `08-log-aggregation.md` |
-| 9 | Container/Runtime Health | Container hygiene — are your containers minimal, secure, health-checked, and resource-bounded? | `09-container-health.md` |
-| 10 | Secret Rotation and Management | Credential hygiene — can you rotate every secret in your system without downtime or redeployment? | `10-secret-rotation.md` |
-| 11 | Cost Optimization/Resource Efficiency | Cloud spend hygiene — are resources right-sized, unused resources cleaned up, and cost allocation visible to the teams that control it? | `11-cost-optimization.md` |
-| 12 | Observability Depth | Diagnostic capability — when something breaks, can you answer "why?" from your telemetry alone, without guessing or adding instrumentation? | `12-observability-depth.md` |
-| 13 | DNS and Domain Management | Name resolution reliability — are your DNS records correct, redundant, monitored, and managed as code? | `13-dns-management.md` |
-| 14 | SSL/TLS Configuration | Transport security — are connections encrypted with modern protocols, valid certificates, and secure defaults? | `14-tls-configuration.md` |
-| 15 | Dependency Update Cadence | Dependency freshness — are third-party libraries kept current, vulnerabilities patched promptly, and update costs kept low through regular small increments? | `15-dependency-update-cadence.md` |
+| 1 | 12-Factor App | Application architecture fundamentals: does this app follow the patterns that make deployment, scaling, and maintenance predictable? | `01-twelve-factor.md` |
+| 2 | Infrastructure as Code | Infrastructure reproducibility: is every piece of infrastructure version-controlled, reviewable, and rebuildable from scratch? | `02-iac-audit.md` |
+| 3 | CI/CD Pipeline Maturity | Deployment pipeline health: are you shipping frequently, reliably, and with confidence that nothing is broken? | `03-cicd-maturity.md` |
+| 4 | Deployment Strategy | Release mechanics: can you ship to production with zero downtime, instant rollback, and controlled blast radius? | `04-deployment-strategy.md` |
+| 5 | Monitoring and Alerting Coverage | Operational visibility: do you know when something is broken before your users tell you, and does the alert tell you what to do about it? | `05-monitoring-alerting.md` |
+| 6 | Incident Response Readiness | Incident management: when production breaks at 3 AM, does the team know who responds, what to do, and how to communicate? | `06-incident-response.md` |
+| 7 | Backup and Disaster Recovery | Data protection and recovery: if you lost everything right now, how long until you’re back, and how much data is gone? | `07-backup-disaster-recovery.md` |
+| 8 | Log Aggregation and Search | Centralized logging: can you find the needle in the haystack when debugging a production issue at 3 AM? | `08-log-aggregation.md` |
+| 9 | Container/Runtime Health | Container hygiene: are your containers minimal, secure, health-checked, and resource-bounded? | `09-container-health.md` |
+| 10 | Secret Rotation and Management | Credential hygiene: can you rotate every secret in your system without downtime or redeployment? | `10-secret-rotation.md` |
+| 11 | Cost Optimization/Resource Efficiency | Cloud spend hygiene: are resources right-sized, unused resources cleaned up, and cost allocation visible to the teams that control it? | `11-cost-optimization.md` |
+| 12 | Observability Depth | Diagnostic capability: when something breaks, can you answer "why?" from your telemetry alone, without guessing or adding instrumentation? | `12-observability-depth.md` |
+| 13 | DNS and Domain Management | Name resolution reliability: are your DNS records correct, redundant, monitored, and managed as code? | `13-dns-management.md` |
+| 14 | SSL/TLS Configuration | Transport security: are connections encrypted with modern protocols, valid certificates, and secure defaults? | `14-tls-configuration.md` |
+| 15 | Dependency Update Cadence | Dependency freshness: are third-party libraries kept current, vulnerabilities patched promptly, and update costs kept low through regular small increments? | `15-dependency-update-cadence.md` |
 
 ---
 
 ## Key principles
 
-- **Serial, not parallel** — 70% of findings duplicate across frameworks. Serial means each round finds genuinely new issues after fixes.
-- **Fix before moving on** — don’t accumulate a findings list. Fix each framework’s criticals before the next audit.
-- **Expert persona, not checklist** — each agent IS the specialist. They reason from principles, not rules.
-- **Hold every fix to a real quality bar** — is this real data? Does it prevent errors? Is the complexity earned?
-- **Config + runtime** — config audits miss runtime behavior. Always check actual deployed state, running processes, and live metrics when possible.
-- **Multi-round** — after all 15 frameworks, run the full cycle again. Scores increase each round until plateau.
-- **Dedup across frameworks** — each agent receives cumulative findings so they don’t re-report known issues.
+- **Serial, not parallel**: 70% of findings duplicate across frameworks. Serial means each round finds genuinely new issues after fixes.
+- **Fix before moving on**: don’t accumulate a findings list. Fix each framework’s criticals before the next audit.
+- **Expert persona, not checklist**: each agent IS the specialist. They reason from principles, not rules.
+- **Hold every fix to a real quality bar**: is this real data? Does it prevent errors? Is the complexity earned?
+- **Config + runtime**: config audits miss runtime behavior. Always check actual deployed state, running processes, and live metrics when possible.
+- **Multi-round**: after all 15 frameworks, run the full cycle again. Scores increase each round until plateau.
+- **Dedup across frameworks**: each agent receives cumulative findings so they don’t re-report known issues.

@@ -4,7 +4,7 @@ description: A PreToolUse hook that blocks AI-tell writing before it ever lands 
 version: 2.1.0
 ---
 
-> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills): a collection of skills for running a real Claude Code setup.
 
 # ww-copy-sweep
 

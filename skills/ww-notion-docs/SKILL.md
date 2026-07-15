@@ -3,7 +3,7 @@ name: ww-notion-docs
 description: Working with Notion documents via the Notion MCP. Covers Notion’s custom markdown syntax, content updates, tables, callouts, highlighting, database pages, and the comments-based review workflow. Load this before ANY Notion content work.
 ---
 
-> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills): a collection of skills for running a real Claude Code setup.
 
 # Notion docs
 
@@ -38,7 +38,7 @@ Do this every session. Don’t rely on memory of the spec. It’s cheap and prev
 - **Background colors:** `{color="yellow_bg"}` at end of a block, or `<span color="yellow_bg">text</span>` inline.
 - **Empty lines:** Stripped by Notion. Use `<empty-block/>` when you need vertical space.
 - **Dividers:** `---`
-- **Escape these characters:** `\ * ~ ` $ [ ] < > { } | ^` — all need backslash escaping in body text.
+- **Escape these characters:** `\ * ~ ` $ [ ] < > { } | ^`, all need backslash escaping in body text.
 
 ### Available background colors
 
@@ -125,7 +125,7 @@ The reviewer comments on blocks in Notion. Claude reads and responds via MCP.
 2. **Comments include `text-context`** showing which text they’re anchored to
 3. **Process each comment** as feedback on that specific block
 4. **Apply changes** via `update_content`, using the `text-context` to locate the right section
-5. **Add contextual comments on EVERY change** — the reviewer cannot see what changed without them. This is the primary way they review your work. Every content update, no matter how small, gets a comment explaining what changed and why, anchored to the changed text.
+5. **Add contextual comments on EVERY change.** The reviewer cannot see what changed without them. This is the primary way they review your work. Every content update, no matter how small, gets a comment explaining what changed and why, anchored to the changed text.
 6. **Reply to the reviewer’s comment threads** explaining how you addressed each one
 
 **Comments are not optional. They ARE the review interface.** The reviewer reads the doc in Notion and sees Claude’s comments explaining changes. Without comments, changes are invisible and the reviewer has to re-read the entire document to find what moved. That’s unacceptable cognitive load.
@@ -201,15 +201,15 @@ Good: comment on `fixed price, not...based rate` saying “v4.0: Replaced commit
 
 ### Comment identity
 
-Some Notion integrations (including the official Claude integration) show comments under their own name and icon, distinct from the human reviewer’s comments. Check what your specific integration shows before assuming you need to prefix comments with “Claude:” — if the identity is already visible in the Notion UI, a prefix is redundant.
+Some Notion integrations (including the official Claude integration) show comments under their own name and icon, distinct from the human reviewer’s comments. Check what your specific integration shows before assuming you need to prefix comments with “Claude:”. If the identity is already visible in the Notion UI, a prefix is redundant.
 
 ## Common mistakes (avoid these)
 
-1. **`\n` literals instead of real newlines** — Content renders as one giant block. Every newline must be an actual line break in the string.
-2. **Pipe tables `| Col |`** — They don’t render in Notion. Use `<table>` tags.
-3. **Skipping the fetch before `update_content`** — `old_str` won’t match current content. Always fetch first.
-4. **Using `replace_content` when `update_content` would work** — Destroys reviewer edits. Default to `update_content`.
-5. **Unescaped brackets in body text** — `[audience]` must be `\[audience\]` or Notion interprets it as a link/mention.
-6. **Not fetching the markdown spec** — The spec may evolve. Fetch it, don’t guess.
-7. **Block colors are treacherous** — `{color="yellow_bg"}` is a block attribute. `replace_content` preserves existing block colors. `update_content` that includes `{color="default"}` can work to clear colors, but if the braces get escaped they become visible literal text `\{color="yellow_bg"\}` in the document. **Safest approach:** Avoid setting block colors unless you plan to manage them carefully. If you must clear a block color, use `{color="default"}` via update_content. If literal escaped color tags appear in content, match them with escaped braces in old_str: `\\{color="yellow_bg"\\}`.
-8. **Emoji vs. a real icon set** — if your reviewer prefers a proper line-icon set over emoji, source an icon URL from whatever icon service you use and pass it as the `icon` parameter on `create-pages` or `update-page` instead of an emoji character.
+1. **`\n` literals instead of real newlines.** Content renders as one giant block. Every newline must be an actual line break in the string.
+2. **Pipe tables `| Col |`.** They don’t render in Notion. Use `<table>` tags.
+3. **Skipping the fetch before `update_content`.** `old_str` won’t match current content. Always fetch first.
+4. **Using `replace_content` when `update_content` would work.** Destroys reviewer edits. Default to `update_content`.
+5. **Unescaped brackets in body text.** `[audience]` must be `\[audience\]` or Notion interprets it as a link/mention.
+6. **Not fetching the markdown spec.** The spec may evolve. Fetch it, don’t guess.
+7. **Block colors are treacherous.** `{color="yellow_bg"}` is a block attribute. `replace_content` preserves existing block colors. `update_content` that includes `{color="default"}` can work to clear colors, but if the braces get escaped they become visible literal text `\{color="yellow_bg"\}` in the document. **Safest approach:** Avoid setting block colors unless you plan to manage them carefully. If you must clear a block color, use `{color="default"}` via update_content. If literal escaped color tags appear in content, match them with escaped braces in old_str: `\\{color="yellow_bg"\\}`.
+8. **Emoji vs. a real icon set.** If your reviewer prefers a proper line-icon set over emoji, source an icon URL from whatever icon service you use and pass it as the `icon` parameter on `create-pages` or `update-page` instead of an emoji character.

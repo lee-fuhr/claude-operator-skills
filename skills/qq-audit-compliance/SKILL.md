@@ -11,7 +11,7 @@ triggers:
   - "run compliance audit"
 ---
 
-> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills): a collection of skills for running a real Claude Code setup.
 
 # Audit compliance with expert personas
 
@@ -27,7 +27,7 @@ Supersedes: ad-hoc privacy reviews, one-off accessibility checks.
 
 ## Modes
 
-This skill responds to three modes based on the args passed. Interpret intent loosely — fuzzy matching, not exact phrasing.
+This skill responds to three modes based on the args passed. Interpret intent loosely, using fuzzy matching, not exact phrasing.
 
 ### Mode 1: Full serial audit (no args or "run all")
 
@@ -37,7 +37,7 @@ Triggers: `/qq-audit-compliance`, "run all", "full audit", "everything", no args
 
 Triggers: `/qq-audit-compliance GDPR`, "just run cookie consent on the marketing site", "check ADA compliance", etc.
 
-Match the framework name fuzzily — "gdpr", "eu privacy", "data protection" should all match GDPR Compliance. "ada", "508", "accessibility law" should all match ADA/Section 508 Compliance. If ambiguous, show the 2-3 closest matches and ask.
+Match the framework name fuzzily: "gdpr", "eu privacy", "data protection" should all match GDPR Compliance. "ada", "508", "accessibility law" should all match ADA/Section 508 Compliance. If ambiguous, show the 2-3 closest matches and ask.
 
 ### Mode 3: List frameworks (help/list/discovery)
 
@@ -51,24 +51,24 @@ Show the framework table from the framework inventory below, then ask which one(
 
 **DO NOT ask dumb questions.** Before asking anything, gather what you already know:
 
-1. **Check conversation context** — What product are we working on? What files have been discussed? What has the user been complaining about?
-2. **Check project CLAUDE.md** — Product description, tech stack, target audience.
-3. **Check recent session state** — What was just built or changed?
+1. **Check conversation context**: what product are we working on? What files have been discussed? What has the user been complaining about?
+2. **Check project CLAUDE.md**: product description, tech stack, target audience.
+3. **Check recent session state**: what was just built or changed?
 
 **Pre-fill and present assumptions:**
 
 > "Here’s what I know going in:
-> - **Product:** [name] — [description from context]
-> - **Jurisdictions:** [US / EU / both — inferred from audience and hosting]
-> - **User data collected:** [PII types — inferred from forms, auth, analytics]
+> - **Product:** [name], [description from context]
+> - **Jurisdictions:** [US / EU / both, inferred from audience and hosting]
+> - **User data collected:** [PII types, inferred from forms, auth, analytics]
 > - **Known compliance concerns:** [what the user has mentioned or what recent changes suggest]
 > - **Scope:** [full compliance / specific regulation / specific feature]
 >
 > Anything wrong or missing?"
 
-Use AskUserQuestion with multiple choice ONLY for genuine gaps — e.g., if you truly can’t tell whether the product serves EU users, ask. If you can infer it, state the inference.
+Use AskUserQuestion with multiple choice ONLY for genuine gaps. For example, if you truly can’t tell whether the product serves EU users, ask. If you can infer it, state the inference.
 
-**Interview output becomes the audit context** — passed to every framework agent so they audit with purpose, not generically.
+**Interview output becomes the audit context**: passed to every framework agent so they audit with purpose, not generically.
 
 **Important caveat:** This audit identifies compliance gaps and recommends fixes, but is NOT a substitute for legal counsel. Flag anything that requires legal interpretation with a "LEGAL REVIEW NEEDED" marker.
 
@@ -122,8 +122,8 @@ For each framework (in order 1-15):
 
 ### Phase 4: Report
 Save to project’s data directory:
-- `data/audit-compliance-[date].md` — full report
-- `data/audit-compliance-[date]-summary.md` — scores + critical findings only
+- `data/audit-compliance-[date].md`: full report
+- `data/audit-compliance-[date]-summary.md`: scores + critical findings only
 
 ---
 
@@ -131,31 +131,31 @@ Save to project’s data directory:
 
 | # | Framework | Expert lens | Subskill file |
 |---|-----------|-------------|---------------|
-| 1 | GDPR Compliance | EU data protection — is personal data processed lawfully, with clear purpose, minimal collection, and enforceable data subject rights? | `01-gdpr.md` |
-| 2 | CCPA/CPRA Compliance | California privacy — do users have clear opt-out rights, data access, and an honest privacy notice about what’s collected and sold? | `02-ccpa.md` |
-| 3 | Cookie Consent Implementation | Cookie law compliance — does the consent banner offer genuine choice, fire no cookies before consent, and respect withdrawal? | `03-cookie-consent.md` |
-| 4 | ADA/Section 508 Compliance | Legal accessibility — does the site meet ADA and Section 508 requirements to avoid lawsuits and serve users with disabilities? | `04-ada-508.md` |
-| 5 | Terms of Service Completeness | Legal protection — do your terms cover liability, disputes, acceptable use, and termination in an enforceable way? | `05-terms-of-service.md` |
-| 6 | Privacy Policy Accuracy | Privacy truth — does the privacy policy accurately describe what data is actually collected, used, shared, and retained? | `06-privacy-policy.md` |
-| 7 | Children’s Privacy (COPPA) | Children’s protection — are age gates, parental consent, and data protections in place for users under 13? | `07-coppa.md` |
-| 8 | Open Source License Compliance | License obligations — are all open source components identified, licenses compatible, and attribution requirements met? | `08-oss-license.md` |
-| 9 | Data Processing Agreement Coverage | Processor contracts — do all third-party processors have valid DPAs with required GDPR Art. 28 terms? | `09-dpa-coverage.md` |
-| 10 | Right to Deletion Implementation | Erasure execution — when a user requests deletion, is data actually removed from all systems including backups and third-party processors? | `10-right-to-deletion.md` |
-| 11 | Data Breach Notification Readiness | Breach response — can you detect, assess, and notify regulators within 72 hours and affected individuals without undue delay? | `11-breach-notification.md` |
-| 12 | International Data Transfer | Cross-border legality — is there a valid legal basis for every transfer of personal data outside the EEA, especially EU-to-US? | `12-international-transfer.md` |
-| 13 | Accessibility Statement | Published commitment — is there a public accessibility statement disclosing compliance level, known issues, and a contact for reporting barriers? | `13-accessibility-statement.md` |
-| 14 | Automated Decision-Making Transparency | Algorithmic accountability — are users informed about automated decisions that affect them and given the right to human review? | `14-automated-decisions.md` |
-| 15 | Record of Processing Activities (ROPA) | Processing documentation — is there a current, complete ROPA maintained that would satisfy a regulator’s request? | `15-processing-records.md` |
+| 1 | GDPR Compliance | EU data protection: is personal data processed lawfully, with clear purpose, minimal collection, and enforceable data subject rights? | `01-gdpr.md` |
+| 2 | CCPA/CPRA Compliance | California privacy: do users have clear opt-out rights, data access, and an honest privacy notice about what’s collected and sold? | `02-ccpa.md` |
+| 3 | Cookie Consent Implementation | Cookie law compliance: does the consent banner offer genuine choice, fire no cookies before consent, and respect withdrawal? | `03-cookie-consent.md` |
+| 4 | ADA/Section 508 Compliance | Legal accessibility: does the site meet ADA and Section 508 requirements to avoid lawsuits and serve users with disabilities? | `04-ada-508.md` |
+| 5 | Terms of Service Completeness | Legal protection: do your terms cover liability, disputes, acceptable use, and termination in an enforceable way? | `05-terms-of-service.md` |
+| 6 | Privacy Policy Accuracy | Privacy truth: does the privacy policy accurately describe what data is actually collected, used, shared, and retained? | `06-privacy-policy.md` |
+| 7 | Children’s Privacy (COPPA) | Children’s protection: are age gates, parental consent, and data protections in place for users under 13? | `07-coppa.md` |
+| 8 | Open Source License Compliance | License obligations: are all open source components identified, licenses compatible, and attribution requirements met? | `08-oss-license.md` |
+| 9 | Data Processing Agreement Coverage | Processor contracts: do all third-party processors have valid DPAs with required GDPR Art. 28 terms? | `09-dpa-coverage.md` |
+| 10 | Right to Deletion Implementation | Erasure execution: when a user requests deletion, is data actually removed from all systems including backups and third-party processors? | `10-right-to-deletion.md` |
+| 11 | Data Breach Notification Readiness | Breach response: can you detect, assess, and notify regulators within 72 hours and affected individuals without undue delay? | `11-breach-notification.md` |
+| 12 | International Data Transfer | Cross-border legality: is there a valid legal basis for every transfer of personal data outside the EEA, especially EU-to-US? | `12-international-transfer.md` |
+| 13 | Accessibility Statement | Published commitment: is there a public accessibility statement disclosing compliance level, known issues, and a contact for reporting barriers? | `13-accessibility-statement.md` |
+| 14 | Automated Decision-Making Transparency | Algorithmic accountability: are users informed about automated decisions that affect them and given the right to human review? | `14-automated-decisions.md` |
+| 15 | Record of Processing Activities (ROPA) | Processing documentation: is there a current, complete ROPA maintained that would satisfy a regulator’s request? | `15-processing-records.md` |
 
 ---
 
 ## Key principles
 
-- **Serial, not parallel** — 70% of findings duplicate across frameworks. Serial means each round finds genuinely new issues after fixes.
-- **Fix before moving on** — don’t accumulate a findings list. Fix each framework’s criticals before the next audit.
-- **Expert persona, not checklist** — each agent IS the specialist. They reason from principles, not rules.
-- **Hold every fix to a real quality bar** — is this real data? Does it prevent errors? Is the complexity earned?
-- **Code + policy** — code audits miss policy gaps. Always check actual privacy policies, terms, and consent flows against what the code does.
-- **Multi-round** — after all 15 frameworks, run the full cycle again. Scores increase each round until plateau.
-- **Dedup across frameworks** — each agent receives cumulative findings so they don’t re-report known issues.
-- **Not legal advice** — flag anything needing legal interpretation with LEGAL REVIEW NEEDED. This audit finds gaps, it doesn’t provide legal opinions.
+- **Serial, not parallel**: 70% of findings duplicate across frameworks. Serial means each round finds genuinely new issues after fixes.
+- **Fix before moving on**: don’t accumulate a findings list. Fix each framework’s criticals before the next audit.
+- **Expert persona, not checklist**: each agent IS the specialist. They reason from principles, not rules.
+- **Hold every fix to a real quality bar**: is this real data? Does it prevent errors? Is the complexity earned?
+- **Code + policy**: code audits miss policy gaps. Always check actual privacy policies, terms, and consent flows against what the code does.
+- **Multi-round**: after all 15 frameworks, run the full cycle again. Scores increase each round until plateau.
+- **Dedup across frameworks**: each agent receives cumulative findings so they don’t re-report known issues.
+- **Not legal advice**: flag anything needing legal interpretation with LEGAL REVIEW NEEDED. This audit finds gaps, it doesn’t provide legal opinions.

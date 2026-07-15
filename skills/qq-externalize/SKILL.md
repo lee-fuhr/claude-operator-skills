@@ -3,7 +3,7 @@ name: qq-externalize
 description: Externalize-first audit. Routes research, extraction, critique, summarization, and adversarial review to free/cheap models. Three-tier adversarial stack (cheap/mid/top) with cross-model voices. Cost kill switch. Claude synthesizes only. Use when routing may have drifted or to set up a convergent adversarial pass.
 ---
 
-> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills): a collection of skills for running a real Claude Code setup.
 
 # qq-externalize: externalize everything possible
 
@@ -98,11 +98,11 @@ EXTERNALIZE (free/cheap):
   - [subtask] → Gemini (reason)
   - [subtask] → DeepSeek (reason)
 
-KEEP (Claude only — justify):
+KEEP (Claude only, justify):
   - [subtask] → Claude because: [specific reason]
 
 ALREADY DONE BY CLAUDE THAT SHOULD HAVE BEEN EXTERNALIZED:
-  - [if any — flag for user]
+  - [if any, flag for user]
 ```
 
 ### Step 2: Execute external work
@@ -187,7 +187,7 @@ Externalized: [N] subtasks → Groq/Cerebras/DeepSeek/Gemini/Ollama
 Kept in Claude: [N] subtasks (all justified)
 Claude work that should have been externalized: [N] (flag)
 
-Models used: Groq ✓ / Cerebras — / DeepSeek ✓ / Gemini ✓ / Ollama —
+Models used: Groq ✓ / Cerebras ✗ / DeepSeek ✓ / Gemini ✓ / Ollama ✗
 ```
 
 ### Step 5: Capture learnings (recommended after every run)
@@ -195,7 +195,7 @@ Models used: Groq ✓ / Cerebras — / DeepSeek ✓ / Gemini ✓ / Ollama —
 Append one JSON line to an `externalize-runs.jsonl` log in your project:
 
 ```json
-{"date":"YYYY-MM-DD","session":"<name>","models_tried":{"groq":"ok|429|error","deepseek":"ok|error","gemini":"ok|empty|error","ollama":"ok|error"},"adversarial_changed_answer":true,"what_changed":"<one sentence>","skill_suggestion":"<improvement to routing card, steps, or anti-patterns — or null>"}
+{"date":"YYYY-MM-DD","session":"<name>","models_tried":{"groq":"ok|429|error","deepseek":"ok|error","gemini":"ok|empty|error","ollama":"ok|error"},"adversarial_changed_answer":true,"what_changed":"<one sentence>","skill_suggestion":"<improvement to routing card, steps, or anti-patterns, or null>"}
 ```
 
 **What counts as “adversarial changed answer”:** Did the external critique catch something Claude missed? Yes = true. Validation only = false.

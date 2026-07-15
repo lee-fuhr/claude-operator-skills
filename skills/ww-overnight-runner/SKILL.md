@@ -3,7 +3,7 @@ name: ww-overnight-runner
 description: Autonomous overnight operation protocol for when you step away for 6+ hours with a work queue. Defines what to decide alone, what to stop for, agent launch strategy, question parking, QA standards, morning handoff format, and failure handling.
 ---
 
-> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills): a collection of skills for running a real Claude Code setup.
 
 # Overnight runner
 
@@ -21,10 +21,10 @@ Load this skill when:
 - You explicitly say “run overnight”, “work while I sleep”, or “I’ll check in the morning”
 - The work queue contains 3+ tasks and you’re stepping away for 6+ hours
 - A delegation brief includes “autonomous” or “no check-ins”
-- You say “plow ahead”, “keep going”, “use your best judgment”, “don’t stop”, “don’t ask unless truly blocked”, or “finish while I’m away” — these invoke **autonomous mode** (below). A light ask uses on-demand autonomous mode; a 6h+ queue uses the full protocol.
+- You say “plow ahead”, “keep going”, “use your best judgment”, “don’t stop”, “don’t ask unless truly blocked”, or “finish while I’m away”: these invoke **autonomous mode** (below). A light ask uses on-demand autonomous mode; a 6h+ queue uses the full protocol.
 
 Do NOT use for:
-- Short sessions (< 2 hours) — just execute normally
+- Short sessions (under 2 hours): just execute normally
 - Tasks requiring external communication (email, chat messages to real people)
 - Irreversible infrastructure changes (DNS, production deployments, data migrations)
 
@@ -32,15 +32,15 @@ Do NOT use for:
 
 ## Autonomous mode (on-demand)
 
-For a single task or short session where you say “plow ahead” / “keep going” / “use your best judgment” — run autonomously **without** the status-board or results-file ceremony. Just the contract below plus a closing recap. (A 6h+ queue uses the full protocol that follows.)
+For a single task or short session where you say “plow ahead” / “keep going” / “use your best judgment”, run autonomously **without** the status-board or results-file ceremony. Just the contract below plus a closing recap. (A 6h+ queue uses the full protocol that follows.)
 
-**Autonomy contract.** Treat the instruction as permission to continue through normal uncertainty. Turn routine questions into stated assumptions, pick the smallest reversible option, record why, and keep moving. Do not pause to ask which reasonable option you’d prefer — pick one and note it.
+**Autonomy contract.** Treat the instruction as permission to continue through normal uncertainty. Turn routine questions into stated assumptions, pick the smallest reversible option, record why, and keep moving. Do not pause to ask which reasonable option you’d prefer. Pick one and note it.
 
 **Decision rules when choosing without you in the loop:** reuse existing patterns before inventing; prefer local, reversible, low-blast-radius changes; keep scope tight to the request; validate with the smallest meaningful test first, then broaden.
 
 **Stop only for true blockers:** missing credentials/secrets/paid access; destructive, irreversible, or production-mutating steps; branch ops, force-push, or deletion you didn’t request; high legal/safety/privacy risk a conservative local choice can’t reduce; a decision you reserved; or a verification failure that repeats where the next fix would be speculative. If blocked, leave a self-contained handoff: what’s done, what blocks, the exact input needed, the next file or command.
 
-**Close with a recap:** Goal · Key decisions + why · Changes · Validation + result · Remaining risk. Keep it factual — never hide skipped validation or judgment calls. End with a one-line status marker (🟢/🟡/🔴, see QA settings).
+**Close with a recap:** Goal, key decisions and why, changes, validation and result, remaining risk. Keep it factual, never hide skipped validation or judgment calls. End with a one-line status marker (🟢/🟡/🔴, see QA settings).
 
 ---
 
@@ -73,7 +73,7 @@ Before you step away, confirm:
 
 **Agents combining tasks:** When two adjacent tasks are closely related, a single agent will often handle both in one pass. This is efficient. Log the combined result as “Task N+M” in the results file. Do not treat it as scope creep.
 
-**Two-pass tasks:** A complex task may get a structural pass (one agent) then a formatting or quality pass (a second agent). The second agent should read the results file and pick up exactly where the first left off. This is a valid pattern — do not re-do the structural work.
+**Two-pass tasks:** A complex task may get a structural pass (one agent) then a formatting or quality pass (a second agent). The second agent should read the results file and pick up exactly where the first left off. This is a valid pattern. Do not re-do the structural work.
 
 ---
 
@@ -86,8 +86,8 @@ npx -y ccusage@latest blocks --active --json
 ```
 
 - Default throttle: **≤3 parallel subagents** per wave unless the brief says otherwise.
-- Finish the in-flight wave before checking — never kill running subagents to save budget (it loses work).
-- If the active usage window is **≥95%**, stop launching new work. Schedule a self-contained resume (`min(3600, secondsUntilWindowClears)`; chain wake-ups for longer waits). On wake, re-check the real window — a new active-block timestamp is stronger evidence than elapsed wall-clock.
+- Finish the in-flight wave before checking. Never kill running subagents to save budget (it loses work).
+- If the active usage window is **≥95%**, stop launching new work. Schedule a self-contained resume (`min(3600, secondsUntilWindowClears)`; chain wake-ups for longer waits). On wake, re-check the real window: a new active-block timestamp is stronger evidence than elapsed wall-clock.
 - If you pause, note which window is over, the observed usage, when the next check is, and what work remains, in the results file.
 
 ---
@@ -113,7 +113,7 @@ Path convention: if working in a specific project, use that project’s root. Fo
 
 ## Status board (client-grade)
 
-Stand up a working doc — Notion, a Google Doc, whatever surface you actually check from your phone — at session start. This is your phone check-in interface, so it needs to read like one, not like an engineering log. If you’re building it in Notion specifically, the `notion-docs` skill (also in this repo) covers the markdown quirks (tables, callouts, escaping) you’ll otherwise trip over.
+Stand up a working doc, Notion, a Google Doc, whatever surface you actually check from your phone, at session start. This is your phone check-in interface, so it needs to read like one, not like an engineering log. If you’re building it in Notion specifically, the `notion-docs` skill (also in this repo) covers the markdown quirks (tables, callouts, escaping) you’ll otherwise trip over.
 
 **Creation:** create the page in whatever database or folder you use for working docs. Open it (or share the link) immediately after creation.
 
@@ -151,7 +151,7 @@ Stand up a working doc — Notion, a Google Doc, whatever surface you actually c
 After each phase (or color change), add a new round at the top:
 1. Convert the current top H1 (`# Round N — ...`) to a collapsed/toggled section and indent its content
 2. Add the new round as a regular H1 above it, with a refreshed status block pinned above it
-3. Keep the decisions log, risks, and “what I need from you” current in the new round — don’t make anyone scroll into an old round to learn what changed
+3. Keep the decisions log, risks, and “what I need from you” current in the new round. Don’t make anyone scroll into an old round to learn what changed
 
 ---
 
@@ -159,14 +159,14 @@ After each phase (or color change), add a new round at the top:
 
 Context compaction can happen during a long overnight session. When resuming after compaction:
 
-**The problem:** in-session task-tracking state does not persist across compactions. After resuming, it can show all tasks as pending — even completed ones. Do not trust it.
+**The problem:** in-session task-tracking state does not persist across compactions. After resuming, it can show all tasks as pending, even completed ones. Do not trust it.
 
 **On resume:**
-1. Read the results file (`tonight-results.md` or equivalent) — this is the ground truth
+1. Read the results file (`tonight-results.md` or equivalent). This is the ground truth
 2. Identify which tasks have result entries = completed
 3. Identify which tasks have no result entry = pending or in-flight
 4. Check the status board for any updates made after the last results file write
-5. Resume from the first unfinished task — do not re-run completed tasks
+5. Resume from the first unfinished task. Do not re-run completed tasks
 
 **The results file is always the authoritative record.** In-session task tracking is for launch coordination only.
 
@@ -186,9 +186,9 @@ Overnight runs use MAX QA. No exceptions.
 For any build that produces visual output (marketing sites, dashboards, landing pages, email templates):
 
 - **Desktop / tablet / mobile screenshots are mandatory at every audit gate.** Standard breakpoints: `1440` / `768` / `390`. Use a headless screenshot tool against the staging URL, save PNGs into `<project>/content/screenshots/<gate>/<page>-<breakpoint>.png`.
-- **Screenshots get embedded in the status doc** at each gate via whatever image host you use, so you can review from mobile. Never attach local file paths — they don’t render.
-- **A browser MCP’s snapshot tool can be dangerous** on many setups — oversized images (>2000px) have crashed sessions. Prefer a standalone screenshot tool against a published staging URL. If you must use an MCP snapshot tool, scope it to a single element, never the whole page body.
-- **If a screenshot returns oversized or fails**, abandon that snapshot and move on. Do NOT retry the same element — that’s how sessions crash.
+- **Screenshots get embedded in the status doc** at each gate via whatever image host you use, so you can review from mobile. Never attach local file paths, they don’t render.
+- **A browser MCP’s snapshot tool can be dangerous** on many setups. Oversized images (>2000px) have crashed sessions. Prefer a standalone screenshot tool against a published staging URL. If you must use an MCP snapshot tool, scope it to a single element, never the whole page body.
+- **If a screenshot returns oversized or fails**, abandon that snapshot and move on. Do NOT retry the same element, that’s how sessions crash.
 
 - Read `references/qa-and-failure-handling.md` when running the per-agent pre-task/post-task checklists.
 
@@ -198,7 +198,7 @@ For any build that produces visual output (marketing sites, dashboards, landing 
 
 The results file (`tonight-results.md` or equivalent) must render cleanly in whatever markdown viewer you actually use.
 
-**The results file is the ground truth — not in-session task tracking.** That state does not survive context compaction and should not be treated as authoritative. Any reconciliation between task-tracking state and reality should always defer to the results file.
+**The results file is the ground truth, not in-session task tracking.** That state does not survive context compaction and should not be treated as authoritative. Any reconciliation between task-tracking state and reality should always defer to the results file.
 
 ---
 
@@ -238,19 +238,19 @@ Never delete files, database records, or git history during an overnight run unl
 ### Do not send external messages
 
 No emails. No chat messages to real people. No SMS. No calendar invites.
-Exception: sending yourself a push notification through whatever tool you already use for that is fine — that’s a note to yourself, not outbound communication.
+Exception: sending yourself a push notification through whatever tool you already use for that is fine. That’s a note to yourself, not outbound communication.
 
 ### Do not commit without flagging
 
 If code changes are ready to commit, create the commit but log it in results. Do not push.
-Write the commit message but note: “Ready to push — needs your review.”
+Write the commit message but note: “Ready to push, needs your review.”
 
 ### Do not spin without checkpoint
 
 If a task is taking longer than expected, checkpoint:
 - Write interim results to the results file
 - Note what’s done, what’s remaining
-- Continue — but don’t run silently for hours with nothing in the log
+- Continue, but don’t run silently for hours with nothing in the log
 
 ### Do not run steelman on yourself
 
@@ -262,7 +262,7 @@ Two agents writing to the same file = race condition = corrupted output. If task
 
 ### Do not assume silence means approval
 
-If a task would benefit from your input and the agent chose to proceed autonomously, LOG THAT DECISION. Silence is not a green light — it’s an absence. Autonomous choices should be explicit in results, not buried in the diff.
+If a task would benefit from your input and the agent chose to proceed autonomously, LOG THAT DECISION. Silence is not a green light, it’s an absence. Autonomous choices should be explicit in results, not buried in the diff.
 
 ---
 

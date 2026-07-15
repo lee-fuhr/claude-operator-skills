@@ -12,7 +12,7 @@ triggers:
   - "run ux audit"
 ---
 
-> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills): a collection of skills for running a real Claude Code setup.
 
 # Audit UX with expert personas
 
@@ -26,7 +26,7 @@ Supersedes: ux-framework-audit v2, deep-product-sweep v1, product-qa suite.
 
 ## Modes
 
-This skill responds to three modes based on the args passed. Interpret intent loosely — fuzzy matching, not exact phrasing.
+This skill responds to three modes based on the args passed. Interpret intent loosely: fuzzy matching, not exact phrasing.
 
 ### Mode 1: Full serial audit (no args or "run all")
 
@@ -36,7 +36,7 @@ Triggers: `/qq-audit-ux`, "run all", "full audit", "everything", no args at all.
 
 Triggers: `/qq-audit-ux Fitts's Law`, "just run gestalt on the sidebar", "nielsen's on the settings page", etc.
 
-Match the framework name fuzzily — "fitts", "fitt's law", "target sizes" should all match Fitts's Law. "nielsen", "heuristics", "10 heuristics" should all match Nielsen's. If ambiguous, show the 2-3 closest matches and ask.
+Match the framework name fuzzily: "fitts", "fitt's law", "target sizes" should all match Fitts's Law. "nielsen", "heuristics", "10 heuristics" should all match Nielsen's. If ambiguous, show the 2-3 closest matches and ask.
 
 ### Mode 3: List frameworks (help/list/discovery)
 
@@ -50,16 +50,16 @@ Show the framework table from §Framework inventory below, then ask which one(s)
 
 **DO NOT ask dumb questions.** Before asking anything, gather what you already know:
 
-1. **Check conversation context** — What product are we working on? What files have been discussed? What has the user been complaining about?
-2. **Check project CLAUDE.md** — Product description, tech stack, target audience.
-3. **Check recent session state** — What was just built or changed?
+1. **Check conversation context:** What product are we working on? What files have been discussed? What has the user been complaining about?
+2. **Check project CLAUDE.md:** Product description, tech stack, target audience.
+3. **Check recent session state:** What was just built or changed?
 
 **Pre-fill and present assumptions:**
 
 > "Here's what I know going in:
-> - **Product:** [name] — [description from context]
-> - **Platform:** [desktop/mobile/both — inferred from tech stack]
-> - **Quality bar:** [SUS target — from previous audits or conversation]
+> - **Product:** [name] ([description from context])
+> - **Platform:** [desktop/mobile/both, inferred from tech stack]
+> - **Quality bar:** [SUS target, from previous audits or conversation]
 > - **Known pain points:** [what the user has mentioned or what recent changes suggest]
 > - **Scope:** [full app / specific pages / specific component]
 >
@@ -67,14 +67,14 @@ Show the framework table from §Framework inventory below, then ask which one(s)
 
 **Always ask the target score** using AskUserQuestion:
 - "What score are you targeting per heuristic?"
-  - **9+ (internal tool, chase perfection)** — fix everything below target
-  - **8 (client project, good buy-in)** — fix criticals, note the rest
-  - **7 (client project, conservative)** — don't risk changing things they like
+  - **9+ (internal tool, chase perfection):** fix everything below target
+  - **8 (client project, good buy-in):** fix criticals, note the rest
+  - **7 (client project, conservative):** don't risk changing things they like
 - The target determines which findings get fixed vs. noted. Only fix findings that bring a heuristic below the target.
 
-Use AskUserQuestion with multiple choice ONLY for genuine gaps — e.g., if you truly can't tell whether it's desktop-only or responsive, ask. If you can infer it, state the inference.
+Use AskUserQuestion with multiple choice ONLY for genuine gaps. For example, if you truly can't tell whether it's desktop-only or responsive, ask. If you can infer it, state the inference.
 
-**Interview output becomes the audit context** — passed to every framework agent so they audit with purpose, not generically.
+**Interview output becomes the audit context:** passed to every framework agent so they audit with purpose, not generically.
 
 ---
 
@@ -123,13 +123,13 @@ For each framework (in order 1-20):
 
 ### Phase 4: Report
 
-**Exec summary is MANDATORY** — every report starts with a 3-5 sentence executive summary at the very top. No jargon, no framework names. Just: what was audited, what the score is, what the biggest problem is, and whether it improved from last time.
+**Exec summary is MANDATORY:** every report starts with a 3-5 sentence executive summary at the very top. No jargon, no framework names. Just: what was audited, what the score is, what the biggest problem is, and whether it improved from last time.
 
-**Per-framework exec summaries too** — after each framework completes, present a 1-2 sentence summary before the detailed findings. Lead with the score change and the single most important finding.
+**Per-framework exec summaries too:** after each framework completes, present a 1-2 sentence summary before the detailed findings. Lead with the score change and the single most important finding.
 
 Save to project's data directory:
-- `data/audit-ux-[date].md` — full report (exec summary at top)
-- `data/audit-ux-[date]-summary.md` — scores + critical findings only
+- `data/audit-ux-[date].md`: full report (exec summary at top)
+- `data/audit-ux-[date]-summary.md`: scores + critical findings only
 
 ---
 
@@ -137,38 +137,38 @@ Save to project's data directory:
 
 | # | Framework | Expert lens | Subskill file |
 |---|-----------|-------------|---------------|
-| 1 | Nielsen's 10 Heuristics | Broad usability sweep — visibility, consistency, error prevention, recognition, flexibility, minimalism | `01-nielsens-heuristics.md` |
-| 2 | Gestalt Principles | Visual grouping — proximity, similarity, continuity, closure, figure-ground | `02-gestalt-principles.md` |
-| 3 | Fitts's Law | Motor control — target sizes, distances, touch targets, click area geometry | `03-fitts-law.md` |
-| 4 | Hick's Law | Decision complexity — option counts, defaults, progressive narrowing | `04-hicks-law.md` |
-| 5 | Miller's Law | Working memory — chunking, information density, cross-screen recall | `05-millers-law.md` |
-| 6 | Jakob's Law | Convention compliance — does this match patterns users already know? | `06-jakobs-law.md` |
-| 7 | Aesthetic-Usability Effect | Polish and trust — beauty creates perceived usability (and can mask real problems) | `07-aesthetic-usability.md` |
-| 8 | Von Restorff Effect | Visual salience — does the most important thing actually stand out? | `08-von-restorff.md` |
-| 9 | Zeigarnik Effect | Progress and completion — open loops, progress indicators, completion feedback | `09-zeigarnik-effect.md` |
-| 10 | Progressive Disclosure | Complexity management — what's visible vs. what's behind interaction | `10-progressive-disclosure.md` |
-| 11 | Error Tolerance | Recovery and forgiveness — undo, confirmation, form data persistence | `11-error-tolerance.md` |
-| 12 | Emotional Design | Feeling — visceral, behavioral, reflective (Don Norman's three levels) | `12-emotional-design.md` |
-| 13 | WCAG 2.1 AA | Accessibility — perceivable, operable, understandable, robust | `13-wcag-accessibility.md` |
-| 14 | Doherty Threshold | Response time — <400ms for flow, <100ms for instantaneous feel | `14-doherty-threshold.md` |
-| 15 | Peak-End Rule | Memory — users judge by the peak moment and the ending | `15-peak-end-rule.md` |
-| 16 | Tesler's Law | Complexity budget — who bears the irreducible complexity, user or system? | `16-teslers-law.md` |
-| 17 | Cognitive Load Theory | Mental bandwidth — intrinsic, extraneous, germane load management | `17-cognitive-load-theory.md` |
-| 18 | Serial Position Effect | Placement — primacy and recency, the forgotten middle | `18-serial-position-effect.md` |
-| 19 | Goal-Gradient Effect | Momentum — progress visibility, acceleration near completion | `19-goal-gradient-effect.md` |
-| 20 | SUS Scoring | Synthesis — 10-item usability scale, maps score to framework-specific diagnosis | `20-sus-scoring.md` |
+| 1 | Nielsen's 10 Heuristics | Broad usability sweep: visibility, consistency, error prevention, recognition, flexibility, minimalism | `01-nielsens-heuristics.md` |
+| 2 | Gestalt Principles | Visual grouping: proximity, similarity, continuity, closure, figure-ground | `02-gestalt-principles.md` |
+| 3 | Fitts's Law | Motor control: target sizes, distances, touch targets, click area geometry | `03-fitts-law.md` |
+| 4 | Hick's Law | Decision complexity: option counts, defaults, progressive narrowing | `04-hicks-law.md` |
+| 5 | Miller's Law | Working memory: chunking, information density, cross-screen recall | `05-millers-law.md` |
+| 6 | Jakob's Law | Convention compliance: does this match patterns users already know? | `06-jakobs-law.md` |
+| 7 | Aesthetic-Usability Effect | Polish and trust: beauty creates perceived usability (and can mask real problems) | `07-aesthetic-usability.md` |
+| 8 | Von Restorff Effect | Visual salience: does the most important thing actually stand out? | `08-von-restorff.md` |
+| 9 | Zeigarnik Effect | Progress and completion: open loops, progress indicators, completion feedback | `09-zeigarnik-effect.md` |
+| 10 | Progressive Disclosure | Complexity management: what's visible vs. what's behind interaction | `10-progressive-disclosure.md` |
+| 11 | Error Tolerance | Recovery and forgiveness: undo, confirmation, form data persistence | `11-error-tolerance.md` |
+| 12 | Emotional Design | Feeling: visceral, behavioral, reflective (Don Norman's three levels) | `12-emotional-design.md` |
+| 13 | WCAG 2.1 AA | Accessibility: perceivable, operable, understandable, robust | `13-wcag-accessibility.md` |
+| 14 | Doherty Threshold | Response time: <400ms for flow, <100ms for instantaneous feel | `14-doherty-threshold.md` |
+| 15 | Peak-End Rule | Memory: users judge by the peak moment and the ending | `15-peak-end-rule.md` |
+| 16 | Tesler's Law | Complexity budget: who bears the irreducible complexity, user or system? | `16-teslers-law.md` |
+| 17 | Cognitive Load Theory | Mental bandwidth: intrinsic, extraneous, germane load management | `17-cognitive-load-theory.md` |
+| 18 | Serial Position Effect | Placement: primacy and recency, the forgotten middle | `18-serial-position-effect.md` |
+| 19 | Goal-Gradient Effect | Momentum: progress visibility, acceleration near completion | `19-goal-gradient-effect.md` |
+| 20 | SUS Scoring | Synthesis: 10-item usability scale, maps score to framework-specific diagnosis | `20-sus-scoring.md` |
 
 ---
 
 ## Key principles
 
-- **Serial, not parallel** — 70% of findings duplicate across frameworks. Serial means each round finds genuinely new issues after fixes.
-- **Fix before moving on** — don't accumulate a findings list. Fix each framework's criticals before the next audit.
-- **Expert persona, not checklist** — each agent IS the specialist. They reason from principles, not rules.
-- **Hold every fix to a real quality bar** — is this real data? Does it prevent errors? Is the complexity earned?
-- **Code + screenshots** — code audits miss visual issues. Always audit rendered output when possible.
-- **Multi-round** — after all 20 frameworks, run the full cycle again. Scores increase each round until plateau.
-- **Dedup across frameworks** — each agent receives cumulative findings so they don't re-report known issues.
+- **Serial, not parallel:** 70% of findings duplicate across frameworks. Serial means each round finds genuinely new issues after fixes.
+- **Fix before moving on:** don't accumulate a findings list. Fix each framework's criticals before the next audit.
+- **Expert persona, not checklist:** each agent IS the specialist. They reason from principles, not rules.
+- **Hold every fix to a real quality bar:** is this real data? Does it prevent errors? Is the complexity earned?
+- **Code + screenshots:** code audits miss visual issues. Always audit rendered output when possible.
+- **Multi-round:** after all 20 frameworks, run the full cycle again. Scores increase each round until plateau.
+- **Dedup across frameworks:** each agent receives cumulative findings so they don't re-report known issues.
 
 ---
 

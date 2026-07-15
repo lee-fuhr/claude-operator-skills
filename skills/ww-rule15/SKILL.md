@@ -3,7 +3,7 @@ name: ww-rule15
 description: “Mandatory end-to-end verification before claiming any feature is DONE, working, shipped, or verified. Invoke with /ww-rule15 before marking features complete, after implementing features, or when auditing existing features for cosmetic code. Triggers: claiming something works, marking DONE in plans, before commits that close features, auditing the roadmap. A feature is DONE when its intended outcome is delivered, not when its UI renders.”
 ---
 
-> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills): a collection of skills for running a real Claude Code setup.
 
 # Rule 15: no cosmetic code
 
@@ -15,7 +15,7 @@ A feature is DONE when its intended outcome is delivered to the user, not when i
 
 ### 1. State the intended outcome
 
-> **Intended outcome:** [one sentence — what the user gets]
+> **Intended outcome:** [one sentence: what the user gets]
 
 If unsure, ask. Do not guess. Bad: “modal opens.” Good: “the user can create a working agent with tools and workflows.”
 
@@ -25,7 +25,7 @@ If unsure, ask. Do not guess. Bad: “modal opens.” Good: “the user can crea
 Trigger → Step 1 → Step 2 → ... → Outcome
 ```
 
-Verify each step’s code path exists. If any step dead-ends, stop — it’s COSMETIC or PARTIAL.
+Verify each step’s code path exists. If any step dead-ends, stop. It’s COSMETIC or PARTIAL.
 
 ### 3. Verify the feedback loop (success and error)
 
@@ -57,13 +57,13 @@ For display-only features: skip the data check. Verify the rendered output is co
 
 ## Effort-sizing floors (non-downgradeable)
 
-Effort is set by feature complexity, not by who is running the check. The implementer cannot reduce their own floor — only someone with real authority over the project can explicitly accept a lower effort level.
+Effort is set by feature complexity, not by who is running the check. The implementer cannot reduce their own floor. Only someone with real authority over the project can explicitly accept a lower effort level.
 
 | Condition | Minimum effort |
 |-----------|----------------|
-| Code change touching > 1 file | **medium** — run tests, check integration points |
-| Change to a hook, scheduled job, or a shared config/instruction file | **high** — a real behavioral test, not just “the file exists” |
-| Claim of “DONE” on a multi-session project | **high** — read the plan/status doc, run tests, verify against the stated outcome |
+| Code change touching > 1 file | **medium**: run tests, check integration points |
+| Change to a hook, scheduled job, or a shared config/instruction file | **high**: a real behavioral test, not just “the file exists” |
+| Claim of “DONE” on a multi-session project | **high**: read the plan/status doc, run tests, verify against the stated outcome |
 
 When multiple rows apply, the highest floor wins. “I built it, so I know it works” is not a floor override.
 
@@ -88,7 +88,7 @@ The implementer’s own reasoning is not evidence. This is the classic “looks 
 **Test result:** [result]
 **Data verification:** [result]
 **Effort tier used:** [low|medium|high] (floor: [what floor applied])
-**External evidence:** [what was checked externally, or "none — downgraded to PARTIAL"]
+**External evidence:** [what was checked externally, or “none, downgraded to PARTIAL”]
 **Verdict:** PASS / PARTIAL / COSMETIC / BROKEN
 **If not PASS:** What's missing.
 **Plan doc update:** [what status was changed, from what to what]

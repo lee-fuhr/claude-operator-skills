@@ -3,9 +3,9 @@ name: ww-skill-auditor
 description: Audit any agent skill, plugin, hook, or external Markdown instruction file before installing or trusting it. Fetches the SKILL.md from GitHub (or accepts a local path or URL), runs deterministic pattern scans for prompt injection, credential exfiltration, dangerous shell commands, hook installation, and supply-chain code execution, then runs a cheap-model semantic check. Returns SAFE / CAUTION / UNSAFE / UNKNOWN with specific findings. Use this skill whenever you or another skill is about to install a third-party skill, when evaluating an unknown component from `npx skills add`, when reviewing a SKILL.md from an external source, when a marketplace or repo is being added, or any time you say “audit this skill,” “is this safe to install,” “/ww-skill-auditor,” “check this skill before installing,” or point to an external skill, plugin, or hook to evaluate.
 ---
 
-> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills): a collection of skills for running a real Claude Code setup.
 
-# Skill auditor — a security gate before you install any third-party skill
+# Skill auditor: a security gate before you install any third-party skill
 
 A skill you install is a markdown file, and often a script, that gets read straight into your agent’s context and sometimes executed. It can ask your agent to read your `.env`, pipe a remote script into `bash`, install a scheduled job, or quietly try to override its own instructions, and none of that is obvious from skimming the description. This tool reads the actual SKILL.md before it ever touches your system: pattern-scans for the known attack shapes, runs a cheap-model second pass to catch what regex misses, and hands back one of four verdicts with the exact findings attached, so “is this safe to install” has a real answer instead of a guess.
 
@@ -32,10 +32,10 @@ python3 audit.py "<author>/<repo>/<skill>"
 Run it from this skill’s own directory, or pass the full path to `audit.py`.
 
 Accepted input forms:
-- `npx skills add` spec — `someauthor/somerepo/some-skill`
-- Raw GitHub URL — `https://raw.githubusercontent.com/.../SKILL.md`
-- GitHub blob/tree URL — `https://github.com/.../tree/main/skill-name`
-- Local file — `--file /path/to/SKILL.md`
+- `npx skills add` spec: `someauthor/somerepo/some-skill`
+- Raw GitHub URL: `https://raw.githubusercontent.com/.../SKILL.md`
+- GitHub blob/tree URL: `https://github.com/.../tree/main/skill-name`
+- Local file: `--file /path/to/SKILL.md`
 
 Add `--json` for machine-readable output.
 
@@ -87,7 +87,7 @@ Any skill or agent that installs other skills on your behalf should follow this:
    - **CAUTION** → STOP. Surface the findings. Get an explicit approve-or-skip.
    - **UNSAFE** → STOP. Surface the report. Recommend skip. Do not proceed even on a vague “go ahead.”
    - **UNKNOWN** → STOP. The source could not be fetched. Try a direct URL or skip.
-4. **Never** install on a CAUTION/UNSAFE/UNKNOWN verdict based on inferred consent — the verdict has to be visible to whoever approves, every time.
+4. **Never** install on a CAUTION/UNSAFE/UNKNOWN verdict based on inferred consent. The verdict has to be visible to whoever approves, every time.
 
 ## Updating the known-good author list
 
@@ -101,7 +101,7 @@ Edit `KNOWN_GOOD_AUTHORS` in `audit.py`. Add author handles only after you’ve 
 
 ## Limitations
 
-- Audits the SKILL.md content by default. Skills that ship auxiliary scripts still need their own code review — a clean SKILL.md doesn’t guarantee a clean script sitting next to it.
+- Audits the SKILL.md content by default. Skills that ship auxiliary scripts still need their own code review. A clean SKILL.md doesn’t guarantee a clean script sitting next to it.
 - The regex set is a starting point. Extend `UNSAFE_PATTERNS` / `CAUTION_PATTERNS` as new attack shapes turn up; each new pattern is a lesson encoded for the next install.
 - The semantic check uses Cerebras’s free tier. If it’s down or unconfigured, the audit continues without it, still useful, just less thorough.
 - Author reputation is one signal, not a guarantee. A known-good author can still ship a regressed skill, so pattern hits always override the reputation pass.

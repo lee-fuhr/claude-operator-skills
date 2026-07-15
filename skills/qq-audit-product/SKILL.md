@@ -12,7 +12,7 @@ triggers:
   - "jobs to be done"
 ---
 
-> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills): a collection of skills for running a real Claude Code setup.
 
 # Audit product with expert personas
 
@@ -20,13 +20,13 @@ Audit product by running 20 expert personas in serial, fixing critical issues pe
 
 20 product frameworks, each loaded as a deep expert persona into its own agent context. Serial execution: one framework → fix critical issues → verify → next. Each agent thinks like a 20-year specialist in that specific framework.
 
-The expert lens: **Is this the right product? Does it solve real problems? Is the investment going to the right places?** UX audits ask "is this usable?" — product audits ask "should this exist, and does it deliver value?"
+The expert lens: **Is this the right product? Does it solve real problems? Is the investment going to the right places?** UX audits ask "is this usable?" Product audits ask "should this exist, and does it deliver value?"
 
 ---
 
 ## Modes
 
-This skill responds to three modes based on the args passed. Interpret intent loosely — fuzzy matching, not exact phrasing.
+This skill responds to three modes based on the args passed. Interpret intent loosely: fuzzy matching, not exact phrasing.
 
 ### Mode 1: Full serial audit (no args or "run all")
 
@@ -36,7 +36,7 @@ Triggers: `/qq-audit-product`, "run all", "full audit", "everything", no args at
 
 Triggers: `/qq-audit-product JTBD`, "just run kano on the pipeline", "red route on the dashboard", etc.
 
-Match the framework name fuzzily — "jtbd", "jobs", "jobs to be done" should all match Jobs to Be Done. "kano", "kano model", "feature classification" should all match Kano Model. "pmf", "product market fit" should match Product-Market Fit Signals. If ambiguous, show the 2-3 closest matches and ask.
+Match the framework name fuzzily. "Jtbd", "jobs", "jobs to be done" should all match Jobs to Be Done. "Kano", "kano model", "feature classification" should all match Kano Model. "Pmf", "product market fit" should match Product-Market Fit Signals. If ambiguous, show the 2-3 closest matches and ask.
 
 ### Mode 3: List frameworks (help/list/discovery)
 
@@ -50,25 +50,25 @@ Show the framework table from §Framework inventory below, then ask which one(s)
 
 **DO NOT ask dumb questions.** Before asking anything, gather what you already know:
 
-1. **Check conversation context** — What product are we working on? What features have been discussed? What has the user been frustrated about?
-2. **Check project CLAUDE.md** — Product description, tech stack, target audience, business model.
-3. **Check recent session state** — What was just built, launched, or changed?
+1. **Check conversation context.** What product are we working on? What features have been discussed? What has the user been frustrated about?
+2. **Check project CLAUDE.md.** Product description, tech stack, target audience, business model.
+3. **Check recent session state.** What was just built, launched, or changed?
 
 **Pre-fill and present assumptions:**
 
 > "Here's what I know going in:
-> - **Product:** [name] — [description from context]
-> - **Target user:** [who — inferred from project docs or conversation]
-> - **Stage:** [pre-launch / early / growth / mature — inferred from context]
-> - **Business model:** [how it makes money — if known]
+> - **Product:** [name], [description from context]
+> - **Target user:** [who, inferred from project docs or conversation]
+> - **Stage:** [pre-launch / early / growth / mature, inferred from context]
+> - **Business model:** [how it makes money, if known]
 > - **Known concerns:** [what the user has mentioned or what recent changes suggest]
 > - **Scope:** [full product / specific feature area / specific workflow]
 >
 > Anything wrong or missing?"
 
-Use AskUserQuestion with multiple choice ONLY for genuine gaps — e.g., if you truly can't tell the target user or product stage, ask. If you can infer it, state the inference.
+Use AskUserQuestion with multiple choice ONLY for genuine gaps, e.g. if you truly can't tell the target user or product stage, ask. If you can infer it, state the inference.
 
-**Interview output becomes the audit context** — passed to every framework agent so they audit with purpose, not generically.
+**Interview output becomes the audit context**, passed to every framework agent so they audit with purpose, not generically.
 
 ---
 
@@ -77,7 +77,7 @@ Use AskUserQuestion with multiple choice ONLY for genuine gaps — e.g., if you 
 ### Phase 1: Context gathering
 1. Run smart interview (above)
 2. Read the product's key pages/components to understand scope
-3. Map the feature surface area — what exists, what's claimed, what's actually built
+3. Map the feature surface area: what exists, what's claimed, what's actually built
 
 ### Phase 2: Serial framework execution
 
@@ -118,8 +118,8 @@ For each framework (in order 1-20):
 
 ### Phase 4: Report
 Save to project's data directory:
-- `data/audit-product-[date].md` — full report
-- `data/audit-product-[date]-summary.md` — scores + critical findings only
+- `data/audit-product-[date].md`, full report
+- `data/audit-product-[date]-summary.md`, scores + critical findings only
 
 ---
 
@@ -152,14 +152,14 @@ Save to project's data directory:
 
 ## Key principles
 
-- **Serial, not parallel** — Frameworks build on each other. JTBD informs Kano which informs RICE. Serial means each round inherits context from prior findings.
-- **Fix before moving on** — Don't accumulate a findings list. Fix each framework's criticals before the next audit.
-- **Expert persona, not checklist** — Each agent IS the specialist. They reason from product principles, not checklists.
-- **Hold every fix to a real quality bar** — is this real data? Is the complexity earned? Are you building a scoring or ML system before you have the data volume to justify it?
-- **Strategy + code** — Product audits produce two kinds of findings: code fixes (apply now) and strategic recommendations (surface to the user for decision). Both are valid outputs.
-- **Multi-round** — After all 20 frameworks, run the full cycle again. Product health improves each round as fixes compound.
-- **Dedup across frameworks** — Each agent receives cumulative findings so they don't re-report known issues.
-- **Right product > right implementation** — UX asks "is this usable?" Product asks "should this exist?" Kill features that don't serve a job before polishing them.
+- **Serial, not parallel.** Frameworks build on each other. JTBD informs Kano which informs RICE. Serial means each round inherits context from prior findings.
+- **Fix before moving on.** Don't accumulate a findings list. Fix each framework's criticals before the next audit.
+- **Expert persona, not checklist.** Each agent IS the specialist. They reason from product principles, not checklists.
+- **Hold every fix to a real quality bar.** Is this real data? Is the complexity earned? Are you building a scoring or ML system before you have the data volume to justify it?
+- **Strategy + code.** Product audits produce two kinds of findings: code fixes (apply now) and strategic recommendations (surface to the user for decision). Both are valid outputs.
+- **Multi-round.** After all 20 frameworks, run the full cycle again. Product health improves each round as fixes compound.
+- **Dedup across frameworks.** Each agent receives cumulative findings so they don't re-report known issues.
+- **Right product > right implementation.** UX asks "is this usable?" Product asks "should this exist?" Kill features that don't serve a job before polishing them.
 
 ---
 

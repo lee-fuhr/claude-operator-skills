@@ -12,7 +12,7 @@ triggers:
   - "run all visual frameworks"
 ---
 
-> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills): a collection of skills for running a real Claude Code setup.
 
 # Audit visual design with expert personas
 
@@ -26,7 +26,7 @@ Run a full serial visual design audit using 22 deep expert persona frameworks, f
 
 ## Modes
 
-This skill responds to three modes based on the args passed. Interpret intent loosely — fuzzy matching, not exact phrasing.
+This skill responds to three modes based on the args passed. Interpret intent loosely: fuzzy matching, not exact phrasing.
 
 ### Mode 1: Full serial audit (no args or "run all")
 
@@ -36,7 +36,7 @@ Triggers: `/qq-audit-visual`, "run all", "full audit", "everything", no args at 
 
 Triggers: `/qq-audit-visual typographic hierarchy`, "just run color contrast on the dashboard", "whitespace on the settings page", etc.
 
-Match the framework name fuzzily — "typography", "type hierarchy", "typographic" should all match Typographic Hierarchy. "spacing", "4pt", "8pt" should all match Spacing System. If ambiguous, show the 2-3 closest matches and ask.
+Match the framework name fuzzily. "Typography", "type hierarchy", "typographic" should all match Typographic Hierarchy. "Spacing", "4pt", "8pt" should all match Spacing System. If ambiguous, show the 2-3 closest matches and ask.
 
 ### Mode 3: List frameworks (help/list/discovery)
 
@@ -50,25 +50,25 @@ Show the framework table from §Framework inventory below, then ask which one(s)
 
 **DO NOT ask dumb questions.** Before asking anything, gather what you already know:
 
-1. **Check conversation context** — What product are we working on? What files have been discussed? What has the user been complaining about?
-2. **Check project CLAUDE.md** — Product description, tech stack, target audience.
-3. **Check recent session state** — What was just built or changed?
+1. **Check conversation context.** What product are we working on? What files have been discussed? What has the user been complaining about?
+2. **Check project CLAUDE.md.** Product description, tech stack, target audience.
+3. **Check recent session state.** What was just built or changed?
 
 **Pre-fill and present assumptions:**
 
 > "Here's what I know going in:
-> - **Product:** [name] — [description from context]
-> - **Platform:** [desktop/mobile/both — inferred from tech stack]
-> - **Design system:** [Tailwind/custom CSS/component library — from project files]
-> - **Quality bar:** [aesthetic reference points — from conversation or memory]
+> - **Product:** [name], [description from context]
+> - **Platform:** [desktop/mobile/both, inferred from tech stack]
+> - **Design system:** [Tailwind/custom CSS/component library, from project files]
+> - **Quality bar:** [aesthetic reference points, from conversation or memory]
 > - **Known pain points:** [what the user has mentioned or what recent changes suggest]
 > - **Scope:** [full app / specific pages / specific component]
 >
 > Anything wrong or missing?"
 
-Use AskUserQuestion with multiple choice ONLY for genuine gaps — e.g., if you truly can't tell whether there's a dark mode, ask. If you can infer it, state the inference.
+Use AskUserQuestion with multiple choice ONLY for genuine gaps, e.g. if you truly can't tell whether there's a dark mode, ask. If you can infer it, state the inference.
 
-**Interview output becomes the audit context** — passed to every framework agent so they audit with purpose, not generically.
+**Interview output becomes the audit context**, passed to every framework agent so they audit with purpose, not generically.
 
 ---
 
@@ -117,8 +117,8 @@ For each framework (in order 1-22):
 
 ### Phase 4: Report
 Save to project's data directory:
-- `data/audit-visual-[date].md` — full report
-- `data/audit-visual-[date]-summary.md` — scores + critical findings only
+- `data/audit-visual-[date].md`, full report
+- `data/audit-visual-[date]-summary.md`, scores + critical findings only
 
 ---
 
@@ -136,16 +136,16 @@ Save to project's data directory:
 | 8 | Whitespace as Design Element | Whether negative space is used intentionally to create structure, breathing room, and visual hierarchy | `08-whitespace.md` |
 | 9 | Icon System Consistency | Whether icons share consistent style, size grid, stroke weight, and metaphor family across the interface | `09-icon-consistency.md` |
 | 10 | Illustration and Imagery Style Coherence | Whether photos, illustrations, and graphic elements share a unified visual language across the product | `10-imagery-coherence.md` |
-| 11 | Motion and Animation Purposefulness | Whether animations serve a clear functional purpose — orienting, confirming, or guiding — rather than decorating | `11-motion-animation.md` |
-| 12 | Visual Density and Information Density | Whether the content-to-chrome ratio is high — maximizing useful information per pixel while maintaining clarity | `12-information-density.md` |
+| 11 | Motion and Animation Purposefulness | Whether animations serve a clear functional purpose (orienting, confirming, or guiding) rather than decorating | `11-motion-animation.md` |
+| 12 | Visual Density and Information Density | Whether the content-to-chrome ratio is high, maximizing useful information per pixel while maintaining clarity | `12-information-density.md` |
 | 13 | Component Visual Consistency | Whether buttons, cards, inputs, and other UI components look like they belong to the same design family | `13-component-consistency.md` |
 | 14 | Elevation and Depth System | Whether shadows, borders, and layering create a consistent, meaningful z-axis that communicates hierarchy and interactivity | `14-elevation-depth.md` |
-| 15 | Responsive Visual Integrity | Whether the design holds together at every viewport size — maintaining hierarchy, proportion, and usability from mobile to ultrawide | `15-responsive-integrity.md` |
+| 15 | Responsive Visual Integrity | Whether the design holds together at every viewport size, maintaining hierarchy, proportion, and usability from mobile to ultrawide | `15-responsive-integrity.md` |
 | 16 | Dark Mode and Theme Consistency | Whether alternate themes maintain visual hierarchy, brand identity, and usability without degrading the design | `16-dark-mode.md` |
 | 17 | Border and Divider System | Whether lines, borders, and separators follow a consistent pattern that supports visual structure without adding noise | `17-border-divider-system.md` |
 | 18 | Form Design Aesthetics | Whether forms are visually clean, consistently structured, and aesthetically inviting rather than intimidating | `18-form-aesthetics.md` |
-| 19 | Visual Hierarchy Scanning and F/Z Patterns | Whether layout structure supports natural eye-scanning patterns — F-pattern for text, Z-pattern for sparse layouts | `19-visual-hierarchy-scanning.md` |
-| 20 | Brand Expression Fidelity | Whether the implementation faithfully represents the brand identity — not just using brand assets, but embodying brand personality | `20-brand-expression.md` |
+| 19 | Visual Hierarchy Scanning and F/Z Patterns | Whether layout structure supports natural eye-scanning patterns: F-pattern for text, Z-pattern for sparse layouts | `19-visual-hierarchy-scanning.md` |
+| 20 | Brand Expression Fidelity | Whether the implementation faithfully represents the brand identity, not just using brand assets, but embodying brand personality | `20-brand-expression.md` |
 | 21 | Pixel-Level Polish | Whether subpixel alignment, border-radius consistency, anti-aliasing, and the "last 5%" finishing problems are resolved | `21-pixel-polish.md` |
 | 22 | Print and Export Visual Quality | Whether exported, printed, or downloaded versions of the interface maintain visual quality and informational integrity | `22-print-export.md` |
 
@@ -153,10 +153,10 @@ Save to project's data directory:
 
 ## Key principles
 
-- **Serial, not parallel** — 70% of findings duplicate across frameworks. Serial means each round finds genuinely new issues after fixes.
-- **Fix before moving on** — don't accumulate a findings list. Fix each framework's criticals before the next audit.
-- **Expert persona, not checklist** — each agent IS the specialist. They reason from principles, not rules.
-- **Hold every fix to a real quality bar** — is this real data? Is the complexity earned? Does it prevent errors?
-- **Code + screenshots** — code audits miss visual issues. Always audit rendered output when possible.
-- **Multi-round** — after all 22 frameworks, run the full cycle again. Scores increase each round until plateau.
-- **Dedup across frameworks** — each agent receives cumulative findings so they don't re-report known issues.
+- **Serial, not parallel.** 70% of findings duplicate across frameworks. Serial means each round finds genuinely new issues after fixes.
+- **Fix before moving on.** Don't accumulate a findings list. Fix each framework's criticals before the next audit.
+- **Expert persona, not checklist.** Each agent IS the specialist. They reason from principles, not rules.
+- **Hold every fix to a real quality bar.** Is this real data? Is the complexity earned? Does it prevent errors?
+- **Code + screenshots.** Code audits miss visual issues. Always audit rendered output when possible.
+- **Multi-round.** After all 22 frameworks, run the full cycle again. Scores increase each round until plateau.
+- **Dedup across frameworks.** Each agent receives cumulative findings so they don't re-report known issues.

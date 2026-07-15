@@ -12,7 +12,7 @@ triggers:
 when_to_use: “Any dashboard or monitoring interface, new build, code review, pre-launch QA, or post-build audit.”
 ---
 
-> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills): a collection of skills for running a real Claude Code setup.
 
 # Dashboard UX skill
 

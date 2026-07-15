@@ -21,7 +21,7 @@ Adding or editing a skill here (by hand or as an AI agent working on this repo):
    Checks: no leaked internal paths or names, no stale self-reference left over from a
    rename, every README anchor link resolves, no straight quotes in prose, every skill
    has a docs page (or a registered exemption). Exit 0 and silent means clean. This is
-   the actual enforcement — this file is just the explanation of why the checks exist.
+   the actual enforcement. This file is just the explanation of why the checks exist.
    Read `scripts/check_repo.py` and `scripts/test_check_repo.py` before extending it;
    it’s small, add a check the same way the existing ones are built (a function, a test
    proving it catches the bug and doesn’t false-positive on legitimate content).

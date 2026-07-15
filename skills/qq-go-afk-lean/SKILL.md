@@ -3,7 +3,7 @@ name: qq-go-afk-lean
 description: The token-source posture for an autonomous or AFK session. LEAN’s defining move is MAXIMAL EXTERNALIZATION: push every drop of work it can onto the rest of the model stack (Groq, Cerebras, DeepSeek, Gemini, Ollama) so the scarce Claude subscription quota lasts as long as possible and does the most total work per Claude token. Builds on the `ww-keepalive` skill for the resilience mechanism when run unattended; the difference LEAN adds is the token-SOURCE posture, Claude is a precious reserve, spent only on the irreducible (final synthesis, voice/copy, irreversible judgment). Apply it as a standing per-session posture, interactive or autonomous, at any pace (one bounded task at a time, or a wide fan-out). Invoke when you say “go afk lean”, “go-afk-lean”, “qq-go-afk-lean”, “go lean”, “lean mode”, “squeeze the quota”, “stretch the main quota”, “conserve the main quota”, “push to the stack”, “max externalize”, or want a session to run while burning the minimum Claude quota.
 ---
 
-> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills): a collection of skills for running a real Claude Code setup.
 
 # Go AFK Lean: squeeze the main quota, push maximally to the stack
 
@@ -27,7 +27,7 @@ Everything else goes to the stack: research, web-fetch, fact-finding, extraction
 
 Route to whatever cheap/free model clients you have installed, ordered by cost then capability:
 - **Free first:** Groq (Llama 3.3 70B, fast) · Cerebras (Qwen 3 235B / GPT-OSS, biggest free option) · Ollama (local, no limit, private, offline).
-- **Cheap paid anchor:** DeepSeek Flash (near-free, 1M context) — the always-available workhorse that essentially never rate-limits at normal volume.
+- **Cheap paid anchor:** DeepSeek Flash (near-free, 1M context), the always-available workhorse that essentially never rate-limits at normal volume.
 - **Harder:** a stronger paid tier (e.g. DeepSeek Pro, Gemini Pro) for cross-vendor divergence on audits and higher-stakes critique.
 
 **Failure-mode rule (non-negotiable):** on a 429, empty response, or timeout, substitute ANOTHER EXTERNAL, never “skip it,” and **never fall back to Claude to just-get-it-done** (that defeats the whole posture). Chain: Groq → DeepSeek Flash → Cerebras → Ollama (retry at a longer timeout) → DeepSeek Flash. DeepSeek Flash and a local Ollama model are good end-of-chain anchors that should always answer.

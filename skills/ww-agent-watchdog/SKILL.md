@@ -3,7 +3,7 @@ name: ww-agent-watchdog
 description: Use when asked to watch, babysit, audit, review, compare, or fix another agent’s work from a Codex session ID, Claude Code session/transcript, chat/thread link, PR, branch, log, or pasted run summary. Monitor until the other agent is done or blocked, reconstruct what the user asked, inspect what the agent actually changed and verified, report gaps, and optionally make scoped fixes when the user authorizes repair.
 ---
 
-> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
+> Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills): a collection of skills for running a real Claude Code setup.
 
 # Agent watchdog
 
