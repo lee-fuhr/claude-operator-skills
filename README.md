@@ -1,6 +1,6 @@
-# Claude Code operator skills
+# Operator Skills
 
-Skills I built to run my own Claude Code setup, not a generic starter pack, so if a rule in here
+Skills for running a real Claude Code setup, not a generic starter pack, so if a rule in here
 reads oddly specific, that’s because a specific thing broke and this is how I fixed it.
 
 Eighteen problems these solve:
@@ -28,6 +28,21 @@ Eighteen skills below. The first six cover a single session end to end, before y
 
 > [!NOTE]
 > `copy-sweep` is a hook, not a command, and installs differently; see its own section below. `qq-mailbox` is still the only one built for coordinating more than one session at a time. Most of the eighteen are `qq-`/`ww-` skills that load themselves automatically from context rather than waiting on a typed command; see each skill’s own section for how it’s actually triggered.
+
+---
+
+## Is this you?
+
+Run one Claude Code session at a time, on low-stakes work, and most of this collection is overkill. The gate that actually matters:
+
+**You’re running more than one session at once.** Two windows on the same repo, a build session and a review session, a subagent you told to go handle something while you kept working somewhere else. This is where things actually break: two sessions editing the same file and one silently overwriting the other’s history, a subagent that reports “done” after quietly re-delegating the work instead of doing it, a session that has no idea what another one already touched. `qq-mailbox` exists because reloading full context on every handoff doesn’t scale past one session, and the collision case above is exactly the failure mode `ww-agent-watchdog` and `ww-rule15` check for before you trust the report.
+
+Two more signals that raise the stakes on everything else in here, not gates on their own:
+
+- **Something runs without you at the keyboard.** A scheduled fire, an overnight queue, a session that keeps going after you’ve closed the laptop. An agent that asks permission on every call burns the night waiting; one that never stops might push somewhere it shouldn’t. `ww-overnight-runner`, `qq-go-afk-lean`, and `qq-weekend-burn` are the contract, the token discipline, and the schedule for exactly this.
+- **Real things are on the other end of a mistake.** A live production system, an API key, a client’s document, actual money. A downloaded skill with a credential-stealing prompt injection reads very differently once it can reach a real key instead of a sandbox. `ww-skill-auditor` reads a skill before it ever touches your context; the rest of the collection assumes the mistake it’s preventing would have actually cost something.
+
+None of these are hard requirements. They’re the difference between “nice to have” and “built this because I got burned.”
 
 ---
 
@@ -73,7 +88,7 @@ Claude will read this file and walk you through the rest. Or manually:
 git clone https://github.com/lee-fuhr/claude-operator-skills.git
 cd claude-operator-skills
 
-cp -r skills/qq-externalize skills/qq-smart-next-move skills/qq-audit-master skills/weekend-burn skills/ww-keepalive skills/qq-mailbox ~/.claude/skills/
+cp -r skills/qq-externalize skills/qq-smart-next-move skills/qq-audit-master skills/qq-weekend-burn skills/ww-keepalive skills/qq-mailbox ~/.claude/skills/
 cp commands/qq-externalize.md commands/qq-smart-next-move.md commands/qq-audit.md commands/qq-weekend-burn.md ~/.claude/commands/
 ```
 

@@ -1,5 +1,5 @@
 ---
-name: weekend-burn
+name: qq-weekend-burn
 description: Puts your unused weekly Claude quota to work automatically. Weekend burn is a standing, every-weekend cadence (not a one-off campaign) that fires itself inside a recurring window (e.g. Friday evening through Sunday night) and burns the full weekly Claude subscription quota before it resets, finishing ONE real capability completely before starting the next so a productive weekend ships many finished things and never a pile of half-done ones. Builds on the `ww-keepalive` skill for the actual resilience mechanism (fresh `claude -p`, gates, dual-account failover) and adds the recurring-schedule + self-healing kill-switch layer on top. Invoke when you say “weekend burn”, “set up a weekend burn”, “burn the quota”, “run every weekend”, “standing weekly cadence”, “recurring autonomous campaign”, “use the whole week’s quota”, or want a repeating (not one-off) autonomous run that finishes real, categorical capabilities on a schedule instead of running once and stopping.
 ---
 
