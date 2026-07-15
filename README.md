@@ -10,24 +10,24 @@ reads oddly specific, that’s because a specific thing broke and this is how I 
 - [`/qq-smart-next-move`](#qq-smart-next-move) — surface the move that compounds what you just built
 - [`/qq-audit`](#qq-audit) — 255 expert lenses catch what Claude can’t see in its own work
 - [`/qq-weekend-burn`](#qq-weekend-burn) — a recurring schedule that burns your quota on real work every week
-- [`ww-copy-sweep`](#ww-copy-sweep) — blocks AI-tell punctuation before it ever lands in a file
-- [`qq-mailbox`](#qq-mailbox) — two or more concurrent sessions hand off work without reloading context
+- [`/ww-copy-sweep`](#ww-copy-sweep) — blocks AI-tell punctuation before it ever lands in a file
+- [`/qq-mailbox`](#qq-mailbox) — two or more concurrent sessions hand off work without reloading context
 
 **Before you build, and while you’re away:**
-- [`ww-plan-audit`](#ww-plan-audit) — stress-tests a plan before you touch a single file
-- [`ww-rule15`](#ww-rule15) — a stated outcome and outside evidence before “done” gets to land
-- [`ww-skill-auditor`](#ww-skill-auditor) — scans a stranger’s skill for prompt injection before it touches your context
-- [`ww-overnight-runner`](#ww-overnight-runner) — the actual contract for a session running while you’re gone
-- [`qq-go-afk-lean`](#qq-go-afk-lean) — keeps an unattended session on cheap models, not the expensive default
-- [`ww-agent-watchdog`](#ww-agent-watchdog) — checks another agent’s “done” against the evidence, not the summary
+- [`/ww-plan-audit`](#ww-plan-audit) — stress-tests a plan before you touch a single file
+- [`/ww-rule15`](#ww-rule15) — a stated outcome and outside evidence before “done” gets to land
+- [`/ww-skill-auditor`](#ww-skill-auditor) — scans a stranger’s skill for prompt injection before it touches your context
+- [`/ww-overnight-runner`](#ww-overnight-runner) — the actual contract for a session running while you’re gone
+- [`/qq-go-afk-lean`](#qq-go-afk-lean) — keeps an unattended session on cheap models, not the expensive default
+- [`/ww-agent-watchdog`](#ww-agent-watchdog) — checks another agent’s “done” against the evidence, not the summary
 
 **Specific fixes worth not re-learning by hand:**
-- [`ww-dashboard-ux`](#ww-dashboard-ux) — iron laws for a dashboard that survives someone reaching for it stressed
-- [`qq-infoviz`](#qq-infoviz) — a branded chart built to stop a scroll, not a matplotlib default
-- [`ww-notion-docs`](#ww-notion-docs) — Notion’s real markdown flavor, plus a comments-based review workflow
-- [`ww-notion-proposal-hardener`](#ww-notion-proposal-hardener) — the three ways the Notion API misleads you, and the check for each
-- [`ww-google-docs`](#ww-google-docs) — makes a generated doc actually match your house style, verified
-- [`ww-smart-quote-fixer`](#ww-smart-quote-fixer) — real typographic quotes, including the hard cases a find-and-replace gets wrong
+- [`/ww-dashboard-ux`](#ww-dashboard-ux) — iron laws for a dashboard that survives someone reaching for it stressed
+- [`/qq-infoviz`](#qq-infoviz) — a branded chart built to stop a scroll, not a matplotlib default
+- [`/ww-notion-docs`](#ww-notion-docs) — Notion’s real markdown flavor, plus a comments-based review workflow
+- [`/ww-notion-proposal-hardener`](#ww-notion-proposal-hardener) — the three ways the Notion API misleads you, and the check for each
+- [`/ww-google-docs`](#ww-google-docs) — makes a generated doc actually match your house style, verified
+- [`/ww-smart-quote-fixer`](#ww-smart-quote-fixer) — real typographic quotes, including the hard cases a find-and-replace gets wrong
 
 Four of these are real slash commands. The rest are hooks, imports, or `qq-`/`ww-` skills that load
 themselves from context, no typed command involved; each one’s own section below says exactly how
