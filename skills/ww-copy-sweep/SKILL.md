@@ -1,19 +1,19 @@
 ---
-name: copy-sweep
+name: ww-copy-sweep
 description: A PreToolUse hook that blocks AI-tell writing before it ever lands in a file, with a budgeted em dash rule, straight quotes, Title Case headings, banned corporate-speak, throat-clearing openers, and summary-crutch headers, plus four optional model-graded checks. Fires automatically on every Write/Edit/MultiEdit to a matching file. Nothing to invoke, nothing to remember.
 version: 2.1.0
 ---
 
 > Part of [Claude Code operator skills](https://github.com/lee-fuhr/claude-operator-skills) — a collection of skills for running a real Claude Code setup.
 
-# copy-sweep
+# ww-copy-sweep
 
 AI-tell punctuation and phrasing creep into drafts one write at a time. The usual fix is a
 cleanup pass after the fact: sweep the file, catch what you can, hope you got it all. That
 pass shouldn’t need to exist: the write should fail before the tell ever hits disk. That’s
 what this is.
 
-`copy-sweep` is a **hook**, not a slash command. You never invoke it. Once it’s installed, every
+`ww-copy-sweep` is a **hook**, not a slash command. You never invoke it. Once it’s installed, every
 time Claude (or you, via Claude Code) writes or edits a matching file, the hook scans the new
 content first. If it finds a violation, the write is blocked and Claude gets a line-numbered list
 of exactly what to fix, so it fixes it inline, in the same turn, before the bad version ever
@@ -58,13 +58,13 @@ over budget regardless, and gets flagged like anything else.
 
 Paste this to Claude Code, no dev experience required:
 
-> Install copy-sweep from https://github.com/lee-fuhr/claude-operator-skills and walk me through my config options.
+> Install ww-copy-sweep from https://github.com/lee-fuhr/claude-operator-skills and walk me through my config options.
 
-**If you are the Claude reading this because a user asked you to install copy-sweep, follow this
+**If you are the Claude reading this because a user asked you to install ww-copy-sweep, follow this
 script instead of dumping the manual steps on them:**
 
 1. Clone the repo (or fetch just this file plus `hooks/copy_sweep.py` if you can’t clone) and
-   copy `skills/copy-sweep/hooks/copy_sweep.py` to `~/.claude/hooks/copy_sweep.py`, `chmod +x` it.
+   copy `skills/ww-copy-sweep/hooks/copy_sweep.py` to `~/.claude/hooks/copy_sweep.py`, `chmod +x` it.
 2. Read `~/.claude/settings.json` if it exists. If it already has a `PreToolUse` hook for
    `Write|Edit|MultiEdit`, add `copy_sweep.py` as another entry in that same `hooks` array.
    Don’t clobber whatever’s already there. If the file doesn’t exist, create it with the block
@@ -101,7 +101,7 @@ git clone https://github.com/lee-fuhr/claude-operator-skills.git
 cd claude-operator-skills
 
 mkdir -p ~/.claude/hooks
-cp skills/copy-sweep/hooks/copy_sweep.py ~/.claude/hooks/copy_sweep.py
+cp skills/ww-copy-sweep/hooks/copy_sweep.py ~/.claude/hooks/copy_sweep.py
 chmod +x ~/.claude/hooks/copy_sweep.py
 ```
 

@@ -1,6 +1,6 @@
 ---
-permalink: /copy-sweep/
-title: "copy-sweep: catch AI-tell punctuation before it ever lands in a file"
+permalink: /ww-copy-sweep/
+title: "ww-copy-sweep: catch AI-tell punctuation before it ever lands in a file"
 description: "Stop cleaning up em dashes and straight quotes after the fact. This hook blocks the write itself the moment a tell shows up, so the bad version never exists on disk in the first place."
 layout: null
 ---
@@ -9,16 +9,16 @@ layout: null
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>copy-sweep: catch AI-tell punctuation before it ever lands in a file</title>
+<title>ww-copy-sweep: catch AI-tell punctuation before it ever lands in a file</title>
 <meta name="description" content="Stop cleaning up em dashes and straight quotes after the fact. This hook blocks the write itself the moment a tell shows up, so the bad version never exists on disk in the first place.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="copy-sweep: catch AI-tell punctuation before it ever lands in a file">
+<meta property="og:title" content="ww-copy-sweep: catch AI-tell punctuation before it ever lands in a file">
 <meta property="og:description" content="Stop cleaning up em dashes and straight quotes after the fact. This hook blocks the write itself the moment a tell shows up, so the bad version never exists on disk in the first place.">
-<meta property="og:url" content="https://skills.leefuhr.com/copy-sweep/">
+<meta property="og:url" content="https://skills.leefuhr.com/ww-copy-sweep/">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="copy-sweep: catch AI-tell punctuation before it ever lands in a file">
+<meta name="twitter:title" content="ww-copy-sweep: catch AI-tell punctuation before it ever lands in a file">
 <meta name="twitter:description" content="Stop cleaning up em dashes and straight quotes after the fact. This hook blocks the write itself the moment a tell shows up, so the bad version never exists on disk in the first place.">
-<link rel="canonical" href="https://skills.leefuhr.com/copy-sweep/">
+<link rel="canonical" href="https://skills.leefuhr.com/ww-copy-sweep/">
 <style>
   :root { color-scheme: light dark; }
   body {
@@ -46,14 +46,14 @@ layout: null
 </head>
 <body>
 <a class="home" href="/">&larr; all skills</a>
-<h1>copy-sweep</h1>
+<h1>ww-copy-sweep</h1>
 
 <p><strong>The problem:</strong> Nobody sits down meaning to write an em dash or a straight quote into a draft, it</p>
 <p>just creeps in, one write at a time, until the tells are everywhere and you’ve stopped noticing</p>
 <p>them. The usual fix is a cleanup pass after the fact: catch what you can, hope you got it all.</p>
-<p>copy-sweep skips the pass entirely: the write fails before the tell ever exists.</p>
+<p>ww-copy-sweep skips the pass entirely: the write fails before the tell ever exists.</p>
 
-<p><code>copy-sweep</code> is a <code>PreToolUse</code> hook. It has no command because you never invoke it; it fires on</p>
+<p><code>ww-copy-sweep</code> is a <code>PreToolUse</code> hook. It has no command because you never invoke it; it fires on</p>
 <p>every <code>Write</code>/<code>Edit</code>/<code>MultiEdit</code> to a matching file, scans the new content before it’s saved, and</p>
 <p>blocks the write if it finds a violation, and Claude gets a line-numbered list of exactly what’s</p>
 <p>wrong and fixes it inline, same turn, before the bad version ever exists on disk. Which is a good</p>
@@ -81,25 +81,25 @@ layout: null
 <p><code>staccato_cadence</code>.</p>
 <p>These catch patterns a regex genuinely can’t; full explanation of the tradeoff (nondeterminism,</p>
 <p>latency, small API cost, fail-open by design) is in [the skill’s own</p>
-<p>doc](skills/copy-sweep/SKILL.md#semantic-checks-off-by-default-read-this-first).</p>
+<p>doc](skills/ww-copy-sweep/SKILL.md#semantic-checks-off-by-default-read-this-first).</p>
 
 <h3>Install</h3>
 
 <p><strong>Easiest, just tell Claude:</strong></p>
 
-<p>> Install copy-sweep from https://github.com/lee-fuhr/claude-operator-skills and walk me through my config options.</p>
+<p>> Install ww-copy-sweep from https://github.com/lee-fuhr/claude-operator-skills and walk me through my config options.</p>
 
 <p>Claude does the file copy and the <code>settings.json</code> edit itself, then asks a handful of plain</p>
 <p>questions instead of handing you env var names to memorize: scope it to one folder or the</p>
 <p>whole repo, catch stray “We”s or not, turn on the deeper AI-graded checks or skip them, what</p>
 <p>counts as “long” for you. Full walkthrough script for Claude to follow is in [the skill’s own</p>
-<p>doc](skills/copy-sweep/SKILL.md#install-just-tell-claude).</p>
+<p>doc](skills/ww-copy-sweep/SKILL.md#install-just-tell-claude).</p>
 
 <p><strong>Manual, if you’d rather do it yourself:</strong></p>
 
 <pre><code class="language-bash">
 mkdir -p ~/.claude/hooks
-cp skills/copy-sweep/hooks/copy_sweep.py ~/.claude/hooks/copy_sweep.py
+cp skills/ww-copy-sweep/hooks/copy_sweep.py ~/.claude/hooks/copy_sweep.py
 chmod +x ~/.claude/hooks/copy_sweep.py
 </code></pre>
 
@@ -121,7 +121,7 @@ chmod +x ~/.claude/hooks/copy_sweep.py
 </code></pre>
 
 <p>Restart Claude Code. Full config reference (scoping to a <code>drafts/</code> folder, turning <code>we_pronoun</code></p>
-<p>on, the one-off bypass flag) is in <code>skills/copy-sweep/SKILL.md</code>.</p>
+<p>on, the one-off bypass flag) is in <code>skills/ww-copy-sweep/SKILL.md</code>.</p>
 
 <hr>
 

@@ -9,7 +9,7 @@ Eighteen problems these solve:
 2. **You’re in flow and there’s a smart next move right here: you can feel it but can’t quite see it.** This skill looks at what you just built, what it unlocked, and surfaces what compounds it.
 3. **Your AI-built product has quality problems it can’t see.** Claude wrote the code, copy, and architecture. It can’t audit its own output across UX, security, performance, or any of 13 other dimensions. You need expert lenses that don’t know your intentions.
 4. **A weekly Claude subscription resets whether you used it or not, and nobody’s driving it on a Saturday.** That’s quota gone for nothing, week after week, until something else takes the wheel.
-5. **Every draft has an em dash, a straight quote, or a Title Case heading in it, and you catch it after the fact, if you catch it at all.** `copy-sweep` blocks the write before the tell ever lands, instead of proofreading for it later (this README had 55 in the intro alone before I ran the tool on itself, which is how I know the problem is real).
+5. **Every draft has an em dash, a straight quote, or a Title Case heading in it, and you catch it after the fact, if you catch it at all.** `ww-copy-sweep` blocks the write before the tell ever lands, instead of proofreading for it later (this README had 55 in the intro alone before I ran the tool on itself, which is how I know the problem is real).
 6. **Two-tier orchestration is accepted practice now, an expensive model directing cheaper ones, but nothing lets two truly separate sessions actually talk to each other.** Subagents reload their whole context on every call; `qq-mailbox` gives an overseer and a builder session a shared inbox instead, each keeping its own full context the entire time.
 7. **A plan looks reasonable right up until it’s half-built and the thing you forgot turns out to be load-bearing.** `ww-plan-audit` runs the gauntlet before you exit plan mode, not after: an interview, a principles read, a multi-domain audit, and a real adversarial pass from two different external models, so the wisdom gets front-loaded instead of discovered mid-build.
 8. **“Done” gets said a lot more often than it’s actually true.** A button changes color, nothing saved, nothing sent, nobody downstream ever sees the change, and nobody notices for three weeks. `ww-rule15` forces a stated outcome, a traced action chain, and evidence from outside your own head before the word “done” gets to land.
@@ -27,7 +27,7 @@ Eighteen problems these solve:
 Eighteen skills below. The first six cover a single session end to end, before you build through every week without you, and `qq-mailbox` was the first built for more than one session running at once. The other twelve came later: plan-quality gates, an unattended-work contract, a security check before installing someone else’s skill, dashboard and chart output, and a few Notion/Docs specifics worth not re-learning by hand.
 
 > [!NOTE]
-> `copy-sweep` is a hook, not a command, and installs differently; see its own section below. `qq-mailbox` is still the only one built for coordinating more than one session at a time. Most of the eighteen are `qq-`/`ww-` skills that load themselves automatically from context rather than waiting on a typed command; see each skill’s own section for how it’s actually triggered.
+> `ww-copy-sweep` is a hook, not a command, and installs differently; see its own section below. `qq-mailbox` is still the only one built for coordinating more than one session at a time. Most of the eighteen are `qq-`/`ww-` skills that load themselves automatically from context rather than waiting on a typed command; see each skill’s own section for how it’s actually triggered.
 
 ---
 
@@ -54,7 +54,7 @@ None of these are hard requirements. They’re the difference between “nice to
 | `/qq-smart-next-move` | When you’re in flow and there’s a sense of more here: surfaces the smart next move before momentum carries you somewhere obvious. | Compounds good sessions instead of wasting them |
 | `/qq-audit` | Gets outside eyes on your code and copy across 255 expert lenses in 13 quality domains, since Claude can’t judge its own work fairly. Smart-routes to the right domains in the right order. | SUS 57.5 → 92.5 across 3 rounds on a production app |
 | `/qq-weekend-burn` | Stands up a recurring schedule that fires itself every week and burns your quota on real work, one finished thing at a time. | A weekly cadence that installs once and runs itself forever |
-| `copy-sweep` (hook, not a command) | Blocks em dashes, straight quotes, and Title Case headings before they land in a file. Fires automatically on every Write/Edit. | AI-tell punctuation caught at write time, not cleaned up after |
+| `ww-copy-sweep` (hook, not a command) | Blocks em dashes, straight quotes, and Title Case headings before they land in a file. Fires automatically on every Write/Edit. | AI-tell punctuation caught at write time, not cleaned up after |
 | `qq-mailbox` (import, not a command) | Lets two or more concurrent Claude sessions hand work back and forth on their own: a build session and an overseer, a headless `ww-keepalive` worker and its live counterpart. Append-only JSONL, atomic cursor, nothing to lock. | A session drops a message and moves on; the other picks it up on its own schedule, no pasted context, no clobbered state |
 | `ww-plan-audit` (loads automatically before exiting plan mode) | Runs a ten-dimension gauntlet on any multi-phase plan: an interview, a principles read, a multi-domain audit, and two external models arguing with it, before you build anything. | Wisdom that would’ve surfaced three weeks into the build shows up before the first commit |
 | `ww-rule15` (say “is this actually done”, or run it before any DONE claim) | Forces a stated outcome, a traced action chain, and evidence from outside your own head before “done” gets to land. | A PASS without external evidence auto-downgrades to PARTIAL, so cosmetic done stops passing as done |
@@ -94,7 +94,7 @@ cp commands/qq-externalize.md commands/qq-smart-next-move.md commands/qq-audit.m
 
 `ww-keepalive` and `qq-mailbox` have no `commands/*.md` of their own. `ww-keepalive` is the mechanism `/qq-weekend-burn` runs on under the hood; `qq-mailbox` is a Python import (`from mailbox import send, check`), not a slash command. Both just need to be present in `~/.claude/skills/` alongside the rest.
 
-**`copy-sweep` is a hook, not a skill.** It doesn’t go in `~/.claude/skills/` at all, and there’s
+**`ww-copy-sweep` is a hook, not a skill.** It doesn’t go in `~/.claude/skills/` at all, and there’s
 no command to copy. See its own section below for the two-step install (copy the script, add one
 block to `settings.json`).
 
@@ -395,14 +395,14 @@ Deterministic, not a phrase Claude has to guess at: run `/qq-weekend-burn`. Clau
 
 ---
 
-## copy-sweep
+## ww-copy-sweep
 
 **The problem:** Nobody sits down meaning to write an em dash or a straight quote into a draft, it
 just creeps in, one write at a time, until the tells are everywhere and you’ve stopped noticing
 them. The usual fix is a cleanup pass after the fact: catch what you can, hope you got it all.
-copy-sweep skips the pass entirely: the write fails before the tell ever exists.
+ww-copy-sweep skips the pass entirely: the write fails before the tell ever exists.
 
-`copy-sweep` is a `PreToolUse` hook. It has no command because you never invoke it; it fires on
+`ww-copy-sweep` is a `PreToolUse` hook. It has no command because you never invoke it; it fires on
 every `Write`/`Edit`/`MultiEdit` to a matching file, scans the new content before it’s saved, and
 blocks the write if it finds a violation, and Claude gets a line-numbered list of exactly what’s
 wrong and fixes it inline, same turn, before the bad version ever exists on disk. Which is a good
@@ -428,25 +428,25 @@ Semantic, off by default, needs a model call: `vague_pronoun`, `rule_of_three`, 
 `staccato_cadence`.
 These catch patterns a regex genuinely can’t; full explanation of the tradeoff (nondeterminism,
 latency, small API cost, fail-open by design) is in [the skill’s own
-doc](skills/copy-sweep/SKILL.md#semantic-checks-off-by-default-read-this-first).
+doc](skills/ww-copy-sweep/SKILL.md#semantic-checks-off-by-default-read-this-first).
 
 ### Install
 
 **Easiest, just tell Claude:**
 
-> Install copy-sweep from https://github.com/lee-fuhr/claude-operator-skills and walk me through my config options.
+> Install ww-copy-sweep from https://github.com/lee-fuhr/claude-operator-skills and walk me through my config options.
 
 Claude does the file copy and the `settings.json` edit itself, then asks a handful of plain
 questions instead of handing you env var names to memorize: scope it to one folder or the
 whole repo, catch stray “We”s or not, turn on the deeper AI-graded checks or skip them, what
 counts as “long” for you. Full walkthrough script for Claude to follow is in [the skill’s own
-doc](skills/copy-sweep/SKILL.md#install-just-tell-claude).
+doc](skills/ww-copy-sweep/SKILL.md#install-just-tell-claude).
 
 **Manual, if you’d rather do it yourself:**
 
 ```bash
 mkdir -p ~/.claude/hooks
-cp skills/copy-sweep/hooks/copy_sweep.py ~/.claude/hooks/copy_sweep.py
+cp skills/ww-copy-sweep/hooks/copy_sweep.py ~/.claude/hooks/copy_sweep.py
 chmod +x ~/.claude/hooks/copy_sweep.py
 ```
 
@@ -468,7 +468,7 @@ Then add this to `~/.claude/settings.json` (or `.claude/settings.json` for one r
 ```
 
 Restart Claude Code. Full config reference (scoping to a `drafts/` folder, turning `we_pronoun`
-on, the one-off bypass flag) is in `skills/copy-sweep/SKILL.md`.
+on, the one-off bypass flag) is in `skills/ww-copy-sweep/SKILL.md`.
 
 ---
 
@@ -730,7 +730,7 @@ Each skill is useful alone. Together they cover the full arc of a working sessio
 
 **Before you build**: `/qq-externalize` routes research, extraction, and critique to free models so you’re not burning Claude tokens on work Groq can do for free, and `ww-plan-audit` runs the full gauntlet on the plan itself before a single file gets touched.
 
-**While you build**: `copy-sweep` blocks AI-tell punctuation the instant it would be written, so there’s no cleanup pass later.
+**While you build**: `ww-copy-sweep` blocks AI-tell punctuation the instant it would be written, so there’s no cleanup pass later.
 
 **After you build**: `/qq-audit` runs the quality check Claude can’t run on itself, 255 expert lenses across whatever dimensions matter for your project, and `ww-rule15` is the last gate before the word “done” gets used at all: a stated outcome, a traced action chain, evidence from outside your own head.
 
@@ -741,7 +741,7 @@ Each skill is useful alone. Together they cover the full arc of a working sessio
 **Any time you step away, scheduled or not**: `ww-overnight-runner` sets what an agent decides alone versus what always stops it, `qq-go-afk-lean` keeps the token source cheap while it runs, and `ww-agent-watchdog` checks the result afterward instead of trusting the “done” it reports.
 
 ```
-/qq-externalize  →  build (copy-sweep guards every write)  →  /qq-audit  →  /qq-smart-next-move  →  /qq-weekend-burn
+/qq-externalize  →  build (ww-copy-sweep guards every write)  →  /qq-audit  →  /qq-smart-next-move  →  /qq-weekend-burn
 route cheaply        Claude handles synthesis only              check         what next?              recurring, unattended,
                                                                   quality                                every week
 ```
