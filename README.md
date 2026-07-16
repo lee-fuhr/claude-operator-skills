@@ -22,6 +22,7 @@ reads oddly specific, that’s because a specific thing broke and this is how I 
 - [`/ww-rule15`](#ww-rule15): a stated outcome and outside evidence before “done” gets to land
 - [`/ww-skill-auditor`](#ww-skill-auditor): scans a stranger’s skill for prompt injection before it touches your context
 - [`/ww-overnight-runner`](#ww-overnight-runner): the actual contract for a session running while you’re gone
+- [`/qq-cap-resume`](#qq-cap-resume): keeps a live chat resuming itself, visibly, when a session cap gets in the way
 - [`/qq-go-afk-ham`](#qq-go-afk-ham): kitchen-sink autonomous campaigns for a big, ambitious, multi-day build
 - [`/qq-go-afk-smart`](#qq-go-afk-smart): grinds a bounded punch list down overnight, one verified task at a time
 - [`/qq-go-afk-lean`](#qq-go-afk-lean): keeps an unattended session on cheap models, not the expensive default
@@ -76,8 +77,9 @@ None of these are hard requirements. They’re the difference between “nice to
 | **[`/ww-rule15`](#ww-rule15)** · *say “is this actually done”*<br>Forces a stated outcome, a traced action chain, and evidence from outside your own head before “done” gets to land. | A PASS without external evidence auto-downgrades to PARTIAL, so cosmetic done stops passing as done |
 | **[`/ww-skill-auditor`](#ww-skill-auditor)** · *`python3 audit.py "<author>/<repo>/<skill>"`*<br>Pattern-scans a SKILL.md for prompt injection, credential theft, and remote code execution, then runs a cheap-model second pass. | A specific, evidenced SAFE/CAUTION/UNSAFE/UNKNOWN verdict before a stranger’s markdown enters your agent’s context |
 | **[`/ww-overnight-runner`](#ww-overnight-runner)** · *auto-loads on “run overnight” or a 6+ hour queue*<br>Sets the actual contract for unattended work: what to decide alone, what to always stop for, how to park non-blocking questions, and what a clean handoff looks like. | A night of real progress and a results file that tells the truth, not a guess reconstructed from a stale task list |
-| **[`/qq-go-afk-ham`](#qq-go-afk-ham)** · *say “go HAM” or “kitchen sink”*<br>The unbounded half of the AFK pair: resilience first, real strategic thinking, workflows spawning workflows, and an audit gate on every key step for a big, open-ended, multi-day build. | A multi-day build that survives caps and session death, verified at every step |
-| **[`/qq-go-afk-smart`](#qq-go-afk-smart)** · *say “go afk smart” or “bounded overnight”*<br>The bounded half of the AFK pair: the top-tier model writes specs and does quality control, cheap models execute, one verified task per cycle, for a finite, well-specified backlog. | A punch list finished and verified overnight, at a fraction of the token cost |
+| **[`/qq-cap-resume`](#qq-cap-resume)** · *say “keep this session alive” or “don’t go dark on me”*<br>Keeps a live interactive session coming back to itself, visibly, when a usage cap interrupts it, instead of spinning up a background worker you can’t see. | The same chat picks back up in front of you the moment the cap clears, with every retry a visible turn, not a silent gap |
+| **[`/qq-go-afk-ham`](#qq-go-afk-ham)** · *say “go HAM” or “kitchen sink”*<br>The unbounded end of the spectrum: resilience first, real strategic thinking, workflows spawning workflows, and an audit gate on every key step for a big, open-ended, multi-day build. | A multi-day build that survives caps and session death, verified at every step |
+| **[`/qq-go-afk-smart`](#qq-go-afk-smart)** · *say “go afk smart” or “bounded overnight”*<br>The adaptive middle of the spectrum: the top-tier model writes specs and does quality control, cheap models execute, one verified task per cycle, for a finite, well-specified backlog. | A punch list finished and verified overnight, at a fraction of the token cost |
 | **[`/qq-go-afk-lean`](#qq-go-afk-lean)** · *say “go lean” or “squeeze the quota”*<br>Fixes the token source for an autonomous or live session: routine work goes to Groq, Cerebras, DeepSeek, or Ollama first; Claude spends only on synthesis, voice, and judgment. | More total work finished per Claude token, with every step labeled by which model handled it |
 | **[`/ww-agent-watchdog`](#ww-agent-watchdog)** · *point it at a session ID, PR, branch, or transcript*<br>Watches another agent’s work to a terminal state, reconstructs what was actually asked, and checks the diff, tests, and CI instead of trusting the “done” summary. | A gap report you can act on, or narrow fixes once you’ve authorized repair |
 | **[`/ww-dashboard-ux`](#ww-dashboard-ux)** · *auto-loads when building or auditing a dashboard*<br>Eight iron laws (three-part error messages, status that never relies on color alone, every metric shows its age) plus ten expert-lens audit frameworks. | A dashboard that survives someone reaching for it stressed, mid-incident |
@@ -667,11 +669,41 @@ This is the actual contract, not a hope. It sets decision rules for choosing wit
 
 ---
 
+## qq-cap-resume
+
+**The problem:** a headless LaunchAgent keepalive is the right tool when nobody’s watching, it spawns a fresh `claude -p` elsewhere and reports back once it’s done. It’s the wrong tool when you’re actively in the chat and want the conversation itself to pick back up here, in front of you, the moment a usage cap clears. Building a background lane when what you actually asked for was the chat to resume is the mistake this skill exists to prevent.
+
+`qq-cap-resume` keeps the resume inside the same session with `ScheduleWakeup`: confirm the interruption is really a cap and not a genuine error, schedule a wakeup carrying a specific resume prompt instead of a generic status check, and on wakeup either continue the real work if the cap cleared or reschedule again if it hasn’t. Every hop lands as a visible turn in the same thread, so you can see the session is alive and waiting instead of wondering if it died.
+
+**Known failure mode, confirmed live:** a wakeup that fires while still capped can’t produce any output at all, including the “still capped, rescheduling” message, which means it also can’t schedule the next retry. The chain just stops, with nothing announcing it. The fix is pairing in-chat `ScheduleWakeup` with a separate, dumb, outside-the-session timer that doesn’t depend on this session successfully producing output, specifically to guarantee some retry eventually fires even if one self-chained hop dies mid-cap. Neither mechanism alone is fully robust; together they are.
+
+| | `qq-cap-resume` | Headless LaunchAgent keepalive |
+|---|---|---|
+| Where it resumes | This exact chat, visibly | A separate background process |
+| Who sees each retry | You, in the thread, live | Nobody, unless it reports out |
+| Right for | You’re actively watching, want the conversation to keep going | You’re stepping away, want unattended progress reported later |
+
+### Key principles
+
+- If the ask is “keep going” inside a live conversation, the fix lives in this session, not in a new background worker
+- A cap is not a real error; match the failure text against the known cap signatures before rescheduling anything
+- Every retry is a visible turn in the thread; silence is exactly the failure mode this skill exists to prevent
+- Self-chaining alone isn’t enough for a real multi-hour cap; pair it with an outside-clock fallback that doesn’t depend on this session producing output
+- If you’re unsure whether the work should resume here or in the background, ask; building the wrong one either hides progress from you or goes dark when you expected it to keep talking
+
+---
+
+Three points on one spectrum: how much you protect the token budget. `qq-go-afk-ham` doesn’t, it spends whatever it takes for quality. `qq-go-afk-lean` protects it above almost everything else, externalize as much as possible. `qq-go-afk-smart` is the better middle: it picks the right call task by task, moment by moment, instead of committing to either end.
+
 ## qq-go-afk-ham
+
+The unbounded end of the spectrum, quality-first, budget isn’t the constraint.
 
 **The problem:** A big, ambitious, multi-day build either needs you at the keyboard the whole time, or it runs unattended and you come back to a session that died five hours in, a queue nobody touched since, and no reliable way to tell what got built versus what an agent merely claimed.
 
 This is the unbounded, max-effort half of the AFK pair (sibling: `qq-go-afk-smart`): resilience stood up first so the campaign survives caps and session death and resumes in minutes, real strategic thinking instead of a flat task dump, workflows spawning workflows for the execution itself, and an audit gate on every key step so nothing ships on a self-report. Reach for it when the work is open-ended and exploratory and the value is in finding a compounding advantage, not grinding a fixed list.
+
+For the frugal end, use `qq-go-afk-lean`. For the adaptive middle, use `qq-go-afk-smart`.
 
 ### Key principles
 
@@ -685,9 +717,13 @@ This is the unbounded, max-effort half of the AFK pair (sibling: `qq-go-afk-smar
 
 ## qq-go-afk-smart
 
+The adaptive middle of the spectrum: picks the right model task by task, moment by moment, instead of committing to either extreme.
+
 **The problem:** Left alone overnight, an expensive model tends to do the grunt work itself instead of delegating it, because delegating takes an extra beat of discipline and doing it yourself doesn’t. A whole night of quota gets spent on work a free model would have handled the same way for a fraction of the cost, with nothing checking whether what got built matches what was asked for.
 
 This is the bounded, delegate-and-verify half of the AFK pair (sibling: `qq-go-afk-ham`): one bounded task per cycle, a strict spec written before anything gets delegated, execution handed to the cheapest capable model, and the real output checked against that spec, read from disk or the live deployed value, never trusted from the claim alone. Reach for it when the backlog is finite and mostly mechanical and you can write a real acceptance test for “done.”
+
+For the unbounded end, use `qq-go-afk-ham`. For the frugal end, use `qq-go-afk-lean`.
 
 ### Key principles
 
@@ -703,7 +739,7 @@ This is the bounded, delegate-and-verify half of the AFK pair (sibling: `qq-go-a
 
 **The problem:** Left to its own habits, an autonomous or long-running session drifts back to the expensive model one convenient call at a time. Nothing forces the drift, it just happens, and by the time the weekly quota is gone you didn’t get nearly as much done as the quota should have bought.
 
-`qq-go-afk-lean` is a standing posture, not a one-off routing decision. Every unit of work defaults to the cheapest capable model: Groq or Cerebras first (free), Ollama for anything private, DeepSeek Flash as the paid anchor that essentially never rate-limits. Claude is reserved for exactly four things: final synthesis of what the cheap models produced, voice and copy (the one place cheap models genuinely damage quality instead of just costing more), irreversible or architectural judgment, and deep reasoning an external model has already demonstrably failed at, never preemptively. On a 429 or a timeout, the rule is always “try a different external model,” never “fall back to Claude to just get it done,” since that defeats the entire posture. It composes with pace, not against it: a bounded one-task-at-a-time run and a wide fan-out run are both still lean as long as the workers doing the actual work are external and Claude only judges the result.
+`qq-go-afk-lean` is a standing posture, not a one-off routing decision. Every unit of work defaults to the cheapest capable model: Groq or Cerebras first (free), Ollama for anything private, DeepSeek Flash as the paid anchor that essentially never rate-limits. Claude is reserved for exactly four things: final synthesis of what the cheap models produced, voice and copy (the one place cheap models genuinely damage quality instead of just costing more), irreversible or architectural judgment, and deep reasoning an external model has already demonstrably failed at, never preemptively. On a 429 or a timeout, the rule is always “try a different external model,” never “fall back to Claude to just get it done,” since that defeats the entire posture. It composes with pace, not against it: a bounded one-task-at-a-time run and a wide fan-out run are both still lean as long as the workers doing the actual work are external and Claude only judges the result. This is the frugal end of the spectrum: protect the token budget above almost everything else. For the unbounded end, use `qq-go-afk-ham`. For the adaptive middle, use `qq-go-afk-smart`.
 
 ### Key principles
 

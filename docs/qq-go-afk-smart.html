@@ -1,7 +1,7 @@
 ---
 permalink: /qq-go-afk-smart/
 title: "qq-go-afk-smart: a bounded punch list, delegated and verified overnight"
-description: "The bounded half of the AFK pair: strict specs, cheap models execute, one task verified per cycle, for a finite backlog ground down overnight."
+description: "The adaptive middle of the spectrum: strict specs, cheap models execute, one task verified per cycle, for a finite backlog ground down overnight."
 layout: null
 ---
 <!doctype html>
@@ -10,14 +10,14 @@ layout: null
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>qq-go-afk-smart: a bounded punch list, delegated and verified overnight</title>
-<meta name="description" content="The bounded half of the AFK pair: strict specs, cheap models execute, one task verified per cycle, for a finite backlog ground down overnight.">
+<meta name="description" content="The adaptive middle of the spectrum: strict specs, cheap models execute, one task verified per cycle, for a finite backlog ground down overnight.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="qq-go-afk-smart: a bounded punch list, delegated and verified overnight">
-<meta property="og:description" content="The bounded half of the AFK pair: strict specs, cheap models execute, one task verified per cycle, for a finite backlog ground down overnight.">
+<meta property="og:description" content="The adaptive middle of the spectrum: strict specs, cheap models execute, one task verified per cycle, for a finite backlog ground down overnight.">
 <meta property="og:url" content="https://skills.leefuhr.com/qq-go-afk-smart/">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="qq-go-afk-smart: a bounded punch list, delegated and verified overnight">
-<meta name="twitter:description" content="The bounded half of the AFK pair: strict specs, cheap models execute, one task verified per cycle, for a finite backlog ground down overnight.">
+<meta name="twitter:description" content="The adaptive middle of the spectrum: strict specs, cheap models execute, one task verified per cycle, for a finite backlog ground down overnight.">
 <link rel="canonical" href="https://skills.leefuhr.com/qq-go-afk-smart/">
 <style>
   :root { color-scheme: light dark; }
@@ -48,9 +48,13 @@ layout: null
 <a class="home" href="/">&larr; all skills</a>
 <h1>qq-go-afk-smart</h1>
 
+<p>The adaptive middle of the spectrum: picks the right model task by task, moment by moment, instead of committing to either extreme.</p>
+
 <p><strong>The problem:</strong> Left alone overnight, an expensive model tends to do the grunt work itself instead of delegating it, because delegating takes an extra beat of discipline and doing it yourself doesn&rsquo;t. A whole night of quota gets spent on work a free model would have handled the same way for a fraction of the cost, with nothing checking whether what got built matches what was asked for.</p>
 
 <p>This is the bounded, delegate-and-verify half of the AFK pair (sibling: <code>qq-go-afk-ham</code>): one bounded task per cycle, a strict spec written before anything gets delegated, execution handed to the cheapest capable model, and the real output checked against that spec, read from disk or the live deployed value, never trusted from the claim alone. Reach for it when the backlog is finite and mostly mechanical and you can write a real acceptance test for &ldquo;done.&rdquo;</p>
+
+<p>For the unbounded end, use <code>qq-go-afk-ham</code>. For the frugal end, use <code>qq-go-afk-lean</code>.</p>
 
 <h3>Key principles</h3>
 

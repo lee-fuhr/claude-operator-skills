@@ -1,0 +1,72 @@
+---
+permalink: /qq-cap-resume/
+title: "qq-cap-resume: keep a live session visibly resuming itself through a cap"
+description: "Uses ScheduleWakeup to bring an interactive Claude Code session back to itself after a usage cap, visibly, in the same chat, instead of spinning up a silent background process."
+layout: null
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>qq-cap-resume: keep a live session visibly resuming itself through a cap</title>
+<meta name="description" content="Uses ScheduleWakeup to bring an interactive Claude Code session back to itself after a usage cap, visibly, in the same chat, instead of spinning up a silent background process.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="qq-cap-resume: keep a live session visibly resuming itself through a cap">
+<meta property="og:description" content="Uses ScheduleWakeup to bring an interactive Claude Code session back to itself after a usage cap, visibly, in the same chat, instead of spinning up a silent background process.">
+<meta property="og:url" content="https://skills.leefuhr.com/qq-cap-resume/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="qq-cap-resume: keep a live session visibly resuming itself through a cap">
+<meta name="twitter:description" content="Uses ScheduleWakeup to bring an interactive Claude Code session back to itself after a usage cap, visibly, in the same chat, instead of spinning up a silent background process.">
+<link rel="canonical" href="https://skills.leefuhr.com/qq-cap-resume/">
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #1a1a1a; background: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #14151a; }
+    a { color: #8ab4f8; }
+    code { background: #22242c; }
+    pre { background: #1a1c22 !important; }
+    hr { border-color: #333; }
+  }
+  h1 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 0.3rem; }
+  h2, h3 { margin-top: 2rem; }
+  code { background: #f2f2f2; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
+  pre { background: #f2f2f2; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 0.4rem 0.8rem 0.4rem 0; border-bottom: 1px solid #ddd; }
+  a { color: #0645ad; }
+  .home { font-size: 0.9rem; margin-bottom: 1.5rem; display: inline-block; }
+</style>
+</head>
+<body>
+<a class="home" href="/">&larr; all skills</a>
+<h1>qq-cap-resume</h1>
+
+<p><strong>The problem:</strong> a headless LaunchAgent keepalive is the right tool when nobody’s watching, it spawns a fresh <code>claude -p</code> elsewhere and reports back once it’s done. It’s the wrong tool when you’re actively in the chat and want the conversation itself to pick back up here, in front of you, the moment a usage cap clears. Building a background lane when what you actually asked for was the chat to resume is the mistake this skill exists to prevent.</p>
+
+<p><code>qq-cap-resume</code> keeps the resume inside the same session using <code>ScheduleWakeup</code>: confirm the interruption is really a cap and not a genuine error, schedule a wakeup with a specific resume prompt instead of a generic status check, and on wakeup either continue the real work if the cap cleared or reschedule again if it hasn’t, up to however many hops the cap window needs. Every hop lands as a visible turn in the same thread, so you can see the session is alive and waiting instead of wondering if it died.</p>
+
+<p><strong>Known failure mode, confirmed live:</strong> a wakeup that fires while still capped can’t produce any output at all, including the “still capped, rescheduling” message, which means it also can’t schedule the next retry. The chain just stops with nothing announcing it. The fix is to pair in-chat <code>ScheduleWakeup</code> with a separate, dumb, outside-the-session timer (a LaunchAgent-style ping) that doesn’t depend on this session successfully producing output, specifically to guarantee some retry eventually fires even if one self-chained hop dies mid-cap. Neither mechanism alone is fully robust; together they are.</p>
+
+<h3>Key principles</h3>
+
+<ul>
+<li>If the ask is “keep going” inside a live conversation, the fix lives in this session, not in a new background worker</li>
+<li>A cap is not a real error; match the failure text against the known cap signatures before rescheduling anything</li>
+<li>Every retry is a visible turn in the thread; silence is exactly the failure mode this skill exists to prevent</li>
+<li>Self-chaining alone isn’t enough for a real multi-hour cap; pair it with an outside-clock fallback that doesn’t depend on this session producing output</li>
+<li>If you’re unsure whether the work should resume here or in the background, ask; building the wrong one either hides progress from you or goes dark when you expected it to keep talking</li>
+</ul>
+
+<hr>
+
+<p>Part of <a href="https://github.com/lee-fuhr/claude-operator-skills">Operator Skills</a>, a collection of skills for running a real Claude Code setup.</p>
+
+</body>
+</html>
