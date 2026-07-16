@@ -15,9 +15,15 @@ reads oddly specific, that’s because a specific thing broke and this is how I 
 
 **Before you build, and while you’re away:**
 - [`/ww-plan-audit`](#ww-plan-audit): stress-tests a plan before you touch a single file
+- [`/ww-steelman`](#ww-steelman): argues against your own plan before defending it, so only the criticism that survives sticks
+- [`/ww-premortem`](#ww-premortem): imagines the failure already happened, then changes the plan because of it
+- [`/ww-questioning`](#ww-questioning): asks instead of guessing, at the exact moment a guess would cost you something
+- [`/ww-mistake-ledger`](#ww-mistake-ledger): closes the loop on a mistake so the same shape never lands twice
 - [`/ww-rule15`](#ww-rule15): a stated outcome and outside evidence before “done” gets to land
 - [`/ww-skill-auditor`](#ww-skill-auditor): scans a stranger’s skill for prompt injection before it touches your context
 - [`/ww-overnight-runner`](#ww-overnight-runner): the actual contract for a session running while you’re gone
+- [`/qq-go-afk-ham`](#qq-go-afk-ham): kitchen-sink autonomous campaigns for a big, ambitious, multi-day build
+- [`/qq-go-afk-smart`](#qq-go-afk-smart): grinds a bounded punch list down overnight, one verified task at a time
 - [`/qq-go-afk-lean`](#qq-go-afk-lean): keeps an unattended session on cheap models, not the expensive default
 - [`/ww-agent-watchdog`](#ww-agent-watchdog): checks another agent’s “done” against the evidence, not the summary
 
@@ -63,9 +69,15 @@ None of these are hard requirements. They’re the difference between “nice to
 | **[`/ww-copy-sweep`](#ww-copy-sweep)** · *hook, fires on every write*<br>Blocks em dashes, straight quotes, and Title Case headings before they land in a file. | AI-tell punctuation caught at write time, not cleaned up after |
 | **[`/qq-mailbox`](#qq-mailbox)** · *Python import*<br>Lets two or more concurrent Claude sessions hand work back and forth on their own: a build session and an overseer, a headless `ww-keepalive` worker and its live counterpart. Append-only JSONL, atomic cursor, nothing to lock. | A session drops a message and moves on; the other picks it up on its own schedule, no pasted context, no clobbered state |
 | **[`/ww-plan-audit`](#ww-plan-audit)** · *auto-loads before exiting plan mode*<br>Runs a ten-dimension gauntlet on any multi-phase plan: an interview, a principles read, a multi-domain audit, and two external models arguing with it, before you build anything. | Wisdom that would’ve surfaced three weeks into the build shows up before the first commit |
+| **[`/ww-steelman`](#ww-steelman)** · *say “steelman this” or “what am I missing”*<br>Argues against your own plan before defending it: write it, attack it like an outsider, then defend it like you wrote it, and keep only what survives. | Roughly half of self-flagged “critical issues” turn out marginal once genuinely argued against |
+| **[`/ww-premortem`](#ww-premortem)** · *say “what breaks this in three months” or “pre-mortem this”*<br>Imagines the plan has already failed, three months out, and works backward to the most likely cause, before the design is expensive to change. | A named failure cause changes the plan before it ships, not after |
+| **[`/ww-questioning`](#ww-questioning)** · *say “is this load-bearing” or “check before I guess”*<br>Tests whether a guess is load-bearing before filling the gap with one: ask with concrete options if being wrong would compound, state the assumption out loud and move on if it wouldn’t. | A load-bearing guess gets a real question instead of two wasted hours |
+| **[`/ww-mistake-ledger`](#ww-mistake-ledger)** · *say “log this mistake” or “check the mistake log first”*<br>Names a mistake plainly, root-causes the general class it belongs to, and fixes it at the enforcement layer the same sitting, then checks the log before matching work starts again. | A second occurrence becomes an enforced check, not a repeat |
 | **[`/ww-rule15`](#ww-rule15)** · *say “is this actually done”*<br>Forces a stated outcome, a traced action chain, and evidence from outside your own head before “done” gets to land. | A PASS without external evidence auto-downgrades to PARTIAL, so cosmetic done stops passing as done |
 | **[`/ww-skill-auditor`](#ww-skill-auditor)** · *`python3 audit.py "<author>/<repo>/<skill>"`*<br>Pattern-scans a SKILL.md for prompt injection, credential theft, and remote code execution, then runs a cheap-model second pass. | A specific, evidenced SAFE/CAUTION/UNSAFE/UNKNOWN verdict before a stranger’s markdown enters your agent’s context |
 | **[`/ww-overnight-runner`](#ww-overnight-runner)** · *auto-loads on “run overnight” or a 6+ hour queue*<br>Sets the actual contract for unattended work: what to decide alone, what to always stop for, how to park non-blocking questions, and what a clean handoff looks like. | A night of real progress and a results file that tells the truth, not a guess reconstructed from a stale task list |
+| **[`/qq-go-afk-ham`](#qq-go-afk-ham)** · *say “go HAM” or “kitchen sink”*<br>The unbounded half of the AFK pair: resilience first, real strategic thinking, workflows spawning workflows, and an audit gate on every key step for a big, open-ended, multi-day build. | A multi-day build that survives caps and session death, verified at every step |
+| **[`/qq-go-afk-smart`](#qq-go-afk-smart)** · *say “go afk smart” or “bounded overnight”*<br>The bounded half of the AFK pair: the top-tier model writes specs and does quality control, cheap models execute, one verified task per cycle, for a finite, well-specified backlog. | A punch list finished and verified overnight, at a fraction of the token cost |
 | **[`/qq-go-afk-lean`](#qq-go-afk-lean)** · *say “go lean” or “squeeze the quota”*<br>Fixes the token source for an autonomous or live session: routine work goes to Groq, Cerebras, DeepSeek, or Ollama first; Claude spends only on synthesis, voice, and judgment. | More total work finished per Claude token, with every step labeled by which model handled it |
 | **[`/ww-agent-watchdog`](#ww-agent-watchdog)** · *point it at a session ID, PR, branch, or transcript*<br>Watches another agent’s work to a terminal state, reconstructs what was actually asked, and checks the diff, tests, and CI instead of trusting the “done” summary. | A gap report you can act on, or narrow fixes once you’ve authorized repair |
 | **[`/ww-dashboard-ux`](#ww-dashboard-ux)** · *auto-loads when building or auditing a dashboard*<br>Eight iron laws (three-part error messages, status that never relies on color alone, every metric shows its age) plus ten expert-lens audit frameworks. | A dashboard that survives someone reaching for it stressed, mid-incident |
@@ -529,6 +541,70 @@ This is the full gauntlet: ten passes over a plan before it ever becomes code. A
 
 ---
 
+## ww-steelman
+
+**The problem:** A plan you just wrote sounds right on a re-read because you already believe it, and that’s confirmation, not review. The real failure modes, an assumption nobody said out loud, an edge case that only shows up in week three, a defensive feature that’s really just fear wearing a to-do item, all pass a self-read clean, because a self-read never disagrees with you.
+
+This forces a real argument instead: write the plan, critique it like an outsider would, then defend it the way you’d defend a colleague’s work you respected, and only fold in a criticism once it’s survived that defense. In this system’s own use, something close to half of the “critical issues” a first self-critique turns up don’t survive the steelman: fear-driven, already handled elsewhere, or defending against a scenario that structurally can’t happen. The rest are real precisely because they survived you trying to kill them.
+
+### Key principles
+
+- Self-review alone isn’t review; reading your own plan back and nodding is confirmation, not critique
+- Every criticism gets a real trial, not a rubber stamp in either direction
+- The plan’s owner stays in control; this sharpens the plan, it doesn’t silently rewrite it
+- Escalate to an independent reviewer, human or a different model, for anything irreversible or genuinely high-stakes
+- Cheap and constant beats rare and heavy: a five-minute steelman on every real plan catches more over time than an occasional deep audit
+
+---
+
+## ww-premortem
+
+**The problem:** Failure usually only gets discussed after it happens, in a retrospective about something that was cheap to prevent and expensive to fix. By the time a bad assumption shows up as a real failure, two or three other decisions are already built on top of it.
+
+This moves that conversation earlier: imagine the failure has already happened, three months out, and work backward to why. That single reframe, treating the failure as certain instead of possible, is called prospective hindsight, and Gary Klein built the premortem technique around research showing it measurably improves how many real causes people can name. Each cause gets one test: would believing this change what gets built right now? If yes, the plan changes on the spot. If no, it gets noted and left alone, so the exercise never pads the plan with defensive complexity for a failure mode that can’t reach it.
+
+### Key principles
+
+- Prospective, not retrospective; this only works while the design is still cheap to change
+- A finding has to change the plan or get an explicit, written reason it didn’t, never a silent drop
+- Push past the first, most obvious cause; generate a technical one, a people one, and a drift one
+- Proportional, not ceremonial; skip or compress it for anything trivial and cheap to reverse
+- A cause that changes nothing real is worse than skipping the exercise outright: it looks like diligence without doing the work diligence is for
+
+---
+
+## ww-questioning
+
+**The problem:** An ambiguous request gets a confident-sounding guess anyway, because stopping to ask feels slower than just picking an interpretation and moving. The guess turns into two hours of work that answers a question nobody asked, and the two hours weren’t lost to a hard problem, they were lost to nobody checking, before committing, whether being wrong here was cheap or expensive.
+
+This is one test, run at the moment a gap would get filled with an assumption: is this load-bearing? If a wrong guess would compound (other decisions get built on it, it’s slow to undo, it touches something outside your own draft) ask, with two to four concrete options and a genuine escape hatch, never an open “what do you want here?” If the wrong guess stays cheap, state the assumption out loud and keep moving instead of stalling on it.
+
+### Key principles
+
+- The test is about cost, not confidence; being unsure isn’t the trigger, being wrong and it mattering is
+- Options beat open questions; a concrete choice is answerable in one line
+- Silence isn’t the same as agreement; an unstated assumption can’t get corrected even when it was fine to make
+- Don’t ask what you could just check yourself; that’s stalling wearing diligence as a costume
+- Escalate to a fuller “grill mode” pass for anything genuinely irreversible or high-stakes
+
+---
+
+## ww-mistake-ledger
+
+**The problem:** The same mistake gets made twice, sometimes three times, each with the same surprised reaction, because it got written down once and never looked at again. A mistakes doc that’s only ever appended to isn’t a safety net, it’s a diary nobody rereads, and the note sits there correct and unread while the same shape of mistake happens again on a different piece of work.
+
+This closes the loop on both ends: name the mistake plainly, root-cause the general class it belongs to rather than the one instance, fix it at the enforcement layer in the same sitting (a checklist item you’ll genuinely follow, a lint rule, a hook, not “I’ll remember”), and check the log before starting work that resembles a past entry, not from memory. A second occurrence of the same class is treated as proof the fix was too weak and gets escalated to something stronger, not logged again as a bigger entry.
+
+### Key principles
+
+- Prevention is the finish line, not documentation; a written mistake that recurs unchanged hasn’t been closed
+- Generalize one level up; the specific instance rarely repeats, the class almost always does
+- A second occurrence is data, not bad luck: it means the fix needs to move up the enforcement ladder
+- Reserve it for real, avoidable mistakes with a real consequence, not routine iteration
+- Cheap and constant beats rare and heavy; a short entry checked before the next similar task beats an occasional deep audit
+
+---
+
 ## ww-rule15
 
 **The problem:** “Done” gets said more often than it’s true. A button changes color, nothing saved, nothing sent, nobody downstream ever sees the change, and nobody notices for three weeks, because the code path exists even though the outcome never happened.
@@ -588,6 +664,38 @@ This is the actual contract, not a hope. It sets decision rules for choosing wit
 - The results file is ground truth on resume; in-session task tracking does not survive compaction
 - A failed task gets one retry with a different approach, then it’s logged and you move on, never a silent loop
 - Silence is not a green light; an autonomous choice made without you gets logged as a decision, not buried in a diff
+
+---
+
+## qq-go-afk-ham
+
+**The problem:** A big, ambitious, multi-day build either needs you at the keyboard the whole time, or it runs unattended and you come back to a session that died five hours in, a queue nobody touched since, and no reliable way to tell what got built versus what an agent merely claimed.
+
+This is the unbounded, max-effort half of the AFK pair (sibling: `qq-go-afk-smart`): resilience stood up first so the campaign survives caps and session death and resumes in minutes, real strategic thinking instead of a flat task dump, workflows spawning workflows for the execution itself, and an audit gate on every key step so nothing ships on a self-report. Reach for it when the work is open-ended and exploratory and the value is in finding a compounding advantage, not grinding a fixed list.
+
+### Key principles
+
+- Resilience first, then strategy, then surfaces, then execution: the order isn’t negotiable
+- Audit gate at every key step, no exceptions; nothing ships with a real issue still open
+- A server-side rate limit is a retry, not a wall; back off, then resume only the failed units, never the whole run
+- Verify the felt outcome, not the inventory; a status API reporting “healthy” and the real data path working are two different questions
+- Count only what’s verified on disk, never a number an agent merely claims
+
+---
+
+## qq-go-afk-smart
+
+**The problem:** Left alone overnight, an expensive model tends to do the grunt work itself instead of delegating it, because delegating takes an extra beat of discipline and doing it yourself doesn’t. A whole night of quota gets spent on work a free model would have handled the same way for a fraction of the cost, with nothing checking whether what got built matches what was asked for.
+
+This is the bounded, delegate-and-verify half of the AFK pair (sibling: `qq-go-afk-ham`): one bounded task per cycle, a strict spec written before anything gets delegated, execution handed to the cheapest capable model, and the real output checked against that spec, read from disk or the live deployed value, never trusted from the claim alone. Reach for it when the backlog is finite and mostly mechanical and you can write a real acceptance test for “done.”
+
+### Key principles
+
+- You are a delegation engine: pick one task, write a strict spec, delegate, verify, iterate up to three rounds, then stop
+- The one exception: never delegate voice, copy, positioning, or messaging to a cheap model; that’s the one place quality doesn’t scale with price
+- Reconcile, never redo; read the done log and state file on every resume and skip what’s already finished
+- Deterministic code gets a red test before the fix, then a green suite, then deploy and verify live
+- When the queue is dry, do a brief honest health pass; don’t manufacture work to look busy
 
 ---
 

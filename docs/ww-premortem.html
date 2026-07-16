@@ -1,0 +1,70 @@
+---
+permalink: /ww-premortem/
+title: "ww-premortem: ask what breaks this before you build it"
+description: "Imagine the plan already failed, three months out, work backward to the real cause, and let the answer change the design before it ships."
+layout: null
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ww-premortem: ask what breaks this before you build it</title>
+<meta name="description" content="Imagine the plan already failed, three months out, work backward to the real cause, and let the answer change the design before it ships.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ww-premortem: ask what breaks this before you build it">
+<meta property="og:description" content="Imagine the plan already failed, three months out, work backward to the real cause, and let the answer change the design before it ships.">
+<meta property="og:url" content="https://skills.leefuhr.com/ww-premortem/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ww-premortem: ask what breaks this before you build it">
+<meta name="twitter:description" content="Imagine the plan already failed, three months out, work backward to the real cause, and let the answer change the design before it ships.">
+<link rel="canonical" href="https://skills.leefuhr.com/ww-premortem/">
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #1a1a1a; background: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #14151a; }
+    a { color: #8ab4f8; }
+    code { background: #22242c; }
+    pre { background: #1a1c22 !important; }
+    hr { border-color: #333; }
+  }
+  h1 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 0.3rem; }
+  h2, h3 { margin-top: 2rem; }
+  code { background: #f2f2f2; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
+  pre { background: #f2f2f2; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 0.4rem 0.8rem 0.4rem 0; border-bottom: 1px solid #ddd; }
+  a { color: #0645ad; }
+  .home { font-size: 0.9rem; margin-bottom: 1.5rem; display: inline-block; }
+</style>
+</head>
+<body>
+<a class="home" href="/">&larr; all skills</a>
+<h1>ww-premortem</h1>
+
+<p><strong>The problem:</strong> Failure usually only gets discussed after it happens, in a retrospective about something that was cheap to prevent and expensive to fix. By the time a bad assumption shows up as a real failure, two or three other decisions are already built on top of it.</p>
+
+<p>This moves that conversation earlier: imagine the failure has already happened, three months out, and work backward to why. That single reframe, treating the failure as certain instead of possible, is called prospective hindsight, and Gary Klein built the premortem technique around research showing it measurably improves how many real causes people can name. Each cause gets one test: would believing this change what gets built right now? If yes, the plan changes on the spot. If no, it gets noted and left alone, so the exercise never pads the plan with defensive complexity for a failure mode that can&rsquo;t reach it.</p>
+
+<h3>Key principles</h3>
+
+<ul>
+<li>Prospective, not retrospective; this only works while the design is still cheap to change</li>
+<li>A finding has to change the plan or get an explicit, written reason it didn&rsquo;t, never a silent drop</li>
+<li>Push past the first, most obvious cause; generate a technical one, a people one, and a drift one</li>
+<li>Proportional, not ceremonial; skip or compress it for anything trivial and cheap to reverse</li>
+<li>A cause that changes nothing real is worse than skipping the exercise outright: it looks like diligence without doing the work diligence is for</li>
+</ul>
+
+<hr>
+
+<p>Part of <a href="https://github.com/lee-fuhr/claude-operator-skills">Operator Skills</a>, a collection of skills for running a real Claude Code setup.</p>
+
+</body>
+</html>

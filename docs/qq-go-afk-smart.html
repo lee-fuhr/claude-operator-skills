@@ -1,0 +1,70 @@
+---
+permalink: /qq-go-afk-smart/
+title: "qq-go-afk-smart: a bounded punch list, delegated and verified overnight"
+description: "The bounded half of the AFK pair: strict specs, cheap models execute, one task verified per cycle, for a finite backlog ground down overnight."
+layout: null
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>qq-go-afk-smart: a bounded punch list, delegated and verified overnight</title>
+<meta name="description" content="The bounded half of the AFK pair: strict specs, cheap models execute, one task verified per cycle, for a finite backlog ground down overnight.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="qq-go-afk-smart: a bounded punch list, delegated and verified overnight">
+<meta property="og:description" content="The bounded half of the AFK pair: strict specs, cheap models execute, one task verified per cycle, for a finite backlog ground down overnight.">
+<meta property="og:url" content="https://skills.leefuhr.com/qq-go-afk-smart/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="qq-go-afk-smart: a bounded punch list, delegated and verified overnight">
+<meta name="twitter:description" content="The bounded half of the AFK pair: strict specs, cheap models execute, one task verified per cycle, for a finite backlog ground down overnight.">
+<link rel="canonical" href="https://skills.leefuhr.com/qq-go-afk-smart/">
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #1a1a1a; background: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #14151a; }
+    a { color: #8ab4f8; }
+    code { background: #22242c; }
+    pre { background: #1a1c22 !important; }
+    hr { border-color: #333; }
+  }
+  h1 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 0.3rem; }
+  h2, h3 { margin-top: 2rem; }
+  code { background: #f2f2f2; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
+  pre { background: #f2f2f2; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 0.4rem 0.8rem 0.4rem 0; border-bottom: 1px solid #ddd; }
+  a { color: #0645ad; }
+  .home { font-size: 0.9rem; margin-bottom: 1.5rem; display: inline-block; }
+</style>
+</head>
+<body>
+<a class="home" href="/">&larr; all skills</a>
+<h1>qq-go-afk-smart</h1>
+
+<p><strong>The problem:</strong> Left alone overnight, an expensive model tends to do the grunt work itself instead of delegating it, because delegating takes an extra beat of discipline and doing it yourself doesn&rsquo;t. A whole night of quota gets spent on work a free model would have handled the same way for a fraction of the cost, with nothing checking whether what got built matches what was asked for.</p>
+
+<p>This is the bounded, delegate-and-verify half of the AFK pair (sibling: <code>qq-go-afk-ham</code>): one bounded task per cycle, a strict spec written before anything gets delegated, execution handed to the cheapest capable model, and the real output checked against that spec, read from disk or the live deployed value, never trusted from the claim alone. Reach for it when the backlog is finite and mostly mechanical and you can write a real acceptance test for &ldquo;done.&rdquo;</p>
+
+<h3>Key principles</h3>
+
+<ul>
+<li>You are a delegation engine: pick one task, write a strict spec, delegate, verify, iterate up to three rounds, then stop</li>
+<li>The one exception: never delegate voice, copy, positioning, or messaging to a cheap model; that&rsquo;s the one place quality doesn&rsquo;t scale with price</li>
+<li>Reconcile, never redo; read the done log and state file on every resume and skip what&rsquo;s already finished</li>
+<li>Deterministic code gets a red test before the fix, then a green suite, then deploy and verify live</li>
+<li>When the queue is dry, do a brief honest health pass; don&rsquo;t manufacture work to look busy</li>
+</ul>
+
+<hr>
+
+<p>Part of <a href="https://github.com/lee-fuhr/claude-operator-skills">Operator Skills</a>, a collection of skills for running a real Claude Code setup.</p>
+
+</body>
+</html>
