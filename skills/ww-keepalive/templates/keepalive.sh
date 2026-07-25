@@ -69,8 +69,22 @@ echo "$(date) no chunk running, resurrecting (heartbeat ${HB}s)" >> "$LOG"
 
 cd "$WORKDIR"   # the build target (loads its own .claude/CLAUDE.md + AGENTS.md if a repo)
 RESUME="$(cat $LANE/resume.md)"
-PTOK=$(cat ~/.claude-accounts/primary 2>/dev/null)
-BTOK=$(cat ~/.claude-accounts/backup 2>/dev/null)
+# --- DYNAMIC ACCOUNT ROUTING (account_router.py, 2026-07-25 sweep) ---
+# Never hardcode primary/backup — resolve which account Lee is NOT using right now.
+ROUTER_PY="/Users/lee/.local/venvs/lfi/bin/python3"
+[ -x "$ROUTER_PY" ] || ROUTER_PY="python3"
+ROUTER="/Users/lee/CC/Work/LFI/_ Operations/account_router.py"
+ACCT=$("$ROUTER_PY" "$ROUTER" --prefer other 2>>"$LOG" | tail -1)
+[ -n "$ACCT" ] || ACCT="backup"
+LIVE_ACCT=$("$ROUTER_PY" "$ROUTER" --prefer same 2>>"$LOG" | tail -1)
+if [ "$ACCT" = "$LIVE_ACCT" ]; then
+  echo "$(date) resolved '$ACCT' is also the live interactive account -- standing down" >> "$LOG"; exit 0
+fi
+TOK=$(cat "$HOME/.claude-accounts/$ACCT" 2>/dev/null || echo "")
+if [ -z "$TOK" ]; then
+  echo "$(date) FATAL: no token at ~/.claude-accounts/$ACCT -- refusing to fall through to live account, exiting" >> "$LOG"; exit 0
+fi
+echo "$(date) using account '$ACCT' (live is '$LIVE_ACCT')" >> "$LOG"
 
 while true; do
   [ -f "$LANE/STOP" ] && { echo "$(date) STOP mid-loop, stopping" >> "$LOG"; break; }
@@ -80,21 +94,10 @@ while true; do
   [ "$DONEL" = "yes" ] && { echo "$(date) complete mid-loop, stopping" >> "$LOG"; break; }
 
   START=$(date +%s); RAN_OK=0
-  # --- DUAL-ACCOUNT FAILOVER: primary first, fall to backup on cap ---
-  echo "$(date) chunk on PRIMARY account (first choice)" >> "$LOG"
-  if [ -n "$PTOK" ]; then
-    OUT=$(env -u ANTHROPIC_API_KEY CLAUDE_CODE_OAUTH_TOKEN="$PTOK" $CLAUDE -p "$RESUME" --permission-mode auto 2>&1)
-  else
-    OUT=$(env -u ANTHROPIC_API_KEY $CLAUDE -p "$RESUME" --permission-mode auto 2>&1)
-  fi
+  echo "$(date) chunk on account '$ACCT' (dynamic-router pick)" >> "$LOG"
+  OUT=$(env -u ANTHROPIC_API_KEY CLAUDE_CODE_OAUTH_TOKEN="$TOK" $CLAUDE -p "$RESUME" --permission-mode auto 2>&1)
   RC=$?; echo "$OUT" | tail -40 >> "$LOG"
-  if [ $RC -eq 0 ] && ! echo "$OUT" | grep -qiE "$CAP_RE"; then RAN_OK=1; echo "$(date) PRIMARY chunk done" >> "$LOG"; else echo "$(date) PRIMARY capped/failed (rc=$RC), trying BACKUP" >> "$LOG"; fi
-  if [ $RAN_OK -eq 0 ] && [ -n "$BTOK" ]; then
-    echo "$(date) chunk on BACKUP account (fallback)" >> "$LOG"
-    OUT2=$(env -u ANTHROPIC_API_KEY CLAUDE_CODE_OAUTH_TOKEN="$BTOK" $CLAUDE -p "$RESUME" --permission-mode auto 2>&1)
-    RC2=$?; echo "$OUT2" | tail -40 >> "$LOG"
-    if [ $RC2 -eq 0 ] && ! echo "$OUT2" | grep -qiE "$CAP_RE"; then RAN_OK=1; echo "$(date) BACKUP chunk done" >> "$LOG"; else echo "$(date) BACKUP also capped — pausing, interval retries" >> "$LOG"; fi
-  fi
+  if [ $RC -eq 0 ] && ! echo "$OUT" | grep -qiE "$CAP_RE"; then RAN_OK=1; echo "$(date) chunk done" >> "$LOG"; else echo "$(date) chunk capped/failed (rc=$RC) — pausing, interval retries" >> "$LOG"; fi
   [ $RAN_OK -eq 0 ] && break
   ELAPSED=$(( $(date +%s) - START ))
   # spin guard: a chunk that returns instantly is failing fast — pause, don't hammer.
